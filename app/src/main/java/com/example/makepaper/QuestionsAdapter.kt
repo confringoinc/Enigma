@@ -23,6 +23,6 @@ class QuestionsAdapter(private val listData: MutableList<ListQuestions>) : Recyc
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val tvQuestion: TextView = itemView.findViewById<View>(R.id.tv_questions) as TextView
+        val tvQuestion: TextView = itemView.findViewById<View>(R.id.tv_question) as TextView
     }
 }

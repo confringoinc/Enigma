@@ -34,7 +34,7 @@ class QuestionAdapter(val context: Context?, val ques: Questions): RecyclerView.
     inner class MyViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         fun setData(que: String){
             //  Set question
-            itemView.question.setText(que)
+            itemView.tv_question.setText(que)
         }
     }
 }
