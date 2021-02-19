@@ -22,7 +22,6 @@
             android:layout_gravity="bottom"
             app:contentInsetEnd="0dp"
             app:contentInsetStart="0dp"
-            app:hideOnScroll="true"
             app:fabAlignmentMode="center">
 
                 <com.google.android.material.bottomnavigation.BottomNavigationView
