@@ -25,7 +25,7 @@ class MyPreference(context: Context){
         editor.apply()
     }
 
-    fun LogOut(){
+    fun logOut(){
         val editor = PREFERENCE.edit()
 
         editor.putString(EMAIL, null)
@@ -34,6 +34,10 @@ class MyPreference(context: Context){
         editor.putString(ACCTYPE, null)
 
         editor.apply()
+    }
+
+    fun getID(): String? {
+        return PREFERENCE.getString(UID, "No User ID")
     }
 
     fun getName(): String? {

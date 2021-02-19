@@ -10,13 +10,11 @@ class ListQuestions {
         this.question = question
     }
 
-    @JvmName("getId1")
-    fun getId(): String? {
+    fun getID(): String? {
         return id
     }
 
-    @JvmName("getQuestion1")
-    fun getQuestion(): String? {
+    fun getQuestions(): String? {
         return question
     }
 }

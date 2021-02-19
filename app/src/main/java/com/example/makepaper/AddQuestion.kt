@@ -1,19 +1,21 @@
 package com.example.makepaper
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_add_question.*
-import kotlin.collections.listOf as listOf
 
 class AddQuestion : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_question)
 
-        bt_submit.setOnClickListener {
+        btn_back.setOnClickListener {
+            onBackPressed()
+        }
+
+        btn_submit.setOnClickListener {
             val answer = validate()
 
             answer?.let {
@@ -22,58 +24,80 @@ class AddQuestion : AppCompatActivity() {
                         Toast.makeText(this, "Question Addedd!!!", Toast.LENGTH_LONG).show()
                     }*/
 
-                val key = generals.fireBaseReff.child(generals.preference.getUserID()!!).child("Questions").push().key
+                val key = generals.fireBaseReff.child(generals.preference.getID()!!).child("Questions").push().key
 
-                generals.fireBaseReff.child(generals.preference.getUserID()!!).child("Questions").child(key!!).setValue(answer)
-                    .addOnCompleteListener {
-                        Toast.makeText(this, "Question Stored Successfull!!!", Toast.LENGTH_LONG).show()
-                    }
+                generals.fireBaseReff.child(generals.preference.getID()!!).child("Questions").child(key!!).setValue(answer)
+                        .addOnCompleteListener {
+                            Toast.makeText(this, "Question Stored Successfull!!!", Toast.LENGTH_LONG).show()
+                        }
             }
         }
     }
 
     private fun validate() : Questions? {
-        var user_question = questionTV.text.toString();
-        var categories = ArrayList<String>()
+        val user_question = ArrayList<String>()
+        val categories = ArrayList<String>()
+        val difficulty = ArrayList<String>()
 
-        if(user_question.toString().isEmpty()){
-            questionTV.error = "Please Enter a question here !!!"
-            return null;
+        if(et_question.text.toString().isEmpty()){
+            et_question.error = "Please Enter a question here !!!"
+            return null
         }
 
-        if(!questionTV.text.toString().endsWith("?")){
-            user_question += "?"
-        }
+        user_question.add(et_question.text.toString())
 
         Log.i("AddQuestion" , "Checking if checkbox has been selected ")
 
-        if(!checkBox1.isChecked && !checkBox2.isChecked && !checkBox3.isChecked) {
-            checkBox1.error = "Select alteast one checkbox"
-            checkBox2.error = "Select alteast one checkbox"
-            checkBox3.error = "Select alteast one checkbox"
-            return null;
+        if(!cb_anything.isChecked && !cb_remembering.isChecked && !cb_understanding.isChecked) {
+            cb_anything.error = "Select alteast one checkbox"
+            cb_remembering.error = "Select alteast one checkbox"
+            cb_understanding.error = "Select alteast one checkbox"
+            return null
         }
 
-        if(checkBox1.isChecked) {
+        if(cb_anything.isChecked) {
             Log.i("AddQuestion" , "Checkbox1 Selected: ANYTHING")
-            categories.add(checkBox1.text.toString())
+            categories.add(cb_anything.text.toString())
         }
 
-        if(checkBox2.isChecked) {
-                Log.i("AddQuestion" , "Checkbox1 Selected: UNDERSTANDING")
-                categories.add(checkBox2.text.toString())
+        if(cb_remembering.isChecked) {
+            Log.i("AddQuestion" , "Checkbox2 Selected: UNDERSTANDING")
+            categories.add(cb_remembering.text.toString())
         }
 
-        if(checkBox3.isChecked) {
-            Log.i("AddQuestion" , "Checkbox1 Selected: REMEMBERING")
-            categories.add(checkBox3.text.toString())
+        if(cb_understanding.isChecked) {
+            Log.i("AddQuestion" , "Checkbox3 Selected: REMEMBERING")
+            categories.add(cb_understanding.text.toString())
+        }
+
+        if(!rb_hard.isChecked && !rb_medium.isChecked && !rb_easy.isChecked) {
+            rb_hard.error = "Select alteast one checkbox"
+            rb_medium.error = "Select alteast one checkbox"
+            rb_easy.error = "Select alteast one checkbox"
+            return null
+        }
+
+        if(rb_hard.isChecked) {
+            Log.i("AddQuestion" , "Checkbox1 Selected: ANYTHING")
+            difficulty.add(rb_hard.text.toString())
+        }
+
+        if(rb_medium.isChecked) {
+            Log.i("AddQuestion" , "Checkbox2 Selected: UNDERSTANDING")
+            difficulty.add(rb_medium.text.toString())
+        }
+
+        if(rb_easy.isChecked) {
+            Log.i("AddQuestion" , "Checkbox3 Selected: REMEMBERING")
+            difficulty.add(rb_easy.text.toString())
         }
 
         Log.i("Add QUestion ", "Total items = " + categories.size)
 
-        val obj = Questions(user_question, categories.toList())
-        Log.i("AddQUestion", "User_question: " + obj.questions)
+        val obj = Questions(user_question, categories.toList(), difficulty)
+        Log.i("AddQuestion", "User_question: " + obj.questions)
         Log.i("AddQuestion", "Category: " + obj.category)
+        Log.i("AddQuestion", "Difficulty: " + obj.difficulty)
         return obj
     }
 }

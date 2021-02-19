@@ -1,10 +1,12 @@
 package com.example.makepaper
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_data.*
@@ -29,6 +31,11 @@ class DataFragment : Fragment() {
 
         if(rv_questions == null){
             Log.i(TAG, "rv_question is null")
+        }
+
+        val mAddQ: Button? = view?.findViewById(R.id.btn_add_question)
+        mAddQ?.setOnClickListener {
+            startActivity(Intent(view.context, AddQuestion::class.java))
         }
         return view
     }

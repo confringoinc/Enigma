@@ -1,14 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
+<androidx.cardview.widget.CardView xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="100dp"
-    android:layout_marginTop="7dp"
-    android:layout_marginRight="2dp"
-    android:layout_marginLeft="2dp"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:outlineSpotShadowColor="@color/transparent"
+    app:cardBackgroundColor="@color/transparent"
+    android:outlineAmbientShadowColor="@color/transparent"
+    android:backgroundTint="@color/transparent"
+    android:layout_marginBottom="10dp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    tools:targetApi="lollipop">
 
-    <MultiAutoCompleteTextView
+    <TextView
         android:id="@+id/tv_question"
+        android:fontFamily="@font/regular"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:paddingStart="25dp"
+        android:paddingEnd="25dp"
+        android:textAlignment="textStart"
+        android:enabled="false"
+        style="@style/EditText"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:gravity="start" />
 </androidx.cardview.widget.CardView>

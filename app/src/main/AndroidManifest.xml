@@ -11,7 +11,6 @@
         android:theme="@style/Theme.MakePaper"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
-        <activity android:name=".AddQuestion"></activity>
         <!-- SplashScreen being the first screen -->
         <activity
             android:name=".SplashScreen"
@@ -32,6 +31,7 @@
             android:name=".ForgotActivity"
             android:windowSoftInputMode="adjustResize" />
         <activity android:name=".MainActivity" />
+        <activity android:name=".AddQuestion" />
 
         <activity
             android:name="com.facebook.FacebookActivity"
