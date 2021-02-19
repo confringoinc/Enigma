@@ -1,6 +1,6 @@
 package com.example.makepaper
 
-data class Questions(var questions: List<String>){
+data class Questions(var questions: List<String>, var category: List<String>, var difficulty: List<String>){
 
 }
 
@@ -15,5 +15,25 @@ object questions_list{
             "My Question 7",
             "My Question 8",
             "My Question 9"
+    ), listOf(
+            "ANYTHING",
+            "ANYTHING",
+            "ANYTHING",
+            "ANYTHING",
+            "ANYTHING",
+            "ANYTHING",
+            "ANYTHING",
+            "ANYTHING",
+            "ANYTHING"
+    ), listOf(
+            "Hard",
+            "Hard",
+            "Hard",
+            "Hard",
+            "Hard",
+            "Hard",
+            "Hard",
+            "Hard",
+            "Hard"
     ))
 }

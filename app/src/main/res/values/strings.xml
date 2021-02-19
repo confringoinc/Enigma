@@ -36,4 +36,12 @@
     <string name="welcome2">Welcome to Question Paper Maker</string>
     <string name="fab">FAB</string>
     <string name="settings">SETTINGS</string>
+    <string name="add_questions">ADD QUESTIONS</string>
+    <string name="et_enter_your_question">Enter your question</string>
+    <string name="question_type">Question Type</string>
+    <string name="question_difficulty">Question Difficulty</string>
+    <string name="hard">Hard</string>
+    <string name="medium">Medium</string>
+    <string name="easy">Easy</string>
+    <string name="submit">Submit</string>
 </resources>

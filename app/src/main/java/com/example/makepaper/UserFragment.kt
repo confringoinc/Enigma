@@ -56,7 +56,7 @@ class UserFragment : Fragment() {
     }
 
     private fun customLogOut(){
-        generals.preference.LogOut()
+        generals.preference.logOut()
     }
 
     private fun googleLogOut(){
@@ -65,6 +65,6 @@ class UserFragment : Fragment() {
         LoginActivity.googleSignInClient.signOut()
 
         //  Then from SharedPreferences
-        generals.preference.LogOut()
+        generals.preference.logOut()
     }
 }

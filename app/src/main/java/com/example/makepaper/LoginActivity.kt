@@ -280,7 +280,7 @@ class LoginActivity : AppCompatActivity() {
                 "/me/permissions/",
                 null, HttpMethod.DELETE) { LoginManager.getInstance().logOut() }.executeAsync()
 
-        generals.preference.LogOut()
+        generals.preference.logOut()
     }
     /*<------ Signing In activity using facebook sign in feature ----->*/
 

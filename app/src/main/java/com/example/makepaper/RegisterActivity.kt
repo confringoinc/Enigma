@@ -5,7 +5,6 @@ import android.content.Intent
 import android.net.ConnectivityManager
 import android.os.Bundle
 import android.text.method.PasswordTransformationMethod
-import android.util.Log
 import android.util.Patterns
 import android.view.View
 import android.widget.ProgressBar
@@ -142,8 +141,6 @@ class RegisterActivity : AppCompatActivity() {
                     //  CST: Custom Sign In
                     //  GSI: Google Sign In
 
-                    createDatabase()
-
                     startActivity(Intent(this, MainActivity::class.java))
                     finish()
                     progressBar!!.visibility = View.GONE
@@ -152,14 +149,6 @@ class RegisterActivity : AppCompatActivity() {
                     progressBar!!.visibility = View.GONE
                 }
             }
-    }
-
-    private fun createDatabase(){
-        Log.i("Register", "<---creating databasee--->")
-        //  Creating a main node for user with uid
-        //  Storing question object which will itself create a node with same name
-        generals.fireBaseReff.child(auth?.uid!!).setValue(questions_list.my_quetiions)
-        Log.i("Register", "Database create for id: " + auth?.uid)
     }
 
     private fun isNetworkAvailable(): Boolean {

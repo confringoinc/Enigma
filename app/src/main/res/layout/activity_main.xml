@@ -22,7 +22,6 @@
             android:layout_gravity="bottom"
             app:contentInsetEnd="0dp"
             app:contentInsetStart="0dp"
-            app:hideOnScroll="true"
             app:fabAlignmentMode="center">
 
                 <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -38,11 +37,6 @@
 
         </com.google.android.material.bottomappbar.BottomAppBar>
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-        </RelativeLayout>
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab"
             android:src="@drawable/plus"
