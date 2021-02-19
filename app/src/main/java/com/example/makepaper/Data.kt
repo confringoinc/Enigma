@@ -27,7 +27,7 @@ class MyPreference(context: Context){
 
     fun LogOut(){
         val editor = PREFERENCE.edit()
-        editor.putString(NAME, null)
+
         editor.putString(EMAIL, null)
         editor.putString(UID, null)
         editor.putBoolean(LOG_STATUS, false)

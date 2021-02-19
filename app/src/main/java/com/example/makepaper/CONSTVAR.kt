@@ -1,5 +1,6 @@
 package com.example.makepaper
 
+import android.content.Context
 import com.google.firebase.database.FirebaseDatabase
 
 object generals{
@@ -9,3 +10,4 @@ object generals{
     val GSI = "Google Sign In"
     val FSI = "Facebook Sign In"
 }
+

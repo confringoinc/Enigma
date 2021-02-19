@@ -156,7 +156,9 @@ class RegisterActivity : AppCompatActivity() {
 
     private fun createDatabase(){
         Log.i("Register", "<---creating databasee--->")
-        generals.fireBaseReff.child(auth?.uid!!).child("Questions").setValue(questions_list.my_quetiions)
+        //  Creating a main node for user with uid
+        //  Storing question object which will itself create a node with same name
+        generals.fireBaseReff.child(auth?.uid!!).setValue(questions_list.my_quetiions)
         Log.i("Register", "Database create for id: " + auth?.uid)
     }
 

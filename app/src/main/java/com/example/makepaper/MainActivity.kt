@@ -2,6 +2,7 @@ package com.example.makepaper
 
 import android.os.Bundle
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
@@ -21,7 +22,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(layout.activity_main)
 
         val homeFragment = HomeFragment.newInstance()
-        loadFragment(homeFragment)
+         (homeFragment)
 
         val bottomNavigation: BottomNavigationView = findViewById(id.bottomNavigation)
         bottomNavigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
@@ -50,6 +51,14 @@ class MainActivity : AppCompatActivity() {
 
         //  Initialize auth var
         auth = FirebaseAuth.getInstance()
+
+        //  Seeting up back button handler
+        this.onBackPressedDispatcher.addCallback(this, object: OnBackPressedCallback(true){
+            override fun handleOnBackPressed() {
+                val lastFragment = supportFragmentManager.fragments.last()
+            }
+
+        })
     }
 
     private fun rotateFabForward() {
