@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "695884818594",
+    "project_id": "question-paper-maker-125",
+    "storage_bucket": "question-paper-maker-125.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:695884818594:android:6e0981a83aa7c7197bcffb",
+        "android_client_info": {
+          "package_name": "com.example.makepaper"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "695884818594-i0a6mku8rd5ds5u62rbh75b3kn4qn575.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.makepaper",
+            "certificate_hash": "120144d86be8c40e0fb14f74c4dd98f7e176784f"
+          }
+        },
+        {
+          "client_id": "695884818594-6i1tvlsresdclt52fcvppafg2e0rcmg8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAKe86SCidaex5aGT6lXNcKn5RBy4gN0yI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "695884818594-6i1tvlsresdclt52fcvppafg2e0rcmg8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

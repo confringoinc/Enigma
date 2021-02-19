@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coordinator"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/fragment_container_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="80dp" />
+
+        <com.google.android.material.bottomappbar.BottomAppBar
+            android:id="@+id/bottomBar"
+            style="@style/BottomAppBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            app:contentInsetEnd="0dp"
+            app:contentInsetStart="0dp"
+            app:hideOnScroll="true"
+            app:fabAlignmentMode="center">
+
+                <com.google.android.material.bottomnavigation.BottomNavigationView
+                    android:id="@+id/bottomNavigation"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:background="@color/transparent"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    app:elevation="0dp"
+                    app:labelVisibilityMode="unlabeled"
+                    app:menu="@menu/navigation" />
+
+        </com.google.android.material.bottomappbar.BottomAppBar>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+        </RelativeLayout>
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab"
+            android:src="@drawable/plus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_anchor="@id/bottomBar"
+            android:backgroundTint="@color/primary"
+            android:elevation="20dp"
+            android:contentDescription="@string/fab"
+            tools:targetApi="lollipop" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_add_questions"
+            android:src="@drawable/plus_square"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_anchor="@id/fab"
+            android:backgroundTint="@color/primary"
+            android:translationY="-20dp"
+            android:translationX="-35dp"
+            android:elevation="20dp"
+            android:layout_marginBottom="50dp"
+            android:contentDescription="@string/fab"
+            tools:targetApi="lollipop" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_scan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="50dp"
+            android:backgroundTint="@color/primary"
+            android:contentDescription="@string/fab"
+            android:elevation="20dp"
+            android:src="@drawable/camera"
+            android:translationY="-45dp"
+            app:layout_anchor="@+id/fab"
+            app:layout_anchorGravity="top|center"
+            tools:targetApi="lollipop" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_add_papers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="50dp"
+            android:backgroundTint="@color/primary"
+            android:contentDescription="@string/fab"
+            android:elevation="20dp"
+            android:src="@drawable/file_plus"
+            android:translationY="-20dp"
+            android:translationX="35dp"
+            app:layout_anchor="@+id/fab"
+            app:layout_anchorGravity="end|top"
+            tools:targetApi="lollipop" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

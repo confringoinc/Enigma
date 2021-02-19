@@ -1,0 +1,39 @@
+<resources>
+    <string name="app_name">Question Paper Maker</string>
+
+    <string name="login1">Hey, \nLogin Now</string>
+    <string name="login2">Welcome Back, You\'ve been missed!</string>
+    <string name="register1">Create Account</string>
+    <string name="register2">Register yourself to get started</string>
+    <string name="name">Full name</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="signIn">Sign in</string>
+    <string name="register">Register</string>
+    <string name="notLoggedIn"><![CDATA[Don\'t have an account? <b>Register</b>]]></string>
+    <string name='loggedIn'><![CDATA[Already have an account? <b>Login</b>]]></string>
+    <string name="forgot"><![CDATA[Forgot password? <b>Reset</b>]]></string>
+    <string name="terms">Terms and conditions apply</string>
+    <string name="or_sign_up">Or sign up using</string>
+    <string name="back">Back</string>
+    <string name="reset">Reset</string>
+    <string name="send">Send</string>
+    <string name="re_password">Re-enter Password</string>
+    <string name="forgot1">Reset your password</string>
+    <string name="forgot2">Enter your email address to receive reset password mail</string>
+    <string name="reset1">Reset your password</string>
+    <string name="reset2">Enter your new password</string>
+    <string name="facebook_app_id">339549170511416</string>
+    <string name="fb_login_protocol_scheme">fb339549170511416</string>
+    <string name="home">HOME</string>
+    <string name="data">QUESTIONS</string>
+    <string name="file">PAPERS</string>
+    <string name="user">PROFILE</string>
+    <string name="log_out">Log out</string>
+    <string name="search">Search</string>
+    <string name="welcome">Hello</string>
+    <string name="welcome2">Welcome to Question Paper Maker</string>
+    <string name="fab">FAB</string>
+    <string name="settings">SETTINGS</string>
+</resources>

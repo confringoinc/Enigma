@@ -1,0 +1,47 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.MakePaper" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryVariant">@color/white</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/primary</item>
+        <item name="colorSecondaryVariant">@color/white</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" tools:targetApi="l">@color/transparent</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
+        <!-- Customize your theme here. -->
+        <item name="android:textColor">@color/background_text_light</item>
+        <item name="background">@color/background_light</item>
+    </style>
+
+    <style name="TextView" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="BottomAppBar" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:backgroundTint" tools:targetApi="lollipop">@color/white</item>
+    </style>
+
+    <style name="EditText" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:background">@drawable/text_field</item>
+        <item name="android:backgroundTint" tools:targetApi="lollipop">@color/background_field_light</item>
+    </style>
+
+    <style name="ImageButton" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:background">@drawable/image_button</item>
+        <item name="android:backgroundTint" tools:targetApi="lollipop">@color/background_field_light</item>
+    </style>
+
+    <style name="TextFieldError" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:background">@drawable/text_field_error</item>
+        <item name="android:backgroundTint" tools:targetApi="lollipop">@color/background_field_light</item>
+    </style>
+
+    <style name="ImageView" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:backgroundTint" tools:targetApi="lollipop">@color/secondary_text</item>
+        <item name="android:tint">@color/black</item>
+    </style>
+</resources>
