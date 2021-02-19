@@ -51,14 +51,6 @@ class MainActivity : AppCompatActivity() {
 
         //  Initialize auth var
         auth = FirebaseAuth.getInstance()
-
-        //  Seeting up back button handler
-        this.onBackPressedDispatcher.addCallback(this, object: OnBackPressedCallback(true){
-            override fun handleOnBackPressed() {
-                val lastFragment = supportFragmentManager.fragments.last()
-            }
-
-        })
     }
 
     private fun rotateFabForward() {
