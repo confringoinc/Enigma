@@ -1,74 +1,133 @@
 package com.example.makepaper
 
+import android.content.ContentValues.TAG
+import android.content.Context
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_add_question.*
 
 class AddQuestion : AppCompatActivity() {
+    private var progressBar: ProgressBar? = null
+    var questionList: MutableList<ListQuestions> = ArrayList()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_question)
+
+        progressBar = findViewById(R.id.progress_bar)
+        progressBar!!.visibility = View.GONE
 
         btn_back.setOnClickListener {
             onBackPressed()
         }
 
         btn_submit.setOnClickListener {
-            val answer = validate() //  Validate components
 
-            answer?.let {
-                //  Get a timeStamp based Unique Key for storing question
-                val key = generals.fireBaseReff.child(generals.preference.getID()!!).child("Questions").push().key
+            if(!isNetworkAvailable()) {
+                Toast.makeText(
+                        baseContext, "Internet is not available",
+                        Toast.LENGTH_SHORT
+                ).show()
+            }
+            else {
+                progressBar!!.visibility = View.VISIBLE
+                val answer = validate() //  Validate components
 
-                //  Store the question in current user's uid node under Questions Node
-                generals.fireBaseReff.child(generals.preference.getID()!!).child("Questions").child(key!!).setValue(answer)
-                        .addOnCompleteListener {
-                            Toast.makeText(this, "Question Stored Successfull!!!", Toast.LENGTH_LONG).show()
-                        }
+                answer?.let {
+                    //  Get a timeStamp based Unique Key for storing question
+                    val key = generals.fireBaseReff.child(generals.preference.getID()!!).child("Question").push().key
+
+                    //  Store the question in current user's uid node under Questions Node
+                    generals.fireBaseReff.child(generals.preference.getID()!!).child("Question").child(key!!).setValue(answer)
+                            .addOnCompleteListener {
+                                progressBar!!.visibility = View.GONE
+                                Toast.makeText(this, "Question added", Toast.LENGTH_LONG).show()
+                                et_question.text = null
+                                et_marks.text = null
+                                if (cb_anything.isChecked) cb_anything.toggle()
+                                if (cb_remembering.isChecked) cb_remembering.toggle()
+                                if (cb_understanding.isChecked) cb_understanding.toggle()
+                                et_question.requestFocus()
+                            }
+                }
             }
         }
+
+        val layoutManager = LinearLayoutManager(applicationContext)
+        layoutManager.orientation = LinearLayoutManager.VERTICAL
+        rv_questions.layoutManager = layoutManager
+
+        val databaseReference: DatabaseReference = FirebaseDatabase.getInstance().reference.child(generals.preference.getID()!!).child("Question")
+
+        databaseReference.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for (dataSnapshot in snapshot.children) {
+                    val que: ListQuestions? = dataSnapshot.getValue(ListQuestions::class.java)
+                    questionList.add(que!!)
+                }
+                questionList.reverse()
+                val adapter = QuestionAdapter(applicationContext, questionList)
+                rv_questions.adapter = adapter
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                Log.i(TAG, "Data not found...")
+            }
+        })
     }
 
     private fun validate() : Questions? {
-        val user_question = et_question.text.toString()
+        val userQuestion = et_question.text.toString()
         val categories = ArrayList<String>()
+        val marks = et_marks.text.toString()
 
-        if(user_question.isEmpty()){
-            et_question.error = "Please Enter a question here !!!"
+        if(userQuestion.isEmpty()){
+            et_question.error = "Please Enter a question"
+            et_question.requestFocus()
+            progressBar!!.visibility = View.GONE
             return null
         }
 
-        Log.i("AddQuestion" , "Checking if checkbox has been selected ")
+        if(marks.isEmpty()){
+            et_marks.error = "Please Enter a marks"
+            et_marks.requestFocus()
+            progressBar!!.visibility = View.GONE
+            return null
+        }
 
         if(!cb_anything.isChecked && !cb_remembering.isChecked && !cb_understanding.isChecked) {
-            cb_anything.error = "Select alteast one checkbox"
-            cb_remembering.error = "Select alteast one checkbox"
-            cb_understanding.error = "Select alteast one checkbox"
+            cb_anything.error = "Select at least one checkbox"
+            cb_remembering.error = "Select at least one checkbox"
+            cb_understanding.error = "Select at least one checkbox"
+            progressBar!!.visibility = View.GONE
             return null
         }
 
         if(cb_anything.isChecked) {
-            Log.i("AddQuestion" , "Checkbox1 Selected: ANYTHING")
             categories.add(cb_anything.text.toString())
         }
 
         if(cb_remembering.isChecked) {
-            Log.i("AddQuestion" , "Checkbox2 Selected: UNDERSTANDING")
             categories.add(cb_remembering.text.toString())
         }
 
         if(cb_understanding.isChecked) {
-            Log.i("AddQuestion" , "Checkbox3 Selected: REMEMBERING")
             categories.add(cb_understanding.text.toString())
         }
 
-        Log.i("Add Question ", "Total items = " + categories.size)
+        return Questions(userQuestion, marks, categories.toList())
+    }
 
-        val obj = Questions(user_question, categories.toList())
-        Log.i("AddQuestion", "User_question: " + obj.questions)
-        Log.i("AddQuestion", "Category: " + obj.category)
-        return obj
+    private fun isNetworkAvailable(): Boolean {
+        val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetworkInfo = connectivityManager.activeNetworkInfo
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected
     }
 }

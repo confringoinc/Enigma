@@ -1,5 +1,6 @@
 package com.example.makepaper
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -46,6 +47,10 @@ class MainActivity : AppCompatActivity() {
                 fabAddPapers.show()
             }
             isRotate = !isRotate
+        }
+
+        fabAddQuestions.setOnClickListener {
+            startActivity(Intent(applicationContext, AddQuestion::class.java))
         }
 
         //  Initialize auth var

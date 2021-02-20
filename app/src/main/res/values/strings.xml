@@ -44,4 +44,13 @@
     <string name="medium">Medium</string>
     <string name="easy">Easy</string>
     <string name="submit">Submit</string>
+    <string name="marks">Marks</string>
+    <string name="add_question">Add question</string>
+    <string name="edit">edit</string>
+    <string name="delete">delete</string>
+    <string name="remembering">Remembering</string>
+    <string name="understanding">Understanding</string>
+    <string name="anything">Anything</string>
+    <string name="questions">QUESTIONS</string>
+    <string name="no_questions">No data found…</string>
 </resources>

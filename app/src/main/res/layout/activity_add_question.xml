@@ -14,9 +14,12 @@
         android:layout_marginStart="20dp"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="15dp"
+        style="@style/ImageView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/left_arrow" />
+        app:srcCompat="@drawable/left_arrow"
+        tools:targetApi="lollipop"
+        android:contentDescription="@string/back" />
 
     <TextView
         android:id="@+id/tv_add_question"
@@ -27,7 +30,8 @@
         android:layout_marginEnd="40dp"
         android:layout_marginRight="40dp"
         android:fontFamily="@font/bold"
-        android:text="@string/add_questions"
+        android:textColor="@color/secondary_text"
+        android:text="@string/questions"
         app:layout_constraintBottom_toBottomOf="@+id/btn_back"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -49,7 +53,7 @@
         android:fontFamily="@font/regular"
         android:gravity="start"
         android:hint="@string/et_enter_your_question"
-        android:inputType="textMultiLine"
+        android:inputType="textMultiLine|textCapSentences"
         android:paddingStart="25dp"
         android:paddingTop="20dp"
         android:paddingEnd="25dp"
@@ -58,6 +62,27 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_add_question"
         android:autofillHints="@string/et_enter_your_question" />
+
+    <EditText
+        android:id="@+id/et_marks"
+        style="@style/EditText"
+        android:layout_width="0dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginRight="40dp"
+        android:paddingStart="25dp"
+        android:paddingEnd="25dp"
+        android:hint="@string/marks"
+        android:ems="10"
+        android:fontFamily="@font/regular"
+        android:inputType="numberDecimal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/et_question"
+        android:autofillHints="@string/marks" />
 
     <TextView
         android:id="@+id/tv_question_type"
@@ -70,9 +95,10 @@
         android:layout_marginRight="40dp"
         android:fontFamily="@font/bold"
         android:text="@string/question_type"
+        android:textColor="@color/secondary_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/et_question" />
+        app:layout_constraintTop_toBottomOf="@id/et_marks" />
 
     <CheckBox
         android:id="@+id/cb_anything"
@@ -84,7 +110,7 @@
         android:layout_marginEnd="40dp"
         android:layout_marginRight="40dp"
         android:fontFamily="@font/regular"
-        android:text="Anything"
+        android:text="@string/anything"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_question_type" />
@@ -98,7 +124,7 @@
         android:layout_marginEnd="40dp"
         android:layout_marginRight="40dp"
         android:fontFamily="@font/regular"
-        android:text="Understanding"
+        android:text="@string/understanding"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -113,7 +139,7 @@
         android:layout_marginEnd="40dp"
         android:layout_marginRight="40dp"
         android:fontFamily="@font/regular"
-        android:text="Remembering"
+        android:text="@string/remembering"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -128,16 +154,41 @@
         android:layout_marginTop="10dp"
         android:layout_marginEnd="40dp"
         android:layout_marginRight="40dp"
-        android:layout_marginBottom="20dp"
         android:background="@drawable/button_primary"
         android:fontFamily="@font/bold"
         android:text="@string/submit"
         android:textAllCaps="false"
         android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cb_remembering" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_questions"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginBottom="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cb_remembering"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_submit" />
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:indeterminateTintMode="src_atop"
+        android:indeterminateTint="@color/primary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:targetApi="lollipop" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
