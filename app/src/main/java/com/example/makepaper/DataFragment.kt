@@ -25,7 +25,7 @@ class DataFragment : Fragment() {
         view.rv_questions.layoutManager = layoutManager
         Log.i(TAG, "<-------Set rv_question.linearlayout-------->")
 
-        val adapter = QuestionAdapter(view.context, questions_list.my_quetiions)
+        val adapter = QuestionAdapter(view.context, questions_list.my_questions)
         Log.i(TAG, "Trying to set rv_question adapter")
         view.rv_questions.adapter = adapter
 

@@ -16,16 +16,13 @@ class AddQuestion : AppCompatActivity() {
         }
 
         btn_submit.setOnClickListener {
-            val answer = validate()
+            val answer = validate() //  Validate components
 
             answer?.let {
-                /*generals.fireBaseReff.child(generals.preference.getuserID()!!).child("Questions").setValue(answer)
-                    .addOnCompleteListener {
-                        Toast.makeText(this, "Question Addedd!!!", Toast.LENGTH_LONG).show()
-                    }*/
-
+                //  Get a timeStamp based Unique Key for storing question
                 val key = generals.fireBaseReff.child(generals.preference.getID()!!).child("Questions").push().key
 
+                //  Store the question in current user's uid node under Questions Node
                 generals.fireBaseReff.child(generals.preference.getID()!!).child("Questions").child(key!!).setValue(answer)
                         .addOnCompleteListener {
                             Toast.makeText(this, "Question Stored Successfull!!!", Toast.LENGTH_LONG).show()
@@ -35,16 +32,13 @@ class AddQuestion : AppCompatActivity() {
     }
 
     private fun validate() : Questions? {
-        val user_question = ArrayList<String>()
+        val user_question = et_question.text.toString()
         val categories = ArrayList<String>()
-        val difficulty = ArrayList<String>()
 
-        if(et_question.text.toString().isEmpty()){
+        if(user_question.isEmpty()){
             et_question.error = "Please Enter a question here !!!"
             return null
         }
-
-        user_question.add(et_question.text.toString())
 
         Log.i("AddQuestion" , "Checking if checkbox has been selected ")
 
@@ -70,34 +64,11 @@ class AddQuestion : AppCompatActivity() {
             categories.add(cb_understanding.text.toString())
         }
 
-        if(!rb_hard.isChecked && !rb_medium.isChecked && !rb_easy.isChecked) {
-            rb_hard.error = "Select alteast one checkbox"
-            rb_medium.error = "Select alteast one checkbox"
-            rb_easy.error = "Select alteast one checkbox"
-            return null
-        }
+        Log.i("Add Question ", "Total items = " + categories.size)
 
-        if(rb_hard.isChecked) {
-            Log.i("AddQuestion" , "Checkbox1 Selected: ANYTHING")
-            difficulty.add(rb_hard.text.toString())
-        }
-
-        if(rb_medium.isChecked) {
-            Log.i("AddQuestion" , "Checkbox2 Selected: UNDERSTANDING")
-            difficulty.add(rb_medium.text.toString())
-        }
-
-        if(rb_easy.isChecked) {
-            Log.i("AddQuestion" , "Checkbox3 Selected: REMEMBERING")
-            difficulty.add(rb_easy.text.toString())
-        }
-
-        Log.i("Add QUestion ", "Total items = " + categories.size)
-
-        val obj = Questions(user_question, categories.toList(), difficulty)
+        val obj = Questions(user_question, categories.toList())
         Log.i("AddQuestion", "User_question: " + obj.questions)
         Log.i("AddQuestion", "Category: " + obj.category)
-        Log.i("AddQuestion", "Difficulty: " + obj.difficulty)
         return obj
     }
 }

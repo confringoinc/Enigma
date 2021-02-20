@@ -48,6 +48,10 @@ class MyPreference(context: Context){
         return PREFERENCE.getString(EMAIL, "No Email")
     }
 
+    fun getUserID(): String? {
+        return PREFERENCE.getString(UID, "noID")
+    }
+
     fun checkLogged(): Boolean{
         return PREFERENCE.getBoolean(LOG_STATUS, false)
     }

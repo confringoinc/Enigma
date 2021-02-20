@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.question_list.view.*
 
-class QuestionAdapter(val context: Context?, val ques: Questions): RecyclerView.Adapter<QuestionAdapter.MyViewHolder>(){
+class QuestionAdapter(val context: Context?, val ques: List<Questions>): RecyclerView.Adapter<QuestionAdapter.MyViewHolder>(){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         //  Get layout from the context and attach it to parent
@@ -19,12 +19,12 @@ class QuestionAdapter(val context: Context?, val ques: Questions): RecyclerView.
 
     override fun getItemCount(): Int {
         //  Return the total items in list
-        return ques.questions.size
+        return ques.size
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         //  Storing positionth question in object
-        val ques:String = ques.questions[position]
+        val ques = ques[position]
 
         //  Set it to the view
         holder.setData(ques)
@@ -32,9 +32,9 @@ class QuestionAdapter(val context: Context?, val ques: Questions): RecyclerView.
 
     //  Inner class for handling Data
     inner class MyViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
-        fun setData(que: String){
-            //  Set question
-            itemView.tv_question.setText(que)
+        fun setData(que: Questions){
+            //  Set question from que(Questions) object
+            itemView.tv_question.text = que.questions
         }
     }
 }
