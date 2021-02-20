@@ -30,9 +30,21 @@
         <item name="android:backgroundTint" tools:targetApi="lollipop">@color/background_field_light</item>
     </style>
 
+    <style name="EditTextStyle" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:background">@drawable/text_field</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:backgroundTint" tools:targetApi="lollipop">@color/background_field_light</item>
+    </style>
+
     <style name="ImageButton" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="android:background">@drawable/image_button</item>
         <item name="android:backgroundTint" tools:targetApi="lollipop">@color/background_field_light</item>
+    </style>
+
+    <style name="ImageButtonStyle" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:background">@drawable/text_field</item>
+        <item name="android:backgroundTint" tools:targetApi="lollipop">@color/secondary_light</item>
+        <item name="android:tint">@color/black</item>
     </style>
 
     <style name="TextFieldError" parent="Theme.MaterialComponents.DayNight.NoActionBar">

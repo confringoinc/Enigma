@@ -13,10 +13,12 @@
     <color name="background_light">#F8F8F8</color>
     <color name="background_field_light">#F1F1F1</color>
     <color name="background_text_light">#A4A69C</color>
+    <color name="secondary_light">#DDDEDA</color>
 
     <!-- Dark Theme-->
     <color name="primary_dark">#0177fb</color>
     <color name="background_dark">#121212</color>
     <color name="background_text_dark">#45FFFFFF</color>
-    <color name="bottom_dark">#1d1d1d</color>
+    <color name="bottom_dark">#1D1D1D</color>
+    <color name="secondary_dark">#222222</color>
 </resources>

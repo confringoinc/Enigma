@@ -28,10 +28,6 @@ class HomeFragment : Fragment() {
             view?.findViewById<TextView?>(R.id.tv_name)?.text = firstName?.get(0)
         }
 
-        view.add_question.setOnClickListener {
-            startActivity(Intent(view.context, AddQuestion::class.java))
-        }
-
         return view
     }
 }

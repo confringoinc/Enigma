@@ -1,20 +1,26 @@
 package com.example.makepaper
 
 class ListQuestions {
-    var id: String? = null
     var question: String? = null
+    var marks: String? = null
+    var category: List<String>? = null
 
     constructor() {}
-    constructor(id: String?, question: String?) {
-        this.id = id
+    constructor(question: String?, marks: String?, category: List<String>?) {
         this.question = question
-    }
-
-    fun getID(): String? {
-        return id
+        this.marks = marks
+        this.category = category
     }
 
     fun getQuestions(): String? {
         return question
+    }
+
+    fun getMark(): String? {
+        return marks
+    }
+
+    fun getCategories(): List<String>? {
+        return category
     }
 }
