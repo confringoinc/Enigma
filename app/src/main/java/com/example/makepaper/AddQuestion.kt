@@ -15,7 +15,7 @@ import kotlinx.android.synthetic.main.activity_add_question.*
 
 class AddQuestion : AppCompatActivity() {
     private var progressBar: ProgressBar? = null
-    var questionList: MutableList<ListQuestions> = ArrayList()
+    var questionList = ArrayList<Questions>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,10 +68,13 @@ class AddQuestion : AppCompatActivity() {
 
         databaseReference.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
+                Log.i(TAG, "Adding Childeren")
                 for (dataSnapshot in snapshot.children) {
-                    val que: ListQuestions? = dataSnapshot.getValue(ListQuestions::class.java)
-                    questionList.add(que!!)
+
+                    val data: Map<String, Object> = dataSnapshot.getValue() as Map<String, Object>
+                    questionList.add(Questions(data["question"] as String, data["marks"] as String, data["category"] as List<String>))
                 }
+
                 questionList.reverse()
                 val adapter = QuestionAdapter(applicationContext, questionList)
                 rv_questions.adapter = adapter

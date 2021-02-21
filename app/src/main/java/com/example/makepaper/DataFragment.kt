@@ -20,7 +20,7 @@ import kotlinx.android.synthetic.main.fragment_data.view.*
 class DataFragment : Fragment() {
     private val TAG = "DataFragment"
     private var progressBar: ProgressBar? = null
-    var questionList: MutableList<ListQuestions> = ArrayList()
+    var questionList = ArrayList<Questions>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_data, container, false)
@@ -49,8 +49,44 @@ class DataFragment : Fragment() {
         Log.i(TAG, "<-------Set rv_question.linearlayout-------->")
 
         val databaseReference: DatabaseReference = FirebaseDatabase.getInstance().reference.child(generals.preference.getID()!!).child("Question")
+        Log.i(TAG, "Going into ChildEvent Listener")
 
-        databaseReference.addValueEventListener(object : ValueEventListener {
+        databaseReference.addChildEventListener(object: ChildEventListener{
+            override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
+                if (progressBar!!.visibility != View.GONE) progressBar!!.visibility = View.GONE
+
+                val data:Map<String, Object> = snapshot.value as Map<String, Object>
+                questionList.add(getQuesObj(data))
+                if (questionList.isEmpty()) {
+                    view.rv_questions.visibility = View.GONE
+                    view.tv_no_questions.visibility = View.VISIBLE
+                    progressBar!!.visibility = View.GONE
+                } else {
+                    view.rv_questions.visibility = View.VISIBLE
+                    view.tv_no_questions.visibility = View.GONE
+                }
+            }
+
+            override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
+
+            }
+
+            override fun onChildRemoved(snapshot: DataSnapshot) {
+
+            }
+
+            override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
+
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+
+        })
+        Log.i(TAG, "It is called after loop ended")
+        //  It is addValueListener
+        /*databaseReference.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 for (dataSnapshot in snapshot.children) {
                     val que: ListQuestions? = dataSnapshot.getValue(ListQuestions::class.java)
@@ -61,8 +97,7 @@ class DataFragment : Fragment() {
                     view.rv_questions.visibility = View.GONE
                     view.tv_no_questions.visibility = View.VISIBLE
                     progressBar!!.visibility = View.GONE
-                }
-                else {
+                } else {
                     view.rv_questions.visibility = View.VISIBLE
                     view.tv_no_questions.visibility = View.GONE
                 }
@@ -80,7 +115,9 @@ class DataFragment : Fragment() {
 
                 progressBar!!.visibility = View.GONE
             }
-        })
+        })*/
+
+
 
         val mAddQ: Button? = view?.findViewById(R.id.btn_add_question)
         mAddQ?.setOnClickListener {
@@ -97,5 +134,13 @@ class DataFragment : Fragment() {
         val connectivityManager = activity?.getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
         val activeNetworkInfo = connectivityManager.activeNetworkInfo
         return activeNetworkInfo != null && activeNetworkInfo.isConnected
+    }
+
+    private fun getQuesObj(data: Map<String, Object>): Questions {
+        val question = data["question"] as String
+        val marks = data["marks"] as String
+        val category = data["category"] as List<String>
+
+        return Questions(question, marks, category)
     }
 }

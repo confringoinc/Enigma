@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.question_list.view.*
 
-class QuestionAdapter(val context: Context?, val ques: MutableList<ListQuestions>): RecyclerView.Adapter<QuestionAdapter.MyViewHolder>(){
+class QuestionAdapter(val context: Context?, val ques: List<Questions>): RecyclerView.Adapter<QuestionAdapter.MyViewHolder>(){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         //  Get layout from the context and attach it to parent
@@ -32,7 +32,7 @@ class QuestionAdapter(val context: Context?, val ques: MutableList<ListQuestions
 
     //  Inner class for handling Data
     inner class MyViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
-        fun setData(que: ListQuestions){
+        fun setData(que: Questions){
             //  Set question from que(Questions) object
             itemView.tv_question.text = que.getQuestions()
             val marksText = "Marks: " + que.getMark()
