@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.ConnectivityManager
 import android.os.Bundle
 import android.text.method.PasswordTransformationMethod
+import android.util.Log
 import android.util.Patterns
 import android.view.View
 import android.widget.ProgressBar
@@ -35,6 +36,7 @@ class LoginActivity : AppCompatActivity() {
         lateinit var googleSignInClient: GoogleSignInClient
     }
 
+    val TAG = "LoginActivity"
     private var callbackManager: CallbackManager? = null
 
     private var progressBar: ProgressBar? = null
@@ -42,6 +44,17 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+
+        generals.preference = MyPreference(baseContext)
+
+        // Configure Google Sign In
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build()
+
+        googleSignInClient = GoogleSignIn.getClient(this, gso)
+
         progressBar = findViewById(R.id.progress_bar)
         progressBar!!.visibility = View.GONE
 
@@ -69,20 +82,10 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
-        generals.preference = MyPreference(baseContext)
-
         //  Initializing Authorization Instance
         auth = FirebaseAuth.getInstance()
 
         callbackManager = CallbackManager.Factory.create()
-
-        // Configure Google Sign In
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(getString(R.string.default_web_client_id))
-            .requestEmail()
-            .build()
-
-        googleSignInClient = GoogleSignIn.getClient(this, gso)
 
         //  if user already logged in then direct him to main screen
         if(generals.preference.checkLogged()){
@@ -206,10 +209,13 @@ class LoginActivity : AppCompatActivity() {
                 progressBar!!.visibility = View.GONE
                 Toast.makeText(this, "Failed to sign in", Toast.LENGTH_SHORT).show()
             }
+
+            Log.i(TAG, "Task was unsuccessful in onActivtiyResult")
         }
 
         callbackManager?.onActivityResult(requestCode, resultCode, data)
     }
+
 
     private fun firebaseAuthWithGoogle(idToken: String) {
         val credential = GoogleAuthProvider.getCredential(idToken, null)

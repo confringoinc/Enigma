@@ -51,12 +51,21 @@ class DataFragment : Fragment() {
         val databaseReference: DatabaseReference = FirebaseDatabase.getInstance().reference.child(generals.preference.getID()!!).child("Question")
         Log.i(TAG, "Going into ChildEvent Listener")
 
+        if(questionList.isEmpty()){
+            view.rv_questions.visibility = View.GONE
+            view.tv_no_questions.visibility = View.VISIBLE
+            progressBar!!.visibility = View.GONE
+        }
+
         databaseReference.addChildEventListener(object: ChildEventListener{
             override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
                 if (progressBar!!.visibility != View.GONE) progressBar!!.visibility = View.GONE
 
                 val data:Map<String, Object> = snapshot.value as Map<String, Object>
+                Log.i(TAG, "Question: " + data["question"] + " Marks" + data["marks"])
                 questionList.add(getQuesObj(data))
+                questionList.reverse()
+
                 if (questionList.isEmpty()) {
                     view.rv_questions.visibility = View.GONE
                     view.tv_no_questions.visibility = View.VISIBLE
@@ -64,7 +73,16 @@ class DataFragment : Fragment() {
                 } else {
                     view.rv_questions.visibility = View.VISIBLE
                     view.tv_no_questions.visibility = View.GONE
+                    progressBar!!.visibility = View.GONE
                 }
+
+                questionList.reverse()
+                val adapter = QuestionAdapter(view.context, questionList)
+                Log.i(TAG, "Trying to set rv_question adapter")
+                view.rv_questions.adapter = adapter
+
+                progressBar!!.visibility = View.GONE
+
             }
 
             override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
