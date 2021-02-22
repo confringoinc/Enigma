@@ -94,6 +94,7 @@
             android:layout_marginEnd="40dp"
             android:layout_marginBottom="8dp"
             android:background="@drawable/button_primary"
+            style="@style/Button"
             android:text="@string/send"
             android:textAllCaps="false"
             android:textColor="@color/white"

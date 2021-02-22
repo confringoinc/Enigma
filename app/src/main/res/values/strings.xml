@@ -1,19 +1,19 @@
 <resources>
     <string name="app_name">Question Paper Maker</string>
 
-    <string name="login1">Hey, \nLogin Now</string>
+    <string name="login1">Hey,\nLogin Now</string>
     <string name="login2">Welcome Back, You\'ve been missed!</string>
     <string name="register1">Create Account</string>
     <string name="register2">Register yourself to get started</string>
     <string name="name">Full name</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
-    <string name="login">Login</string>
+    <string name="login">Log in</string>
     <string name="signIn">Sign in</string>
     <string name="register">Register</string>
-    <string name="notLoggedIn"><![CDATA[Don\'t have an account? <b>Register</b>]]></string>
-    <string name='loggedIn'><![CDATA[Already have an account? <b>Login</b>]]></string>
-    <string name="forgot"><![CDATA[Forgot password? <b>Reset</b>]]></string>
+    <string name="notLoggedIn">Don\'t have an account?</string>
+    <string name='loggedIn'>Already have an account?</string>
+    <string name="forgot">Forgot password?</string>
     <string name="terms">Terms and conditions apply</string>
     <string name="or_sign_up">Or sign up using</string>
     <string name="back">Back</string>
@@ -52,5 +52,5 @@
     <string name="understanding">Understanding</string>
     <string name="anything">Anything</string>
     <string name="questions">QUESTIONS</string>
-    <string name="no_questions">No data found…</string>
+    <string name="no_questions">No questions found…</string>
 </resources>

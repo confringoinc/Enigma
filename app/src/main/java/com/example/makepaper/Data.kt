@@ -45,7 +45,7 @@ class MyPreference(context: Context){
     }
 
     fun getEmail() : String? {
-        return PREFERENCE.getString(EMAIL, "No Email")
+        return PREFERENCE.getString(EMAIL, "")
     }
 
     fun getUserID(): String? {

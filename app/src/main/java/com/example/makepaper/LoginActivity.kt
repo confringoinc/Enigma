@@ -5,14 +5,11 @@ import android.content.Intent
 import android.net.ConnectivityManager
 import android.os.Bundle
 import android.text.method.PasswordTransformationMethod
-import android.util.Log
 import android.util.Patterns
 import android.view.View
 import android.widget.ProgressBar
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.text.HtmlCompat
 import com.facebook.*
 import com.facebook.AccessToken
 import com.facebook.login.LoginManager
@@ -36,39 +33,14 @@ class LoginActivity : AppCompatActivity() {
         lateinit var googleSignInClient: GoogleSignInClient
     }
 
-    val TAG = "LoginActivity"
     private var callbackManager: CallbackManager? = null
-
     private var progressBar: ProgressBar? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-
-        generals.preference = MyPreference(baseContext)
-
-        // Configure Google Sign In
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build()
-
-        googleSignInClient = GoogleSignIn.getClient(this, gso)
-
         progressBar = findViewById(R.id.progress_bar)
         progressBar!!.visibility = View.GONE
-
-        val forgot = findViewById<TextView>(R.id.tv_forgot)
-        forgot.text = HtmlCompat.fromHtml(
-                getString(R.string.forgot),
-                HtmlCompat.FROM_HTML_MODE_LEGACY
-        )
-
-        val register = findViewById<TextView>(R.id.tv_register)
-        register.text = HtmlCompat.fromHtml(
-                getString(R.string.notLoggedIn),
-                HtmlCompat.FROM_HTML_MODE_LEGACY
-        )
 
         //password show hide
         btn_show_pass.setBackgroundResource(R.drawable.eye_hide)
@@ -82,18 +54,22 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
+        generals.preference = MyPreference(baseContext)
+
         //  Initializing Authorization Instance
         auth = FirebaseAuth.getInstance()
 
         callbackManager = CallbackManager.Factory.create()
 
-        //  if user already logged in then direct him to main screen
-        if(generals.preference.checkLogged()){
-            startActivity(Intent(this, MainActivity::class.java))
-            finish()
-        }
+        // Configure Google Sign In
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(getString(R.string.default_web_client_id))
+            .requestEmail()
+            .build()
 
-        tv_register.setOnClickListener {
+        googleSignInClient = GoogleSignIn.getClient(this, gso)
+
+        tv_register_link.setOnClickListener {
             startActivity(Intent(this, RegisterActivity::class.java))
         }
 
@@ -109,11 +85,11 @@ class LoginActivity : AppCompatActivity() {
             progressBar!!.visibility = View.VISIBLE
         }
 
-        tv_forgot.setOnClickListener {
+        tv_reset.setOnClickListener {
             startActivity(Intent(this, ForgotActivity::class.java))
         }
 
-        lb_facebook.setReadPermissions(listOf("email", "public_profile"))
+        lb_facebook.setPermissions(listOf("email", "public_profile"))
         callbackManager = CallbackManager.Factory.create()
 
         lb_facebook.registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
@@ -158,10 +134,12 @@ class LoginActivity : AppCompatActivity() {
 
             override fun onCancel() {
                 progressBar!!.visibility = View.GONE
+                Toast.makeText(baseContext, "Login failed", Toast.LENGTH_SHORT).show()
             }
 
             override fun onError(error: FacebookException) {
                 progressBar!!.visibility = View.GONE
+                Toast.makeText(baseContext, "Login failed", Toast.LENGTH_SHORT).show()
             }
         })
     }
@@ -202,6 +180,7 @@ class LoginActivity : AppCompatActivity() {
                     firebaseAuthWithGoogle(account.idToken!!)
                 }
                 catch (e: ApiException) {
+                    progressBar!!.visibility = View.GONE
                     Toast.makeText(this, "Failed to sign in", Toast.LENGTH_SHORT).show()
                 }
             }
@@ -209,25 +188,21 @@ class LoginActivity : AppCompatActivity() {
                 progressBar!!.visibility = View.GONE
                 Toast.makeText(this, "Failed to sign in", Toast.LENGTH_SHORT).show()
             }
-
-            Log.i(TAG, "Task was unsuccessful in onActivtiyResult")
         }
 
         callbackManager?.onActivityResult(requestCode, resultCode, data)
     }
-
 
     private fun firebaseAuthWithGoogle(idToken: String) {
         val credential = GoogleAuthProvider.getCredential(idToken, null)
         auth.signInWithCredential(credential)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-
                     //  Set Preference
                     setUserInfo()
+                    progressBar!!.visibility = View.GONE
                     startActivity(Intent(baseContext, MainActivity::class.java))
                     finish()
-                    progressBar!!.visibility = View.GONE
                 } else {
                     // If sign in fails, display a message to the user
                     progressBar!!.visibility = View.GONE
@@ -303,32 +278,20 @@ class LoginActivity : AppCompatActivity() {
 
         if(et_email.text.toString().isEmpty()){
             et_email.error = "Please enter your email address"
-            et_email.setBackgroundResource(R.drawable.text_field_error)
             et_email.requestFocus()
             return
-        }
-        else {
-            et_email.setBackgroundResource(R.drawable.text_field)
-        }
-
-        if(et_password.text.toString().isEmpty()){
-            et_password.error = "Please enter your password"
-            et_password.setBackgroundResource(R.drawable.text_field_error)
-            et_password.requestFocus()
-            return
-        }
-        else {
-            et_password.setBackgroundResource(R.drawable.text_field)
         }
 
         if(!Patterns.EMAIL_ADDRESS.matcher(et_email.text.toString()).matches()){
             et_email.error = "Please enter valid email address"
-            et_email.setBackgroundResource(R.drawable.text_field_error)
             et_email.requestFocus()
             return
         }
-        else {
-            et_email.setBackgroundResource(R.drawable.text_field)
+
+        if(et_password.text.toString().isEmpty()){
+            et_password.error = "Please enter your password"
+            et_password.requestFocus()
+            return
         }
 
         progressBar!!.visibility = View.VISIBLE
@@ -356,6 +319,7 @@ class LoginActivity : AppCompatActivity() {
                                 baseContext, "Email or password is incorrect",
                                 Toast.LENGTH_SHORT
                         ).show()
+                        et_email.requestFocus()
                     }
                 }
     }
@@ -367,6 +331,3 @@ class LoginActivity : AppCompatActivity() {
         return activeNetworkInfo != null && activeNetworkInfo.isConnected
     }
 }
-
-//  tbZZclvovChGUrPWBgJxYMyKNZF2
-//  tbZZclvovChGUrPWBgJxYMyKNZF2

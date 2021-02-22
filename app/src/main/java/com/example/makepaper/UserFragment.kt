@@ -2,7 +2,6 @@ package com.example.makepaper
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +10,6 @@ import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 
 class UserFragment : Fragment() {
-
     companion object {
         lateinit var auth: FirebaseAuth
         fun newInstance(): UserFragment = UserFragment()
@@ -26,12 +24,6 @@ class UserFragment : Fragment() {
         user?.let {
             val name = generals.preference.getName()
             val email = generals.preference.getEmail()
-
-            Log.i("UserFragment", "Preference Name: " + name)
-            Log.i("UserFragment", "FirebaseAuth Name: " + user.displayName)
-
-            Log.i("UserFragment", "Preference Email: " + email)
-            Log.i("UserFragment", "FirebaseAuth Name: " + user.email)
             view?.findViewById<TextView?>(R.id.tv_user_name)?.text = name
             view?.findViewById<TextView?>(R.id.tv_user_email)?.text = email
         }
