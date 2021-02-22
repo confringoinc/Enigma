@@ -9,7 +9,6 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 
-
 class UserFragment : Fragment() {
     companion object {
         lateinit var auth: FirebaseAuth
