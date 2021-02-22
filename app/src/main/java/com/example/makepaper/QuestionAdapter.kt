@@ -34,10 +34,10 @@ class QuestionAdapter(val context: Context?, val ques: List<Questions>): Recycle
     inner class MyViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         fun setData(que: Questions){
             //  Set question from que(Questions) object
-            itemView.tv_question.text = que.getQuestions()
-            val marksText = "Marks: " + que.getMark()
+            itemView.tv_question.text = que.question
+            val marksText = "Marks: " + que.marks
             itemView.tv_marks.text = marksText
-            itemView.tv_category.text = que.getCategories().toString()
+            itemView.tv_category.text = que.category.toString()
         }
     }
 }
