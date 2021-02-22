@@ -69,22 +69,14 @@ class ForgotActivity : AppCompatActivity() {
 
         if(et_email.text.toString().isEmpty()){
             et_email.error = "Please enter your email address"
-            et_email.setBackgroundResource(R.drawable.text_field_error)
             et_email.requestFocus()
             return
-        }
-        else {
-            et_email.setBackgroundResource(R.drawable.text_field)
         }
 
         if(!Patterns.EMAIL_ADDRESS.matcher(et_email.text.toString()).matches()){
             et_email.error = "Please enter valid email address"
-            et_email.setBackgroundResource(R.drawable.text_field_error)
             et_email.requestFocus()
             return
-        }
-        else {
-            et_email.setBackgroundResource(R.drawable.text_field)
         }
 
         progressBar!!.visibility = View.VISIBLE

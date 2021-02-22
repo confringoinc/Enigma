@@ -1,10 +1,9 @@
 package com.example.makepaper
 
-import android.content.ContentValues.TAG
+
 import android.content.Context
 import android.net.ConnectivityManager
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.Toast
@@ -16,6 +15,8 @@ import kotlinx.android.synthetic.main.activity_add_question.*
 class AddQuestion : AppCompatActivity() {
     private var progressBar: ProgressBar? = null
     var questionList = ArrayList<Questions>()
+    val TAG = "AddQuestion"
+    private val questionReff = generals.fireBaseReff.child(generals.preference.getID()!!).child("Question")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,53 +43,57 @@ class AddQuestion : AppCompatActivity() {
 
                 answer?.let {
                     //  Get a timeStamp based Unique Key for storing question
-                    val key = generals.fireBaseReff.child(generals.preference.getID()!!).child("Question").push().key
+                    val key = questionReff.push().key
 
                     //  Store the question in current user's uid node under Questions Node
-                    generals.fireBaseReff.child(generals.preference.getID()!!).child("Question").child(key!!).setValue(answer)
+                    questionReff.child(key!!).setValue(answer)
                             .addOnCompleteListener {
                                 progressBar!!.visibility = View.GONE
                                 Toast.makeText(this, "Question added", Toast.LENGTH_LONG).show()
-                                et_question.text = null
-                                et_marks.text = null
-                                if (cb_anything.isChecked) cb_anything.toggle()
-                                if (cb_remembering.isChecked) cb_remembering.toggle()
-                                if (cb_understanding.isChecked) cb_understanding.toggle()
-                                et_question.requestFocus()
+                                resetComponents()
                             }
                 }
             }
         }
 
-        val layoutManager = LinearLayoutManager(applicationContext)
+        val layoutManager = LinearLayoutManager(this)
         layoutManager.orientation = LinearLayoutManager.VERTICAL
         rv_questions.layoutManager = layoutManager
 
         val databaseReference: DatabaseReference = FirebaseDatabase.getInstance().reference.child(generals.preference.getID()!!).child("Question")
 
-        databaseReference.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                Log.i(TAG, "Adding Childeren")
-                for (dataSnapshot in snapshot.children) {
-
-                    val data: Map<String, Object> = dataSnapshot.getValue() as Map<String, Object>
-                    questionList.add(Questions(data["question"] as String, data["marks"] as String, data["category"] as List<String>))
-                }
-
+        databaseReference.addChildEventListener(object : ChildEventListener {
+            override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
+                val data: Map<String, Object> = snapshot.value as Map<String, Object>
+                questionList.add(getQuesObj(data))
                 questionList.reverse()
-                val adapter = QuestionAdapter(applicationContext, questionList)
+                val adapter = QuestionAdapter(this@AddQuestion, questionList)
                 rv_questions.adapter = adapter
+                progressBar!!.visibility = View.GONE
             }
 
-            override fun onCancelled(databaseError: DatabaseError) {
-                Log.i(TAG, "Data not found...")
+            override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
+
             }
+
+            override fun onChildRemoved(snapshot: DataSnapshot) {
+
+            }
+
+            override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
+
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                progressBar!!.visibility = View.GONE
+            }
+
         })
     }
 
     private fun validate() : Questions? {
         val userQuestion = et_question.text.toString()
-        val categories = ArrayList<String>()
+        val quesCategory = ArrayList<String>()
         val marks = et_marks.text.toString()
 
         if(userQuestion.isEmpty()){
@@ -114,23 +119,41 @@ class AddQuestion : AppCompatActivity() {
         }
 
         if(cb_anything.isChecked) {
-            categories.add(cb_anything.text.toString())
+            quesCategory.add(cb_anything.text.toString())
         }
 
         if(cb_remembering.isChecked) {
-            categories.add(cb_remembering.text.toString())
+            quesCategory.add(cb_remembering.text.toString())
         }
 
         if(cb_understanding.isChecked) {
-            categories.add(cb_understanding.text.toString())
+            quesCategory.add(cb_understanding.text.toString())
         }
 
-        return Questions(userQuestion, marks, categories.toList())
+        return Questions(userQuestion, marks, quesCategory.toList())
     }
 
     private fun isNetworkAvailable(): Boolean {
         val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val activeNetworkInfo = connectivityManager.activeNetworkInfo
         return activeNetworkInfo != null && activeNetworkInfo.isConnected
+    }
+
+    //  Function to reset all components once answer is submit
+    private fun resetComponents(){
+        et_question.text = null
+        et_marks.text = null
+        if (cb_anything.isChecked) cb_anything.toggle()
+        if (cb_remembering.isChecked) cb_remembering.toggle()
+        if (cb_understanding.isChecked) cb_understanding.toggle()
+        et_question.requestFocus()
+    }
+
+    private fun getQuesObj(data: Map<String, Object>): Questions {
+        val question = data["question"] as String
+        val marks = data["marks"] as String
+        val category = data["category"] as List<String>
+
+        return Questions(question, marks, category)
     }
 }

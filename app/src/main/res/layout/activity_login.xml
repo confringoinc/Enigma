@@ -12,9 +12,9 @@
         android:id="@+id/coordinatorLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:fillViewport="true"
         android:fitsSystemWindows="true"
-        tools:context=".LoginActivity"
-        android:fillViewport="true">
+        tools:context=".LoginActivity">
 
         <ImageView
             android:id="@+id/iv_logo"
@@ -35,6 +35,7 @@
 
         <TextView
             android:id="@+id/tv_login1"
+            style="@style/TextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
@@ -42,7 +43,6 @@
             android:layout_marginBottom="2dp"
             android:fontFamily="@font/bold"
             android:text="@string/login1"
-            style="@style/TextView"
             android:textSize="30sp"
             app:layout_constraintBottom_toTopOf="@id/tv_login2"
             app:layout_constraintEnd_toEndOf="parent"
@@ -56,7 +56,6 @@
             android:layout_marginStart="40dp"
             android:layout_marginEnd="40dp"
             android:layout_marginBottom="40dp"
-            android:fontFamily="@font/regular"
             android:text="@string/login2"
             app:layout_constraintBottom_toTopOf="@+id/et_email"
             app:layout_constraintEnd_toEndOf="parent"
@@ -71,20 +70,19 @@
             android:layout_marginStart="40dp"
             android:layout_marginEnd="40dp"
             android:layout_marginBottom="10dp"
+            android:autofillHints="@string/email"
             android:ems="10"
             android:hint="@string/email"
             android:inputType="textEmailAddress"
-            android:fontFamily="@font/regular"
             android:paddingStart="25dp"
+            android:paddingLeft="25dp"
             android:paddingEnd="20dp"
+            android:paddingRight="20dp"
             android:textSize="15sp"
             app:layout_constraintBottom_toTopOf="@+id/et_password"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            android:autofillHints="@string/email"
-            android:paddingRight="20dp"
-            android:paddingLeft="25dp" />
+            app:layout_constraintStart_toStartOf="parent" />
 
         <EditText
             android:id="@+id/et_password"
@@ -94,20 +92,19 @@
             android:layout_marginStart="40dp"
             android:layout_marginEnd="40dp"
             android:layout_marginBottom="4dp"
+            android:autofillHints="@string/password"
             android:ems="10"
             android:hint="@string/password"
-            android:fontFamily="@font/regular"
             android:inputType="textPassword"
             android:paddingStart="25dp"
+            android:paddingLeft="25dp"
             android:paddingEnd="45dp"
+            android:paddingRight="45dp"
             android:textSize="15sp"
             app:layout_constraintBottom_toTopOf="@+id/tv_forgot"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.196"
-            app:layout_constraintStart_toStartOf="parent"
-            android:autofillHints="@string/password"
-            android:paddingLeft="25dp"
-            android:paddingRight="45dp" />
+            app:layout_constraintStart_toStartOf="parent" />
 
         <ImageView
             android:id="@+id/btn_show_pass"
@@ -115,39 +112,50 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginEnd="12dp"
-            android:scaleX= "0.7"
-            android:scaleY= "0.7"
+            android:layout_marginRight="12dp"
+            android:contentDescription="@string/password"
+            android:scaleX="0.7"
+            android:scaleY="0.7"
             app:layout_constraintBottom_toBottomOf="@+id/et_password"
             app:layout_constraintEnd_toEndOf="@id/et_password"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="@id/et_password"
             app:layout_constraintTop_toTopOf="@+id/et_password"
-            android:contentDescription="@string/password"
-            android:layout_marginRight="12dp"
             tools:targetApi="lollipop" />
 
         <TextView
             android:id="@+id/tv_forgot"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
             android:layout_marginEnd="40dp"
             android:layout_marginBottom="40dp"
-            android:fontFamily="@font/regular"
             android:paddingStart="5dp"
             android:paddingEnd="5dp"
             android:text="@string/forgot"
             app:layout_constraintBottom_toTopOf="@+id/tv_or_sign_up"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_reset"
+            style="@style/TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="40dp"
+            android:text="@string/reset"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/tv_or_sign_up"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@id/tv_forgot" />
 
         <TextView
             android:id="@+id/tv_or_sign_up"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:fontFamily="@font/regular"
             android:text="@string/or_sign_up"
             app:layout_constraintBottom_toTopOf="@id/ib_google"
             app:layout_constraintEnd_toEndOf="parent"
@@ -178,7 +186,9 @@
             android:layout_height="60dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="40dp"
+            android:layout_marginRight="40dp"
             android:adjustViewBounds="true"
+            android:contentDescription="@string/login"
             android:padding="15dp"
             android:scaleType="fitCenter"
             app:layout_constraintBottom_toBottomOf="@+id/ib_google"
@@ -187,9 +197,7 @@
             app:layout_constraintStart_toEndOf="@+id/ib_google"
             app:layout_constraintTop_toTopOf="@+id/ib_google"
             app:layout_constraintVertical_bias="1.0"
-            app:srcCompat="@drawable/facebook"
-            android:layout_marginRight="40dp"
-            android:contentDescription="@string/login"/>
+            app:srcCompat="@drawable/facebook" />
 
         <com.facebook.login.widget.LoginButton
             android:id="@+id/lb_facebook"
@@ -205,14 +213,12 @@
             android:id="@+id/btn_login"
             android:layout_width="0dp"
             android:layout_height="55dp"
+            style="@style/Button"
             android:layout_marginStart="40dp"
             android:layout_marginEnd="40dp"
             android:layout_marginBottom="8dp"
-            android:background="@drawable/button_primary"
             android:text="@string/login"
             android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:fontFamily="@font/bold"
             app:layout_constraintBottom_toTopOf="@+id/tv_register"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -220,27 +226,46 @@
 
         <TextView
             android:id="@+id/tv_register"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
+            android:layout_marginLeft="40dp"
             android:layout_marginEnd="40dp"
+            android:layout_marginRight="40dp"
             android:layout_marginBottom="16dp"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
             android:text="@string/notLoggedIn"
-            android:textAlignment="center"
-            android:fontFamily="@font/regular"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.25"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_register_link"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/TextView"
+            android:layout_marginEnd="40dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginBottom="16dp"
+            android:gravity="center_horizontal"
+            android:text="@string/register"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_register"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            android:gravity="center_horizontal" />
+            app:layout_constraintStart_toEndOf="@+id/tv_register"
+            app:layout_constraintTop_toTopOf="@+id/tv_register"
+            app:layout_constraintVertical_bias="0.062" />
 
         <ProgressBar
             android:id="@+id/progress_bar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:indeterminate="true"
-            android:indeterminateTintMode="src_atop"
             android:indeterminateTint="@color/primary"
+            android:indeterminateTintMode="src_atop"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

@@ -1,24 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="white">#EEE</color>
     <color name="transparent">#00000000</color>
-    <color name="primary">#1041fb</color>
+    <color name="primary">#1041FB</color>
     <color name="secondary">#121212</color>
     <color name="main_background">#F8F8F8</color>
     <color name="secondary_text">#A4A69C</color>
 
     <!-- Light Theme-->
-    <color name="primary_light">#1041fb</color>
+    <color name="primary_light">#093AEF</color>
     <color name="background_light">#F8F8F8</color>
     <color name="background_field_light">#F1F1F1</color>
     <color name="background_text_light">#A4A69C</color>
     <color name="secondary_light">#DDDEDA</color>
 
     <!-- Dark Theme-->
-    <color name="primary_dark">#0177fb</color>
+    <color name="primary_dark">#1041FB</color>
     <color name="background_dark">#121212</color>
     <color name="background_text_dark">#45FFFFFF</color>
-    <color name="bottom_dark">#1D1D1D</color>
-    <color name="secondary_dark">#222222</color>
+    <color name="dark_elevation1">#1D1D1D</color>
+    <color name="dark_elevation2">#222222</color>
+    <color name="dark_elevation3">#242424</color>
+    <color name="dark_elevation4">#272727</color>
 </resources>
