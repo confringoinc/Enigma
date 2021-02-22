@@ -97,14 +97,14 @@ class AddQuestion : AppCompatActivity() {
         val marks = et_marks.text.toString()
 
         if(userQuestion.isEmpty()){
-            et_question.error = "Please Enter a question"
+            et_question.error = "Please enter question"
             et_question.requestFocus()
             progressBar!!.visibility = View.GONE
             return null
         }
 
         if(marks.isEmpty()){
-            et_marks.error = "Please Enter a marks"
+            et_marks.error = "Please enter marks"
             et_marks.requestFocus()
             progressBar!!.visibility = View.GONE
             return null
@@ -114,6 +114,7 @@ class AddQuestion : AppCompatActivity() {
             cb_anything.error = "Select at least one checkbox"
             cb_remembering.error = "Select at least one checkbox"
             cb_understanding.error = "Select at least one checkbox"
+            cb_anything.requestFocus()
             progressBar!!.visibility = View.GONE
             return null
         }
