@@ -171,9 +171,8 @@ class LoginActivity : AppCompatActivity() {
     }
     /*<------ Signing In activity using Google sign in feature ----->*/
 
-    /*<------ Signing In activity using facebook sign in feature ----->*/
+    /*<------ Signing In activity using Facebook sign in feature ----->*/
     private fun handleFacebookAccessToken(token: AccessToken) {
-
         val credential = FacebookAuthProvider.getCredential(token.token)
         auth.signInWithCredential(credential)
                 .addOnCompleteListener(this) { task ->
@@ -201,11 +200,8 @@ class LoginActivity : AppCompatActivity() {
         GraphRequest(AccessToken.getCurrentAccessToken(),
                 "/me/permissions/",
                 null, HttpMethod.DELETE) { LoginManager.getInstance().logOut() }.executeAsync()
-
-        auth.signOut()
-        LoginManager.getInstance().logOut()
     }
-    /*<------ Signing In activity using facebook sign in feature ----->*/
+    /*<------ Signing In activity using Facebook sign in feature ----->*/
 
     /* <----- Sign in Facility using Typical Email Password ----->*/
     private fun logIn(){
