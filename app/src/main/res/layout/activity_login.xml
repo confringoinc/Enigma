@@ -6,15 +6,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:scrollbars="none"
-    android:fillViewport="true">
+    android:fillViewport="true"
+    tools:context=".LoginActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/coordinatorLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fillViewport="true"
-        android:fitsSystemWindows="true"
-        tools:context=".LoginActivity">
+        android:fitsSystemWindows="true">
 
         <ImageView
             android:id="@+id/iv_logo"
@@ -211,12 +211,12 @@
 
         <Button
             android:id="@+id/btn_login"
+            style="@style/Button"
             android:layout_width="0dp"
             android:layout_height="55dp"
-            style="@style/Button"
             android:layout_marginStart="40dp"
             android:layout_marginEnd="40dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="10dp"
             android:text="@string/login"
             android:textAllCaps="false"
             app:layout_constraintBottom_toTopOf="@+id/tv_register"
@@ -232,7 +232,7 @@
             android:layout_marginLeft="40dp"
             android:layout_marginEnd="40dp"
             android:layout_marginRight="40dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="20dp"
             android:paddingStart="5dp"
             android:paddingEnd="5dp"
             android:text="@string/notLoggedIn"
@@ -243,12 +243,11 @@
 
         <TextView
             android:id="@+id/tv_register_link"
+            style="@style/TextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/TextView"
             android:layout_marginEnd="40dp"
             android:layout_marginRight="40dp"
-            android:layout_marginBottom="16dp"
             android:gravity="center_horizontal"
             android:text="@string/register"
             android:textStyle="bold"
@@ -257,7 +256,7 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/tv_register"
             app:layout_constraintTop_toTopOf="@+id/tv_register"
-            app:layout_constraintVertical_bias="0.062" />
+            app:layout_constraintVertical_bias="0.0" />
 
         <ProgressBar
             android:id="@+id/progress_bar"

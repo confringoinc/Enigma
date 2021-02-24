@@ -6,14 +6,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:scrollbars="none"
-    android:fillViewport="true">
+    android:fillViewport="true"
+    tools:context=".RegisterActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/coordinatorLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fitsSystemWindows="true"
-        tools:context=".LoginActivity"
         android:fillViewport="true">
 
         <ImageView
@@ -158,12 +158,12 @@
 
         <Button
             android:id="@+id/btn_register"
+            style="@style/Button"
             android:layout_width="0dp"
             android:layout_height="55dp"
             android:layout_marginStart="40dp"
             android:layout_marginEnd="40dp"
-            android:layout_marginBottom="8dp"
-            style="@style/Button"
+            android:layout_marginBottom="10dp"
             android:text="@string/register"
             android:textAllCaps="false"
             android:textColor="@color/white"
@@ -178,7 +178,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
             android:layout_marginEnd="40dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="20dp"
             android:gravity="center_horizontal"
             android:paddingStart="5dp"
             android:paddingEnd="5dp"
@@ -190,10 +190,11 @@
 
         <TextView
             android:id="@+id/tv_login_link"
+            style="@style/TextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/TextView"
             android:layout_marginEnd="40dp"
+            android:layout_marginRight="40dp"
             android:gravity="center_horizontal"
             android:text="@string/login"
             android:textStyle="bold"
@@ -202,7 +203,7 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@id/tv_login"
             app:layout_constraintTop_toTopOf="@+id/tv_login"
-            android:layout_marginRight="40dp" />
+            app:layout_constraintVertical_bias="0.0" />
 
         <ProgressBar
             android:id="@+id/progress_bar"

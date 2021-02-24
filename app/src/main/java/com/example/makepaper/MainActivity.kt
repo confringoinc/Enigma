@@ -57,6 +57,16 @@ class MainActivity : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
     }
 
+    public override fun onStart() {
+        super.onStart()
+        // Check if user is signed in (non-null) and update UI accordingly.
+        val currentUser = auth.currentUser
+        if(currentUser == null){
+            startActivity(Intent(this, LoginActivity::class.java))
+            finish()
+        }
+    }
+
     private fun rotateFabForward() {
         ViewCompat.animate(fab).rotation(45.0F).withLayer().setDuration(300L).start()
     }

@@ -9,6 +9,7 @@ import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_add_question.*
 
@@ -16,7 +17,7 @@ class AddQuestion : AppCompatActivity() {
     private var progressBar: ProgressBar? = null
     var questionList = ArrayList<Questions>()
     val TAG = "AddQuestion"
-    private val questionReff = generals.fireBaseReff.child(generals.preference.getID()!!).child("Question")
+    private val questionReff = FirebaseDatabase.getInstance().reference.child(FirebaseAuth.getInstance().currentUser?.uid!!).child("Question")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,7 +61,7 @@ class AddQuestion : AppCompatActivity() {
         layoutManager.orientation = LinearLayoutManager.VERTICAL
         rv_questions.layoutManager = layoutManager
 
-        val databaseReference: DatabaseReference = FirebaseDatabase.getInstance().reference.child(generals.preference.getID()!!).child("Question")
+        val databaseReference: DatabaseReference = FirebaseDatabase.getInstance().reference.child(FirebaseAuth.getInstance().currentUser?.uid!!).child("Question")
 
         databaseReference.addChildEventListener(object : ChildEventListener {
             override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
@@ -97,14 +98,14 @@ class AddQuestion : AppCompatActivity() {
         val marks = et_marks.text.toString()
 
         if(userQuestion.isEmpty()){
-            et_question.error = "Please Enter a question"
+            et_question.error = "Please enter question"
             et_question.requestFocus()
             progressBar!!.visibility = View.GONE
             return null
         }
 
         if(marks.isEmpty()){
-            et_marks.error = "Please Enter a marks"
+            et_marks.error = "Please enter marks"
             et_marks.requestFocus()
             progressBar!!.visibility = View.GONE
             return null
@@ -114,6 +115,7 @@ class AddQuestion : AppCompatActivity() {
             cb_anything.error = "Select at least one checkbox"
             cb_remembering.error = "Select at least one checkbox"
             cb_understanding.error = "Select at least one checkbox"
+            cb_anything.requestFocus()
             progressBar!!.visibility = View.GONE
             return null
         }

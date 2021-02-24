@@ -22,7 +22,6 @@ import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import kotlinx.android.synthetic.main.activity_login.*
-import org.json.JSONException
 
 
 class LoginActivity : AppCompatActivity() {
@@ -54,8 +53,6 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
-        generals.preference = MyPreference(baseContext)
-
         //  Initializing Authorization Instance
         auth = FirebaseAuth.getInstance()
 
@@ -63,9 +60,9 @@ class LoginActivity : AppCompatActivity() {
 
         // Configure Google Sign In
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(getString(R.string.default_web_client_id))
-            .requestEmail()
-            .build()
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build()
 
         googleSignInClient = GoogleSignIn.getClient(this, gso)
 
@@ -94,41 +91,6 @@ class LoginActivity : AppCompatActivity() {
 
         lb_facebook.registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
             override fun onSuccess(loginResult: LoginResult) {
-
-                val request = GraphRequest.newMeRequest(
-                        loginResult.accessToken
-                ) { `object`, _ ->
-                    if (`object` != null) {
-                        try {
-                            val name = `object`.getString("name")
-                            val email = `object`.getString("email")
-                            val uid = `object`.getString("id")
-                            val accType = "FSI"
-
-                            //  CSI: Custom Sign In
-                            //  GSI: Google Sign In
-                            //  FSI: Facebook Sign In
-
-                            if (!generals.preference.checkDB()) {
-                                generals.fireBaseReff.child(uid).setValue(name)
-                            }
-                            generals.preference.setPreference(name, email, uid, true, accType)
-
-                        } catch (e: JSONException) {
-                            e.printStackTrace()
-                        } catch (e: NullPointerException) {
-                            e.printStackTrace()
-                        }
-                    }
-                }
-
-                val parameters = Bundle()
-                parameters.putString(
-                        "fields",
-                        "id, name, email"
-                )
-                request.parameters = parameters
-                request.executeAsync()
                 handleFacebookAccessToken(loginResult.accessToken)
             }
 
@@ -172,7 +134,6 @@ class LoginActivity : AppCompatActivity() {
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
-
             if (task.isSuccessful) {
                 try {
                     // Google Sign In was successful, authenticate with Firebase
@@ -196,37 +157,17 @@ class LoginActivity : AppCompatActivity() {
     private fun firebaseAuthWithGoogle(idToken: String) {
         val credential = GoogleAuthProvider.getCredential(idToken, null)
         auth.signInWithCredential(credential)
-            .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
-                    //  Set Preference
-                    setUserInfo()
-                    progressBar!!.visibility = View.GONE
-                    startActivity(Intent(baseContext, MainActivity::class.java))
-                    finish()
-                } else {
-                    // If sign in fails, display a message to the user
-                    progressBar!!.visibility = View.GONE
-                    Toast.makeText(this, "Failed to sign in", Toast.LENGTH_SHORT).show()
+                .addOnCompleteListener(this) { task ->
+                    if (task.isSuccessful) {
+                        progressBar!!.visibility = View.GONE
+                        startActivity(Intent(baseContext, MainActivity::class.java))
+                        finish()
+                    } else {
+                        // If sign in fails, display a message to the user
+                        progressBar!!.visibility = View.GONE
+                        Toast.makeText(this, "Failed to sign in", Toast.LENGTH_SHORT).show()
+                    }
                 }
-            }
-    }
-
-    private fun setUserInfo(){
-        val acct = GoogleSignIn.getLastSignedInAccount(baseContext)
-        if (acct != null) {
-            val name = acct.displayName
-            val email = acct.email
-            val uid = auth.uid
-            val accType = "GSI"
-
-            //  CSI: Custom Sign In
-            //  GSI: Google Sign In
-
-            if(!generals.preference.checkDB()){
-                generals.fireBaseReff.child(uid!!).setValue(name!!)
-            }
-            generals.preference.setPreference(name!!, email!!, uid!!, true, accType)
-        }
     }
     /*<------ Signing In activity using Google sign in feature ----->*/
 
@@ -235,21 +176,21 @@ class LoginActivity : AppCompatActivity() {
 
         val credential = FacebookAuthProvider.getCredential(token.token)
         auth.signInWithCredential(credential)
-            .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
-                    // Sign in success, update UI with the signed-in user's information
-                    startActivity(Intent(baseContext, MainActivity::class.java))
-                    finish()
-                    progressBar!!.visibility = View.GONE
-                } else {
-                    // If sign in fails, display a message to the user.
-                    progressBar!!.visibility = View.GONE
-                    Toast.makeText(
-                            baseContext, "Failed to sign in",
-                            Toast.LENGTH_SHORT
-                    ).show()
+                .addOnCompleteListener(this) { task ->
+                    if (task.isSuccessful) {
+                        // Sign in success, update UI with the signed-in user's information
+                        startActivity(Intent(baseContext, MainActivity::class.java))
+                        finish()
+                        progressBar!!.visibility = View.GONE
+                    } else {
+                        // If sign in fails, display a message to the user.
+                        progressBar!!.visibility = View.GONE
+                        Toast.makeText(
+                                baseContext, "Failed to sign in",
+                                Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
-            }
     }
 
     private fun facebookLogOut() {
@@ -261,7 +202,8 @@ class LoginActivity : AppCompatActivity() {
                 "/me/permissions/",
                 null, HttpMethod.DELETE) { LoginManager.getInstance().logOut() }.executeAsync()
 
-        generals.preference.logOut()
+        auth.signOut()
+        LoginManager.getInstance().logOut()
     }
     /*<------ Signing In activity using facebook sign in feature ----->*/
 
@@ -301,15 +243,6 @@ class LoginActivity : AppCompatActivity() {
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
                         startActivity(Intent(baseContext, MainActivity::class.java))
-                        //  Set Preference
-                        val uid = auth.uid
-                        generals.preference.getName()?.let {
-                            generals.preference.setPreference(
-                                    it,
-                                    et_email.text.toString(),
-                                    uid!!, true, "CSI"
-                            )
-                        }
                         finish()
                         progressBar!!.visibility = View.GONE
                     } else {
