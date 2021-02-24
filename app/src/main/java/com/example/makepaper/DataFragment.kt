@@ -45,12 +45,12 @@ class DataFragment : Fragment() {
         layoutManager.orientation = LinearLayoutManager.VERTICAL
         view.rv_questions.layoutManager = layoutManager
 
-        val databaseReference: DatabaseReference = FirebaseDatabase.getInstance().reference.child(FirebaseAuth.getInstance().currentUser?.uid!!).child("Question")
+        val databaseReference: DatabaseReference = FirebaseDatabase.getInstance().reference.child(FirebaseAuth.getInstance().currentUser?.uid!!).child("questions")
 
         databaseReference.addChildEventListener(object : ChildEventListener {
             override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
                 val data: Map<String, Object> = snapshot.value as Map<String, Object>
-                questionList.add(getQuesObj(data))
+                questionList.add(getQuestionObj(data))
                 questionList.reverse()
                 val adapter = QuestionAdapter(view.context, questionList)
                 view.rv_questions.adapter = adapter
@@ -109,7 +109,7 @@ class DataFragment : Fragment() {
         return activeNetworkInfo != null && activeNetworkInfo.isConnected
     }
 
-    private fun getQuesObj(data: Map<String, Object>): Questions {
+    private fun getQuestionObj(data: Map<String, Object>): Questions {
         val question = data["question"] as String
         val marks = data["marks"] as String
         val category = data["category"] as List<String>

@@ -55,4 +55,9 @@
     <string name="no_questions">No questions found…</string>
     <string name="enter_your_new_password">Enter your new password</string>
     <string name="re_enter_password">Re-enter password</string>
+    <string name="options">options</string>
+    <string name="no_papers_found">No papers found...</string>
+    <string name="generate_question_paper">Generate question paper</string>
+    <string name="papers">PAPERS</string>
+    <string name="generate">Generate</string>
 </resources>
