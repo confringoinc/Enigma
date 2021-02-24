@@ -201,7 +201,7 @@ class LoginActivity : AppCompatActivity() {
                 "/me/permissions/",
                 null, HttpMethod.DELETE) { LoginManager.getInstance().logOut() }.executeAsync()
     }
-    /*<------ Signing In activity using facebook sign in feature ----->*/
+    /*<------ Signing In activity using Facebook sign in feature ----->*/
 
     /* <----- Sign in Facility using Typical Email Password ----->*/
     private fun logIn(){
