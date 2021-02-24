@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="200dp"
+    android:layout_marginBottom="10dp"
+    app:cardUseCompatPadding="true"
+    android:outlineAmbientShadowColor="@color/transparent"
+    android:outlineSpotShadowColor="@color/transparent"
+    tools:context=".MainActivity"
+    tools:targetApi="lollipop">
+
+    <TextView
+        style="@style/EditTextStyle"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <TextView
+        android:id="@+id/tv_paper"
+        style="@style/TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginStart="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginRight="15dp"
+        android:maxLines="2"
+        android:ellipsize="end"
+        android:lineSpacingExtra="6dp"
+        android:paddingBottom="30dp" />
+
+    <TextView
+        android:id="@+id/tv_marks"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginStart="15dp"
+        android:layout_marginLeft="15dp"
+        android:paddingBottom="10dp"
+        android:textColor="@color/secondary_text" />
+
+    <ImageView
+        android:id="@+id/ib_options"
+        style="@style/ImageView"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_gravity="end"
+        android:contentDescription="@string/options"
+        android:padding="12dp"
+        android:src="@drawable/more_vertical" />
+</androidx.cardview.widget.CardView>

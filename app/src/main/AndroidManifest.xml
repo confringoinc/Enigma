@@ -44,6 +44,7 @@
         </activity>
         <activity android:name=".MainActivity" />
         <activity android:name=".AddQuestion" />
+        <activity android:name=".AddPaper" />
 
         <activity
             android:name="com.facebook.FacebookActivity"

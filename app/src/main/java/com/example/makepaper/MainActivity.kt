@@ -53,6 +53,10 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(applicationContext, AddQuestion::class.java))
         }
 
+        fabAddPapers.setOnClickListener {
+            startActivity(Intent(applicationContext, AddPaper::class.java))
+        }
+
         //  Initialize auth var
         auth = FirebaseAuth.getInstance()
     }

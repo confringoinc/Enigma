@@ -17,7 +17,7 @@ class AddQuestion : AppCompatActivity() {
     private var progressBar: ProgressBar? = null
     var questionList = ArrayList<Questions>()
     val TAG = "AddQuestion"
-    private val questionReff = FirebaseDatabase.getInstance().reference.child(FirebaseAuth.getInstance().currentUser?.uid!!).child("Question")
+    private val questionReff = FirebaseDatabase.getInstance().reference.child(FirebaseAuth.getInstance().currentUser?.uid!!).child("questions")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,7 +61,7 @@ class AddQuestion : AppCompatActivity() {
         layoutManager.orientation = LinearLayoutManager.VERTICAL
         rv_questions.layoutManager = layoutManager
 
-        val databaseReference: DatabaseReference = FirebaseDatabase.getInstance().reference.child(FirebaseAuth.getInstance().currentUser?.uid!!).child("Question")
+        val databaseReference: DatabaseReference = FirebaseDatabase.getInstance().reference.child(FirebaseAuth.getInstance().currentUser?.uid!!).child("questions")
 
         databaseReference.addChildEventListener(object : ChildEventListener {
             override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
