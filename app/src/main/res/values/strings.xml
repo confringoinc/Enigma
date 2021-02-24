@@ -53,4 +53,6 @@
     <string name="anything">Anything</string>
     <string name="questions">QUESTIONS</string>
     <string name="no_questions">No questions found…</string>
+    <string name="enter_your_new_password">Enter your new password</string>
+    <string name="re_enter_password">Re-enter password</string>
 </resources>

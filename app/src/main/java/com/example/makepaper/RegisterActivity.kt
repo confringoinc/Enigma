@@ -11,6 +11,7 @@ import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.UserProfileChangeRequest
 import kotlinx.android.synthetic.main.activity_register.*
 
 class RegisterActivity : AppCompatActivity() {
@@ -40,7 +41,6 @@ class RegisterActivity : AppCompatActivity() {
         //  Initializing preference
         //  Initializing Authorization Instance
         this.auth = FirebaseAuth.getInstance()
-        generals.preference = MyPreference(baseContext)
 
         //  Handle on register Click button
         btn_register.setOnClickListener {
@@ -67,8 +67,8 @@ class RegisterActivity : AppCompatActivity() {
 
         if(!isNetworkAvailable()) {
             Toast.makeText(
-                    baseContext, "Internet is not available",
-                    Toast.LENGTH_SHORT
+                baseContext, "Internet is not available",
+                Toast.LENGTH_SHORT
             ).show()
             return
         }
@@ -106,20 +106,36 @@ class RegisterActivity : AppCompatActivity() {
         progressBar!!.visibility = View.VISIBLE
 
         //  If all data is valid then add user
-        auth?.createUserWithEmailAndPassword(et_email_reg.text.toString(), et_password_reg.text.toString())
+        auth?.createUserWithEmailAndPassword(
+            et_email_reg.text.toString(),
+            et_password_reg.text.toString()
+        )
             ?.addOnCompleteListener(this) { task ->
                 if(task.isSuccessful){
 
-                    generals.preference.setPreference(et_name.text.toString(),
-                            et_email_reg.text.toString(), auth?.uid!!, true, "CSI")
+                    val profileUpdates = UserProfileChangeRequest.Builder()
+                        .setDisplayName(et_name.text.toString())
+                        .build()
 
-                    createDatabase()
-
-                    startActivity(Intent(this, MainActivity::class.java))
-                    finish()
-                    progressBar!!.visibility = View.GONE
+                    auth!!.currentUser!!.updateProfile(profileUpdates)
+                        .addOnCompleteListener { taskSuccess ->
+                            if (taskSuccess.isSuccessful) {
+                                Toast.makeText(baseContext, "Registration successful", Toast.LENGTH_SHORT).show()
+                                startActivity(Intent(this, MainActivity::class.java))
+                                finish()
+                                progressBar!!.visibility = View.GONE
+                            }
+                            else {
+                                Toast.makeText(baseContext, "Registration failed", Toast.LENGTH_SHORT).show()
+                                progressBar!!.visibility = View.GONE
+                            }
+                        }
                 } else {
-                    Toast.makeText(baseContext, "Email address is already exist", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        baseContext,
+                        "Email address is already exist",
+                        Toast.LENGTH_SHORT
+                    ).show()
                     progressBar!!.visibility = View.GONE
                 }
             }
@@ -129,9 +145,5 @@ class RegisterActivity : AppCompatActivity() {
         val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val activeNetworkInfo = connectivityManager.activeNetworkInfo
         return activeNetworkInfo != null && activeNetworkInfo.isConnected
-    }
-
-    private fun createDatabase() {
-        generals.fireBaseReff.child(generals.preference.getID()!!).child("name").setValue(et_name.text.toString())
     }
 }

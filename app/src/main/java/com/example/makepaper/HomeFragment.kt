@@ -21,7 +21,7 @@ class HomeFragment : Fragment() {
         auth = FirebaseAuth.getInstance()
         val user = auth.currentUser
         user?.let {
-            val name = generals.preference.getName()
+            val name = user.displayName
             val firstName = name?.split(" ")
             view?.findViewById<TextView?>(R.id.tv_name)?.text = firstName?.get(0)
         }

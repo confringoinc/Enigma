@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:scrollbars="none"
     android:fillViewport="true"
-    tools:context=".ForgotActivity">
+    tools:context=".ResetActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/coordinatorLayout"
@@ -25,7 +25,7 @@
             android:layout_marginEnd="40dp"
             android:layout_marginBottom="40dp"
             android:src="@drawable/logo"
-            app:layout_constraintBottom_toTopOf="@+id/tv_forgot1"
+            app:layout_constraintBottom_toTopOf="@+id/tv_reset1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -34,7 +34,7 @@
             android:contentDescription="@string/app_name" />
 
         <TextView
-            android:id="@+id/tv_forgot1"
+            android:id="@+id/tv_reset1"
             style="@style/TextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -44,26 +44,48 @@
             android:fontFamily="@font/bold"
             android:text="@string/forgot1"
             android:textSize="30sp"
-            app:layout_constraintBottom_toTopOf="@id/tv_forgot2"
+            app:layout_constraintBottom_toTopOf="@id/tv_reset2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
-            android:id="@+id/tv_forgot2"
+            android:id="@+id/tv_reset2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
             android:layout_marginEnd="40dp"
             android:layout_marginBottom="40dp"
-            android:text="@string/forgot2"
-            app:layout_constraintBottom_toTopOf="@+id/et_email"
+            android:text="@string/enter_your_new_password"
+            app:layout_constraintBottom_toTopOf="@+id/et_password_reset"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent" />
 
         <EditText
-            android:id="@+id/et_email"
+            android:id="@+id/et_password_reset"
+            style="@style/EditText"
+            android:layout_width="0dp"
+            android:layout_height="55dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
+            android:layout_marginBottom="10dp"
+            android:autofillHints="@string/password"
+            android:ems="10"
+            android:hint="@string/password"
+            android:inputType="textPassword"
+            android:paddingStart="25dp"
+            android:paddingLeft="25dp"
+            android:paddingEnd="20dp"
+            android:paddingRight="20dp"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toTopOf="@+id/et_password_reset2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <EditText
+            android:id="@+id/et_password_reset2"
             style="@style/EditText"
             android:layout_width="0dp"
             android:layout_height="55dp"
@@ -71,21 +93,21 @@
             android:layout_marginEnd="40dp"
             android:layout_marginBottom="40dp"
             android:ems="10"
-            android:hint="@string/email"
-            android:inputType="textEmailAddress"
+            android:hint="@string/re_enter_password"
+            android:inputType="textPassword"
             android:paddingStart="25dp"
             android:paddingEnd="20dp"
             android:textSize="15sp"
-            app:layout_constraintBottom_toTopOf="@+id/btn_send"
+            app:layout_constraintBottom_toTopOf="@+id/btn_reset"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            android:autofillHints="@string/email"
+            android:autofillHints="@string/re_enter_password"
             android:paddingRight="20dp"
             android:paddingLeft="25dp" />
 
         <Button
-            android:id="@+id/btn_send"
+            android:id="@+id/btn_reset"
             style="@style/Button"
             android:layout_width="0dp"
             android:layout_height="55dp"
@@ -93,23 +115,23 @@
             android:layout_marginEnd="40dp"
             android:layout_marginBottom="10dp"
             android:background="@drawable/button_primary"
-            android:text="@string/send"
+            android:text="@string/reset"
             android:textAllCaps="false"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/tv_back"
+            app:layout_constraintBottom_toTopOf="@+id/tv_login_link"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
-            android:id="@+id/tv_back"
+            android:id="@+id/tv_login_link"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
             android:layout_marginEnd="40dp"
             android:layout_marginBottom="20dp"
             android:gravity="center_horizontal"
-            android:text="@string/back"
+            android:text="@string/login"
             android:textAlignment="center"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

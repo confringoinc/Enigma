@@ -22,8 +22,8 @@ class UserFragment : Fragment() {
         val user = auth.currentUser
 
         user?.let {
-            val name = generals.preference.getName()
-            val email = generals.preference.getEmail()
+            val name = user.displayName
+            val email = user.email
             view?.findViewById<TextView?>(R.id.tv_user_name)?.text = name
             view?.findViewById<TextView?>(R.id.tv_user_email)?.text = email
         }
@@ -34,28 +34,9 @@ class UserFragment : Fragment() {
     }
 
     private fun logout() {
-        val accType = generals.preference.getAccountType()!!
-        if (accType == generals.CSI) {
-            customLogOut()
-        }
-        else {
-            googleLogOut()
-        }
-
-        val intent = Intent(activity, LoginActivity::class.java)
-        startActivity(intent)
-    }
-
-    private fun customLogOut(){
-        generals.preference.logOut()
-    }
-
-    private fun googleLogOut(){
-        //  First sign out from google account
         LoginActivity.auth.signOut()
         LoginActivity.googleSignInClient.signOut()
 
-        //  Then from SharedPreferences
-        generals.preference.logOut()
+        startActivity(Intent(activity, LoginActivity::class.java))
     }
 }
