@@ -62,8 +62,8 @@ class AddQuestion : AppCompatActivity() {
         rv_questions.layoutManager = layoutManager
 
         val databaseReference: DatabaseReference = FirebaseDatabase.getInstance().reference.child(FirebaseAuth.getInstance().currentUser?.uid!!).child("questions")
-
-        databaseReference.addChildEventListener(object : ChildEventListener {
+        val query: Query = databaseReference.limitToFirst(10)
+        query.addChildEventListener(object : ChildEventListener {
             override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
                 val data: Map<String, Object> = snapshot.value as Map<String, Object>
                 questionList.add(getQuesObj(data))
