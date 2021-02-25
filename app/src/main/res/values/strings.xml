@@ -45,9 +45,9 @@
     <string name="easy">Easy</string>
     <string name="submit">Submit</string>
     <string name="marks">Marks</string>
-    <string name="add_question">Add question</string>
-    <string name="edit">edit</string>
-    <string name="delete">delete</string>
+    <string name="add_question">Add Question</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
     <string name="remembering">Remembering</string>
     <string name="understanding">Understanding</string>
     <string name="anything">Anything</string>
@@ -56,8 +56,8 @@
     <string name="enter_your_new_password">Enter your new password</string>
     <string name="re_enter_password">Re-enter password</string>
     <string name="options">options</string>
-    <string name="no_papers_found">No papers found...</string>
-    <string name="generate_question_paper">Generate question paper</string>
+    <string name="no_papers_found">No papers found…</string>
+    <string name="generate_question_paper">Generate Question Paper</string>
     <string name="papers">PAPERS</string>
-    <string name="generate">Generate</string>
+    <string name="generate">Generate Paper</string>
 </resources>
