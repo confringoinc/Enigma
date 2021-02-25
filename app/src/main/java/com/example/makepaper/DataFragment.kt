@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.PopupMenu
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.fragment_data.view.*
+import kotlinx.android.synthetic.main.question_list.*
 
 
 class DataFragment : Fragment() {
@@ -22,7 +24,11 @@ class DataFragment : Fragment() {
     private var progressBar: ProgressBar? = null
     var questionList = ArrayList<Questions>()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         val view = inflater.inflate(R.layout.fragment_data, container, false)
 
         view.tv_no_questions.visibility = View.GONE
@@ -32,8 +38,8 @@ class DataFragment : Fragment() {
 
         if(!isNetworkAvailable()) {
             Toast.makeText(
-                    requireContext(), "Internet is not available",
-                    Toast.LENGTH_SHORT
+                requireContext(), "Internet is not available",
+                Toast.LENGTH_SHORT
             ).show()
 
             progressBar!!.visibility = View.GONE
@@ -45,7 +51,9 @@ class DataFragment : Fragment() {
         layoutManager.orientation = LinearLayoutManager.VERTICAL
         view.rv_questions.layoutManager = layoutManager
 
-        val databaseReference: DatabaseReference = FirebaseDatabase.getInstance().reference.child(FirebaseAuth.getInstance().currentUser?.uid!!).child("questions")
+        val databaseReference: DatabaseReference = FirebaseDatabase.getInstance().reference.child(
+            FirebaseAuth.getInstance().currentUser?.uid!!
+        ).child("questions")
 
         databaseReference.addChildEventListener(object : ChildEventListener {
             override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
@@ -81,8 +89,7 @@ class DataFragment : Fragment() {
                     progressBar!!.visibility = View.GONE
                     view.rv_questions.visibility = View.GONE
                     view.tv_no_questions.visibility = View.VISIBLE
-                }
-                else {
+                } else {
                     progressBar!!.visibility = View.GONE
                     view.rv_questions.visibility = View.VISIBLE
                     view.tv_no_questions.visibility = View.GONE
@@ -96,6 +103,21 @@ class DataFragment : Fragment() {
         mAddQ?.setOnClickListener {
             startActivity(Intent(view.context, AddQuestion::class.java))
         }
+
+        val mQOpt: Button? = view?.findViewById(R.id.ib_options)
+        mQOpt?.setOnClickListener {
+            val popup = PopupMenu(view.context, ib_options)
+            popup.menuInflater.inflate(R.menu.option, popup.menu)
+
+            popup.setOnMenuItemClickListener { item ->
+                Toast.makeText(context, "You Clicked : " + item.title, Toast.LENGTH_SHORT)
+                    .show()
+                true
+            }
+
+            popup.show()
+        }
+
         return view
     }
 
