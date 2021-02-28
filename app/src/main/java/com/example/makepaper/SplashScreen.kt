@@ -12,7 +12,7 @@ class SplashScreen : AppCompatActivity() {
 
         splashScreenIV.alpha = 0f
 
-        splashScreenTV.text = "Question Paper Maker"
+        splashScreenTV.text = getString(R.string.app_name)
         splashScreenIV.animate().setDuration(1500).alpha(1f).withEndAction {
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
             startActivity(Intent(this, LoginActivity::class.java))

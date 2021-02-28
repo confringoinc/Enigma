@@ -8,20 +8,39 @@ import android.view.View
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_add_question.*
 
 class AddQuestion : AppCompatActivity() {
     private var progressBar: ProgressBar? = null
-    var questionList = ArrayList<Questions>()
     val TAG = "AddQuestion"
-    private val questionReff = FirebaseDatabase.getInstance().reference.child(FirebaseAuth.getInstance().currentUser?.uid!!).child("questions")
+    private val databaseReference = FirebaseDatabase.getInstance().reference.child(FirebaseAuth.getInstance().currentUser?.uid!!).child("questions")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_question)
+
+        if(intent.hasExtra("etQuestion")) {
+            et_question_add.setText(intent.getStringExtra("etQuestion"))
+        }
+
+        if(intent.hasExtra("etMarks")) {
+            et_marks_add.setText(intent.getStringExtra("etMarks"))
+        }
+
+        if(intent.hasExtra("cb1") || intent.hasExtra("cb2") || intent.hasExtra("cb3")) {
+            when(intent.getStringExtra("cb1")) {
+                "Anything" -> cb_anything.toggle()
+                "Remembering" -> cb_remembering.toggle()
+                "Understanding" -> cb_understanding.toggle()
+            }
+            when(intent.getStringExtra("cb2")) {
+                "Remembering" -> cb_remembering.toggle()
+                "Understanding" -> cb_understanding.toggle()
+            }
+            if(intent.getStringExtra("cb3") == "Understanding") cb_understanding.toggle()
+        }
 
         progressBar = findViewById(R.id.progress_bar)
         progressBar!!.visibility = View.GONE
@@ -44,10 +63,10 @@ class AddQuestion : AppCompatActivity() {
 
                 answer?.let {
                     //  Get a timeStamp based Unique Key for storing question
-                    val key = questionReff.push().key
+                    val key = databaseReference.push().key
 
                     //  Store the question in current user's uid node under Questions Node
-                    questionReff.child(key!!).setValue(answer)
+                    databaseReference.child(key!!).setValue(answer)
                             .addOnCompleteListener {
                                 progressBar!!.visibility = View.GONE
                                 Toast.makeText(this, "Question added", Toast.LENGTH_LONG).show()
@@ -56,57 +75,23 @@ class AddQuestion : AppCompatActivity() {
                 }
             }
         }
-
-        val layoutManager = LinearLayoutManager(this)
-        layoutManager.orientation = LinearLayoutManager.VERTICAL
-        rv_questions.layoutManager = layoutManager
-
-        val databaseReference: DatabaseReference = FirebaseDatabase.getInstance().reference.child(FirebaseAuth.getInstance().currentUser?.uid!!).child("questions")
-        val query: Query = databaseReference.limitToFirst(10)
-        query.addChildEventListener(object : ChildEventListener {
-            override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
-                val data: Map<String, Object> = snapshot.value as Map<String, Object>
-                questionList.add(getQuesObj(data))
-                questionList.reverse()
-                val adapter = QuestionAdapter(this@AddQuestion, questionList)
-                rv_questions.adapter = adapter
-                progressBar!!.visibility = View.GONE
-            }
-
-            override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
-
-            }
-
-            override fun onChildRemoved(snapshot: DataSnapshot) {
-
-            }
-
-            override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
-
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                progressBar!!.visibility = View.GONE
-            }
-
-        })
     }
 
     private fun validate() : Questions? {
-        val userQuestion = et_question.text.toString()
+        val userQuestion = et_question_add.text.toString()
         val quesCategory = ArrayList<String>()
-        val marks = et_marks.text.toString()
+        val marks = et_marks_add.text.toString()
 
         if(userQuestion.isEmpty()){
-            et_question.error = "Please enter question"
-            et_question.requestFocus()
+            et_question_add.error = "Please enter question"
+            et_question_add.requestFocus()
             progressBar!!.visibility = View.GONE
             return null
         }
 
         if(marks.isEmpty()){
-            et_marks.error = "Please enter marks"
-            et_marks.requestFocus()
+            et_marks_add.error = "Please enter marks"
+            et_marks_add.requestFocus()
             progressBar!!.visibility = View.GONE
             return null
         }
@@ -132,6 +117,25 @@ class AddQuestion : AppCompatActivity() {
             quesCategory.add(cb_understanding.text.toString())
         }
 
+        if(intent.hasExtra("etQuestion")) {
+            val query: Query = databaseReference.orderByChild("question").equalTo(intent.getStringExtra("etQuestion"))
+
+            query.addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    for (snapshot in dataSnapshot.children) {
+                        snapshot.ref.removeValue()
+                    }
+                }
+
+                override fun onCancelled(databaseError: DatabaseError) {
+                    Toast.makeText(
+                            applicationContext, "Failed to edit",
+                            Toast.LENGTH_SHORT
+                    ).show()
+                }
+            })
+        }
+
         return Questions(userQuestion, marks, quesCategory.toList())
     }
 
@@ -143,19 +147,11 @@ class AddQuestion : AppCompatActivity() {
 
     //  Function to reset all components once answer is submit
     private fun resetComponents(){
-        et_question.text = null
-        et_marks.text = null
+        et_question_add.text = null
+        et_marks_add.text = null
         if (cb_anything.isChecked) cb_anything.toggle()
         if (cb_remembering.isChecked) cb_remembering.toggle()
         if (cb_understanding.isChecked) cb_understanding.toggle()
-        et_question.requestFocus()
-    }
-
-    private fun getQuesObj(data: Map<String, Object>): Questions {
-        val question = data["question"] as String
-        val marks = data["marks"] as String
-        val category = data["category"] as List<String>
-
-        return Questions(question, marks, category)
+        et_question_add.requestFocus()
     }
 }

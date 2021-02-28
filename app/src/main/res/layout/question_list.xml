@@ -3,13 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="155dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:outlineSpotShadowColor="@color/transparent"
+    android:layout_marginBottom="7dp"
     app:cardBackgroundColor="@color/transparent"
-    android:outlineAmbientShadowColor="@color/transparent"
-    android:backgroundTint="@color/transparent"
-    android:layout_marginBottom="10dp"
+    app:cardElevation="0dp"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    tools:targetApi="lollipop"
     tools:context=".MainActivity">
 
     <TextView
@@ -31,28 +28,49 @@
         android:paddingRight="55dp"
         android:paddingLeft="25dp" />
 
-    <TextView
-        android:id="@+id/tv_marks"
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/secondary_text"
-        android:layout_gravity="bottom"
-        android:layout_marginLeft="25dp"
-        android:paddingBottom="30dp"
-        android:layout_marginStart="25dp" />
+        android:layout_gravity="bottom">
 
-    <TextView
-        android:id="@+id/tv_category"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:textSize="12sp"
-        android:textColor="@color/secondary_text"
-        android:layout_marginStart="25dp"
-        android:layout_marginLeft="25dp"
-        android:layout_marginEnd="55dp"
-        android:layout_marginRight="55dp"
-        android:paddingBottom="10dp" />
+        <TextView
+            android:id="@+id/tv_marks"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="bottom"
+            android:layout_marginStart="25dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginEnd="55dp"
+            android:layout_marginRight="55dp"
+            android:paddingBottom="3dp"
+            android:text=""
+            android:textColor="@color/secondary_text" />
+
+        <TextView
+            android:id="@+id/tv_category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_marks"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="bottom"
+            android:layout_marginStart="25dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginEnd="55dp"
+            android:layout_marginRight="55dp"
+            android:lineSpacingExtra="3dp"
+            android:paddingBottom="10dp"
+            android:text=""
+            android:textColor="@color/secondary_text"
+            android:textSize="12sp" />
+
+    </RelativeLayout>
 
     <ImageView
         android:id="@+id/ib_options"

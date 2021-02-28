@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="black">#FF000000</color>
+    <color name="pure">#FFF</color>
     <color name="white">#EEE</color>
     <color name="transparent">#00000000</color>
     <color name="primary">#1041FB</color>
     <color name="secondary">#121212</color>
     <color name="main_background">#F8F8F8</color>
     <color name="secondary_text">#A4A69C</color>
+    <color name="danger">#F32013</color>
 
     <!-- Light Theme-->
     <color name="primary_light">#093AEF</color>

@@ -6,11 +6,8 @@
     android:layout_height="200dp"
     app:cardUseCompatPadding="true"
     app:cardBackgroundColor="@color/transparent"
-    android:backgroundTint="@color/transparent"
-    android:outlineAmbientShadowColor="@color/transparent"
-    android:outlineSpotShadowColor="@color/transparent"
-    tools:context=".MainActivity"
-    tools:targetApi="lollipop">
+    app:cardElevation="0dp"
+    tools:context=".MainActivity">
 
     <TextView
         style="@style/EditTextStyle"

@@ -102,8 +102,8 @@ class FileFragment : Fragment() {
             override fun onCancelled(databaseError: DatabaseError) {}
         })
 
-        val mAddQ: Button? = view?.findViewById(R.id.btn_generate_question_paper)
-        mAddQ?.setOnClickListener {
+        val mAddP: Button? = view?.findViewById(R.id.btn_generate_question_paper)
+        mAddP?.setOnClickListener {
             startActivity(Intent(view.context, AddPaper::class.java))
         }
         return view

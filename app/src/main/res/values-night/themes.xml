@@ -41,4 +41,8 @@
         <item name="android:backgroundTint" tools:targetApi="lollipop">@color/background_text_dark</item>
         <item name="android:tint">@color/white</item>
     </style>
+
+    <style name="MyPopupMenu" parent="@style/Widget.AppCompat.PopupMenu">
+        <item name="android:popupBackground">@drawable/text_field</item>
+    </style>
 </resources>

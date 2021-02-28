@@ -40,7 +40,7 @@
             android:layout_marginRight="40dp"
             android:fontFamily="@font/bold"
             android:gravity="center_horizontal"
-            android:text=""
+            android:text="@string/user_name"
             android:textAlignment="center"
             android:textSize="30sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -92,7 +92,7 @@
             app:layout_constraintTop_toTopOf="@+id/tv_user_settings_logout" />
 
         <TextView
-            android:id="@+id/tv_user_settings_logout"
+            android:id="@+id/tv_user_settings_delete"
             style="@style/TextView"
             android:layout_width="0dp"
             android:layout_height="50dp"
@@ -107,11 +107,44 @@
             android:clickable="true"
             android:focusable="true"
             android:textStyle="bold"
-            android:text="@string/log_out"
+            android:text="@string/delete_account"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_user_settings"
+            android:paddingLeft="40dp" />
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            style="@style/ImageView"
+            android:src="@drawable/trash"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_user_settings_delete"
+            app:layout_constraintEnd_toEndOf="@+id/tv_user_settings_delete"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/tv_user_settings_delete"
+            app:layout_constraintTop_toTopOf="@+id/tv_user_settings_delete" />
+
+        <TextView
+            android:id="@+id/tv_user_settings_logout"
+            style="@style/TextView"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginEnd="40dp"
+            android:layout_marginRight="40dp"
+            android:paddingStart="40dp"
+            android:gravity="center_vertical"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:textStyle="bold"
+            android:text="@string/log_out"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_user_settings_delete"
             android:paddingLeft="40dp" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
