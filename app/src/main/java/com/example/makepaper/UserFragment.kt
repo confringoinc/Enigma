@@ -1,11 +1,15 @@
 package com.example.makepaper
 
+import android.app.Dialog
 import android.content.Intent
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 
@@ -30,7 +34,48 @@ class UserFragment : Fragment() {
 
         val logout: TextView? = view?.findViewById(R.id.tv_user_settings_logout)
         logout?.setOnClickListener { logout() }
+
+        val delete: TextView? = view?.findViewById(R.id.tv_user_settings_delete)
+        delete?.setOnClickListener { deleteAccount() }
+
         return view
+    }
+
+    private fun deleteAccount() {
+
+        Dialog(requireContext())
+                .apply {
+                    setCancelable(true)
+                    setContentView(R.layout.dialog)
+
+                    val btnDelete = findViewById<TextView>(R.id.btn_delete)
+                    val btnCancel = findViewById<TextView>(R.id.btn_cancel)
+                    val deleteText = findViewById<TextView>(R.id.delete_text)
+                    deleteText.text = getString(R.string.delete_account_msg)
+
+                    btnDelete.setOnClickListener {
+
+                        auth = FirebaseAuth.getInstance()
+                        val user = auth.currentUser
+
+                        user!!.delete()
+                                .addOnCompleteListener { task ->
+                                    if (task.isSuccessful) {
+                                        Toast.makeText(
+                                                context, "Account deleted successfully",
+                                                Toast.LENGTH_SHORT
+                                        ).show()
+                                        logout()
+                                    }
+                                }
+                    }
+
+                    btnCancel.setOnClickListener {
+                        dismiss()
+                    }
+                    window?.setBackgroundDrawable(ColorDrawable(ContextCompat.getColor(context, R.color.transparent)))
+                    show()
+                }
     }
 
     private fun logout() {

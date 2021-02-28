@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.PopupMenu
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -16,7 +15,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.fragment_data.view.*
-import kotlinx.android.synthetic.main.question_list.*
 
 
 class DataFragment : Fragment() {
@@ -25,9 +23,9 @@ class DataFragment : Fragment() {
     var questionList = ArrayList<Questions>()
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_data, container, false)
 
@@ -38,8 +36,8 @@ class DataFragment : Fragment() {
 
         if(!isNetworkAvailable()) {
             Toast.makeText(
-                requireContext(), "Internet is not available",
-                Toast.LENGTH_SHORT
+                    requireContext(), "Internet is not available",
+                    Toast.LENGTH_SHORT
             ).show()
 
             progressBar!!.visibility = View.GONE
@@ -52,7 +50,7 @@ class DataFragment : Fragment() {
         view.rv_questions.layoutManager = layoutManager
 
         val databaseReference: DatabaseReference = FirebaseDatabase.getInstance().reference.child(
-            FirebaseAuth.getInstance().currentUser?.uid!!
+                FirebaseAuth.getInstance().currentUser?.uid!!
         ).child("questions")
 
         databaseReference.addChildEventListener(object : ChildEventListener {
@@ -102,20 +100,6 @@ class DataFragment : Fragment() {
         val mAddQ: Button? = view?.findViewById(R.id.btn_add_question)
         mAddQ?.setOnClickListener {
             startActivity(Intent(view.context, AddQuestion::class.java))
-        }
-
-        val mQOpt: Button? = view?.findViewById(R.id.ib_options)
-        mQOpt?.setOnClickListener {
-            val popup = PopupMenu(view.context, ib_options)
-            popup.menuInflater.inflate(R.menu.option, popup.menu)
-
-            popup.setOnMenuItemClickListener { item ->
-                Toast.makeText(context, "You Clicked : " + item.title, Toast.LENGTH_SHORT)
-                    .show()
-                true
-            }
-
-            popup.show()
         }
 
         return view

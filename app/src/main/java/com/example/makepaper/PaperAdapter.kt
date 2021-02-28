@@ -1,19 +1,27 @@
 package com.example.makepaper
 
+import android.app.Dialog
 import android.content.Context
+import android.content.Intent
+import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
+import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.paper_list.view.*
 
-class PaperAdapter(val context: Context?, private val papers: List<Papers>): RecyclerView.Adapter<PaperAdapter.MyViewHolder>(){
+class PaperAdapter(val context: Context?, private val papers: MutableList<Papers>): RecyclerView.Adapter<PaperAdapter.MyViewHolder>(){
 
+    val databaseReference = FirebaseDatabase.getInstance().reference.child(FirebaseAuth.getInstance().currentUser?.uid!!).child("papers")
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.paper_list, parent, false)
         return MyViewHolder(view)
@@ -41,11 +49,70 @@ class PaperAdapter(val context: Context?, private val papers: List<Papers>): Rec
                 popup.menuInflater.inflate(R.menu.option, popup.menu)
 
                 popup.setOnMenuItemClickListener { item ->
-                    Toast.makeText(
-                        itemView.context,
-                        "You Clicked : " + item.title,
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    when(item.title) {
+                        "Edit" -> {
+                            val query: Query = databaseReference.orderByChild("name").equalTo(paper.name)
+
+                            query.addListenerForSingleValueEvent(object : ValueEventListener {
+                                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                                    for (snapshot in dataSnapshot.children) {
+                                        val intent = Intent(context, AddPaper::class.java)
+                                        intent.putExtra("etName", snapshot.child("name").value.toString())
+                                        intent.putExtra("etMarks", snapshot.child("marks").value.toString())
+                                        itemView.context.startActivity(intent)
+                                    }
+                                }
+
+                                override fun onCancelled(databaseError: DatabaseError) {
+                                    Toast.makeText(
+                                            context, "Failed to edit",
+                                            Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                            })
+                        }
+                        "Delete" -> {
+                            Dialog(context!!)
+                                    .apply {
+                                        setCancelable(true)
+                                        setContentView(R.layout.dialog)
+
+                                        val btnDelete = findViewById<TextView>(R.id.btn_delete)
+                                        val btnCancel = findViewById<TextView>(R.id.btn_cancel)
+                                        val deleteText = findViewById<TextView>(R.id.delete_text)
+                                        deleteText.text = paper.name
+
+                                        btnDelete.setOnClickListener {
+
+                                            val query: Query = databaseReference.orderByChild("name").equalTo(paper.name)
+
+                                            query.addListenerForSingleValueEvent(object : ValueEventListener {
+                                                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                                                    for (snapshot in dataSnapshot.children) {
+                                                        snapshot.ref.removeValue()
+                                                    }
+                                                    papers.removeAt(adapterPosition)
+                                                    notifyItemRemoved(adapterPosition)
+                                                    dismiss()
+                                                }
+
+                                                override fun onCancelled(databaseError: DatabaseError) {
+                                                    Toast.makeText(
+                                                            context, "Failed to delete",
+                                                            Toast.LENGTH_SHORT
+                                                    ).show()
+                                                }
+                                            })
+                                        }
+
+                                        btnCancel.setOnClickListener {
+                                            dismiss()
+                                        }
+                                        window?.setBackgroundDrawable(ColorDrawable(ContextCompat.getColor(context, R.color.transparent)))
+                                        show()
+                                    }
+                        }
+                    }
                     true
                 }
                 popup.gravity = Gravity.END

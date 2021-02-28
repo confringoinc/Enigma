@@ -9,12 +9,16 @@
 
     <ImageView
         android:id="@+id/btn_back"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_marginStart="20dp"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="15dp"
+        android:padding="8dp"
         style="@style/ImageView"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/left_arrow"
@@ -40,7 +44,7 @@
         app:layout_constraintVertical_bias="0.56" />
 
     <EditText
-        android:id="@+id/et_question"
+        android:id="@+id/et_question_add"
         style="@style/EditText"
         android:layout_width="0dp"
         android:layout_height="175dp"
@@ -64,7 +68,7 @@
         android:autofillHints="@string/et_enter_your_question" />
 
     <EditText
-        android:id="@+id/et_marks"
+        android:id="@+id/et_marks_add"
         style="@style/EditText"
         android:layout_width="0dp"
         android:layout_height="55dp"
@@ -80,7 +84,7 @@
         android:inputType="numberDecimal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/et_question"
+        app:layout_constraintTop_toBottomOf="@id/et_question_add"
         android:autofillHints="@string/marks" />
 
     <TextView
@@ -97,7 +101,7 @@
         android:textColor="@color/secondary_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/et_marks" />
+        app:layout_constraintTop_toBottomOf="@id/et_marks_add" />
 
     <CheckBox
         android:id="@+id/cb_anything"
@@ -114,19 +118,6 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_question_type" />
 
     <CheckBox
-        android:id="@+id/cb_understanding"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginRight="40dp"
-        android:text="@string/understanding"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cb_anything" />
-
-    <CheckBox
         android:id="@+id/cb_remembering"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -137,7 +128,20 @@
         android:text="@string/remembering"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cb_understanding" />
+        app:layout_constraintTop_toBottomOf="@+id/cb_anything" />
+
+    <CheckBox
+        android:id="@+id/cb_understanding"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginRight="40dp"
+        android:text="@string/understanding"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cb_remembering" />
 
     <Button
         android:id="@+id/btn_submit"
@@ -149,27 +153,11 @@
         android:layout_marginEnd="40dp"
         android:layout_marginRight="40dp"
         style="@style/Button"
-        android:textStyle="bold"
         android:text="@string/submit"
-        android:textAllCaps="false"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cb_remembering" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_questions"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginRight="40dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_submit" />
+        app:layout_constraintTop_toBottomOf="@+id/cb_understanding" />
 
     <ProgressBar
         android:id="@+id/progress_bar"

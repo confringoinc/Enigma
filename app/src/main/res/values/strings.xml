@@ -60,4 +60,11 @@
     <string name="generate_question_paper">Generate Question Paper</string>
     <string name="papers">PAPERS</string>
     <string name="generate">Generate Paper</string>
+    <string name="cancel">Cancel</string>
+    <string name="want_to_delete_question">Want to delete question?</string>
+    <string name="top_papers">TOP PAPERS</string>
+    <string name="top_questions">TOP QUESTIONS</string>
+    <string name="delete_account">Delete account</string>
+    <string name="delete_account_msg">Are you sure?\nDeleting account will remove all your data</string>
+    <string name="user_name">User</string>
 </resources>
