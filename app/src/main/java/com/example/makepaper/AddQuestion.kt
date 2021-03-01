@@ -2,8 +2,10 @@ package com.example.makepaper
 
 
 import android.content.Context
+import android.content.Intent
 import android.net.ConnectivityManager
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.Toast
@@ -59,20 +61,35 @@ class AddQuestion : AppCompatActivity() {
             }
             else {
                 progressBar!!.visibility = View.VISIBLE
+
                 val answer = validate() //  Validate components
 
-                answer?.let {
-                    //  Get a timeStamp based Unique Key for storing question
-                    val key = databaseReference.push().key
+                //  if data is submit from intent
+                if(intent.hasExtra("quesKey")){
+                    answer?.let{
+                        answer.key = intent.getStringExtra("quesKey")!!
+                        Log.i(TAG, "Edited Question Added: $answer")
 
-                    //  Store the question in current user's uid node under Questions Node
-                    databaseReference.child(key!!).setValue(answer)
-                            .addOnCompleteListener {
-                                progressBar!!.visibility = View.GONE
-                                Toast.makeText(this, "Question added", Toast.LENGTH_LONG).show()
-                                resetComponents()
-                            }
+                        databaseReference.child(answer.key).setValue(answer)
+                                .addOnCompleteListener {
+                                    progressBar!!.visibility = View.GONE
+                                    Toast.makeText(this, "Question Edited", Toast.LENGTH_LONG).show()
+                                    resetComponents()
+                                }
+                    }
+                } else{
+                    answer?.let {
+                        //  Store the question in current user's uid node under Questions Node
+                        Log.i(TAG, "New Question Added: $answer")
+                        databaseReference.child(answer.key).setValue(answer)
+                                .addOnCompleteListener {
+                                    progressBar!!.visibility = View.GONE
+                                    Toast.makeText(this, "Question added", Toast.LENGTH_LONG).show()
+                                    resetComponents()
+                                }
+                    }
                 }
+
             }
         }
     }
@@ -117,26 +134,10 @@ class AddQuestion : AppCompatActivity() {
             quesCategory.add(cb_understanding.text.toString())
         }
 
-        if(intent.hasExtra("etQuestion")) {
-            val query: Query = databaseReference.orderByChild("question").equalTo(intent.getStringExtra("etQuestion"))
+        //  Get a timeStamp based Unique Key for storing question
+        val key = databaseReference.push().key
 
-            query.addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    for (snapshot in dataSnapshot.children) {
-                        snapshot.ref.removeValue()
-                    }
-                }
-
-                override fun onCancelled(databaseError: DatabaseError) {
-                    Toast.makeText(
-                            applicationContext, "Failed to edit",
-                            Toast.LENGTH_SHORT
-                    ).show()
-                }
-            })
-        }
-
-        return Questions(userQuestion, marks, quesCategory.toList())
+        return Questions(key!!, userQuestion, marks, quesCategory.toList())
     }
 
     private fun isNetworkAvailable(): Boolean {

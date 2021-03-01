@@ -39,6 +39,7 @@ class QuestionAdapter(val context: Context?, private var questions: MutableList<
 
     inner class MyViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         @RequiresApi(Build.VERSION_CODES.M)
+
         fun setData(question: Questions) {
             itemView.tv_question.text = question.question
             val marksText = "Marks: " + question.marks
@@ -58,12 +59,14 @@ class QuestionAdapter(val context: Context?, private var questions: MutableList<
                                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                                     for (snapshot in dataSnapshot.children) {
                                         val intent = Intent(context, AddQuestion::class.java)
+                                        intent.putExtra("quesKey", snapshot.key.toString())
                                         intent.putExtra("etQuestion", snapshot.child("question").value.toString())
                                         intent.putExtra("etMarks", snapshot.child("marks").value.toString())
                                         intent.putExtra("cb1", snapshot.child("category").child("0").value.toString())
                                         intent.putExtra("cb2", snapshot.child("category").child("1").value.toString())
                                         intent.putExtra("cb3", snapshot.child("category").child("2").value.toString())
                                         itemView.context.startActivity(intent)
+
                                     }
                                 }
 

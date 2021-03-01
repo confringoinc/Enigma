@@ -4,6 +4,7 @@ import android.content.Context.CONNECTIVITY_SERVICE
 import android.content.Intent
 import android.net.ConnectivityManager
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -50,40 +51,9 @@ class DataFragment : Fragment() {
         view.rv_questions.layoutManager = layoutManager
 
         val databaseReference: DatabaseReference = FirebaseDatabase.getInstance().reference
-            .child(FirebaseAuth.getInstance().currentUser?.uid!!).child("questions")
+                .child(FirebaseAuth.getInstance().currentUser?.uid!!).child("questions")
 
-
-
-
-        databaseReference.addChildEventListener(object : ChildEventListener {
-            override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
-                val data: Map<String, Object> = snapshot.value as Map<String, Object>
-                questionList.add(getQuestionObj(data))
-                questionList.reverse()
-                val adapter = QuestionAdapter(view.context, questionList)
-                view.rv_questions.adapter = adapter
-                progressBar!!.visibility = View.GONE
-            }
-
-            override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
-
-            }
-
-            override fun onChildRemoved(snapshot: DataSnapshot) {
-
-            }
-
-            override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
-
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                progressBar!!.visibility = View.GONE
-            }
-
-        })
-
-        databaseReference.addValueEventListener(object : ValueEventListener {
+        val valEventList = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 if (!dataSnapshot.exists()) {
                     progressBar!!.visibility = View.GONE
@@ -97,6 +67,48 @@ class DataFragment : Fragment() {
             }
 
             override fun onCancelled(databaseError: DatabaseError) {}
+        }
+        Log.i(TAG, "Executing ValueEventListener")
+        databaseReference.addValueEventListener(valEventList)
+
+        Log.i(TAG, "DatabaseReference obtained Successful")
+        databaseReference.addChildEventListener(object : ChildEventListener {
+            override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
+                val data: Map<String, Object> = snapshot.value as Map<String, Object>
+                questionList.add(getQuestionObj(data))
+                questionList.reverse()
+                val adapter = QuestionAdapter(view.context, questionList)
+                view.rv_questions.adapter = adapter
+                progressBar!!.visibility = View.GONE
+            }
+
+            override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
+                Log.i(TAG, "Previous Question Key: $previousChildName")
+                Log.i(TAG, "snapShot: " + snapshot)
+                questionList.forEach {
+                    if(it.key == snapshot.key){
+                        it.question = snapshot.child("question").value as String
+                        it.marks = snapshot.child("marks").value as String
+                        it.category = snapshot.child("category").value as List<String>
+                        Log.i(TAG, "Question as ${it.key} Updated")
+                    }
+                }
+
+                val adapter = QuestionAdapter(view.context, questionList)
+                view.rv_questions.adapter = adapter
+
+            }
+
+            override fun onChildRemoved(snapshot: DataSnapshot) {
+            }
+
+            override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                progressBar!!.visibility = View.GONE
+            }
+
         })
 
         val mAddQ: Button? = view?.findViewById(R.id.btn_add_question)
@@ -118,10 +130,12 @@ class DataFragment : Fragment() {
     }
 
     private fun getQuestionObj(data: Map<String, Object>): Questions {
+        val key = data["key"] as String
         val question = data["question"] as String
         val marks = data["marks"] as String
         val category = data["category"] as List<String>
 
-        return Questions(question, marks, category)
+        Log.i(TAG, "Object Key: $key")
+        return Questions(key, question, marks, category)
     }
 }
