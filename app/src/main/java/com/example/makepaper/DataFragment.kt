@@ -49,9 +49,11 @@ class DataFragment : Fragment() {
         layoutManager.orientation = LinearLayoutManager.VERTICAL
         view.rv_questions.layoutManager = layoutManager
 
-        val databaseReference: DatabaseReference = FirebaseDatabase.getInstance().reference.child(
-                FirebaseAuth.getInstance().currentUser?.uid!!
-        ).child("questions")
+        val databaseReference: DatabaseReference = FirebaseDatabase.getInstance().reference
+            .child(FirebaseAuth.getInstance().currentUser?.uid!!).child("questions")
+
+
+
 
         databaseReference.addChildEventListener(object : ChildEventListener {
             override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
