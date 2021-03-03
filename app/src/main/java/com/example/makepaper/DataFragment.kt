@@ -53,13 +53,16 @@ class DataFragment : Fragment() {
         val databaseReference: DatabaseReference = FirebaseDatabase.getInstance().reference
                 .child(FirebaseAuth.getInstance().currentUser?.uid!!).child("questions")
 
-        val valEventList = object : ValueEventListener {
+        Log.i(TAG, "Executing ValueEventListener")
+        databaseReference.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 if (!dataSnapshot.exists()) {
+                    Log.i(TAG, "No DataSnapshot Exists")
                     progressBar!!.visibility = View.GONE
                     view.rv_questions.visibility = View.GONE
                     view.tv_no_questions.visibility = View.VISIBLE
                 } else {
+                    Log.i(TAG, "DataSnapshot Exists")
                     progressBar!!.visibility = View.GONE
                     view.rv_questions.visibility = View.VISIBLE
                     view.tv_no_questions.visibility = View.GONE
@@ -67,11 +70,8 @@ class DataFragment : Fragment() {
             }
 
             override fun onCancelled(databaseError: DatabaseError) {}
-        }
-        Log.i(TAG, "Executing ValueEventListener")
-        databaseReference.addValueEventListener(valEventList)
+        })
 
-        Log.i(TAG, "DatabaseReference obtained Successful")
         databaseReference.addChildEventListener(object : ChildEventListener {
             override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
                 val data: Map<String, Object> = snapshot.value as Map<String, Object>
@@ -79,7 +79,7 @@ class DataFragment : Fragment() {
                 questionList.reverse()
                 val adapter = QuestionAdapter(view.context, questionList)
                 view.rv_questions.adapter = adapter
-                progressBar!!.visibility = View.GONE
+                //  progressBar!!.visibility = View.GONE
             }
 
             override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
@@ -96,7 +96,6 @@ class DataFragment : Fragment() {
 
                 val adapter = QuestionAdapter(view.context, questionList)
                 view.rv_questions.adapter = adapter
-
             }
 
             override fun onChildRemoved(snapshot: DataSnapshot) {
