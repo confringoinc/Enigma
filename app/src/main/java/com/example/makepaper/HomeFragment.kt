@@ -174,10 +174,11 @@ class HomeFragment : Fragment() {
     }
 
     private fun getQuestionObj(data: Map<String, Object>): Questions {
+        val key = data["key"] as String
         val question = data["question"] as String
         val marks = data["marks"] as String
         val category = data["category"] as List<String>
 
-        return Questions(question, marks, category)
+        return Questions(key, question, marks, category)
     }
 }
