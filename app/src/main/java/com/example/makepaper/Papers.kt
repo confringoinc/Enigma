@@ -1,3 +1,5 @@
 package com.example.makepaper
 
-data class Papers(var name: String?, var marks: String?)
+import android.net.Uri
+
+data class Papers(var key: String?, var name: String?, var marks: String?)
