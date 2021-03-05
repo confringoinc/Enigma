@@ -4,6 +4,7 @@ package com.example.makepaper
 import android.content.Context
 import android.net.ConnectivityManager
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.Toast
@@ -48,17 +49,29 @@ class AddPaper : AppCompatActivity() {
                 progressBar!!.visibility = View.VISIBLE
                 val answer = validate() //  Validate components
 
-                answer?.let {
-                    //  Get a timeStamp based Unique Key for storing question
-                    val key = databaseReference.push().key
+                if(intent.hasExtra("paperKey")){
+                    answer?.let{
+                        answer.key = intent.getStringExtra("paperKey")!!
+                        Log.i(TAG, "Edited Paper Added: $answer")
 
-                    //  Store the question in current user's uid node under Questions Node
-                    databaseReference.child(key!!).setValue(answer)
-                        .addOnCompleteListener {
-                            progressBar!!.visibility = View.GONE
-                            Toast.makeText(this, "Paper added", Toast.LENGTH_LONG).show()
-                            resetComponents()
-                        }
+                        databaseReference.child(answer.key!!).setValue(answer)
+                                .addOnCompleteListener {
+                                    progressBar!!.visibility = View.GONE
+                                    Toast.makeText(this, "Paper Edited", Toast.LENGTH_LONG).show()
+                                    resetComponents()
+                                }
+                    }
+                } else{
+                    answer?.let {
+                        //  Store the question in current user's uid node under Questions Node
+                        Log.i(TAG, "New Paper Added: $answer")
+                        databaseReference.child(answer.key!!).setValue(answer)
+                                .addOnCompleteListener {
+                                    progressBar!!.visibility = View.GONE
+                                    Toast.makeText(this, "Paper added", Toast.LENGTH_LONG).show()
+                                    resetComponents()
+                                }
+                    }
                 }
             }
         }
@@ -100,8 +113,8 @@ class AddPaper : AppCompatActivity() {
                 }
             })
         }
-
-        return Papers(userPaper, marks)
+        val key = databaseReference.push().key
+        return Papers(key!!, userPaper, marks)
     }
 
     private fun isNetworkAvailable(): Boolean {

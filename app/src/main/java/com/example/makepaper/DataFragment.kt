@@ -26,7 +26,7 @@ class DataFragment : Fragment() {
     var questionList = ArrayList<Questions>()
 
     private val limit = 11
-    private var isLoading = false
+    private var isLoading = true
     private var lastKey:String? = null
     private var dataCnt = 0
     lateinit var adapter: QuestionAdapter
@@ -60,7 +60,7 @@ class DataFragment : Fragment() {
         layoutManager.orientation = LinearLayoutManager.VERTICAL
         view.rv_questions.layoutManager = layoutManager
 
-        //  Getting Firebase Referenece Object Instance
+        //  Getting Firebase Reference Object Instance
         databaseReference = FirebaseDatabase.getInstance().reference
                 .child(FirebaseAuth.getInstance().currentUser?.uid!!).child("questions")
 
@@ -129,26 +129,24 @@ class DataFragment : Fragment() {
         view.rv_questions.addOnScrollListener(object: RecyclerView.OnScrollListener(){
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
 
-                //  Log.i(TAG, "OnScroll DY: $dy")
                 val visibleItemCount:Int = layoutManager.childCount
-                val pastVisibleItem:Int = layoutManager.findFirstCompletelyVisibleItemPosition()
+                val pastVisibleItem:Int = layoutManager.findFirstVisibleItemPosition()
                 val total = adapter.itemCount
 
                 //  Check if is Loading
-                if(!isLoading){
+                if(isLoading){
                     //  Check if we reached bottom or not
                     if(( visibleItemCount + pastVisibleItem ) >= total){
-                        isLoading = true
+                        isLoading = false
                         if(questionList.size == limit-1){
                             view!!.onSwipeUpPB.visibility = View.VISIBLE
                             Handler().postDelayed({
                                 getData()
-                                isLoading = false
+                                isLoading = true
                             }, 3000)
                         }
                     }
                 }
-                super.onScrolled(recyclerView, dx, dy)
             }
         })
 
@@ -165,14 +163,6 @@ class DataFragment : Fragment() {
     }
 
     fun getData(){
-        for(i in 0..4) {
-            //NOTE:  Every time 0th data is deleted then 1st item is re-indexed to 0
-            questionList.removeAt(0)
-        }
-
-        Log.i(TAG, "1st 5 data deleted")
-        Log.i(TAG, "Adding more data")
-
         databaseReference.orderByKey().startAt(lastKey).limitToFirst(limit).addValueEventListener(object: ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 Log.i(TAG, "Adding Data|| Total children: ${snapshot.childrenCount}")
@@ -222,7 +212,7 @@ class DataFragment : Fragment() {
     }
 
     private fun getQuestionObj(data: Map<String, Object>): Questions {
-        val key = data["key"] as String
+        val key = data["key"] as String?
         val question = data["question"] as String
         val marks = data["marks"] as String
         val category = data["category"] as List<String>

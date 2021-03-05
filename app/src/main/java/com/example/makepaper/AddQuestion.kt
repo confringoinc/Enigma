@@ -2,7 +2,6 @@ package com.example.makepaper
 
 
 import android.content.Context
-import android.content.Intent
 import android.net.ConnectivityManager
 import android.os.Bundle
 import android.util.Log
@@ -11,7 +10,7 @@ import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.*
+import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_add_question.*
 
 class AddQuestion : AppCompatActivity() {
@@ -70,7 +69,7 @@ class AddQuestion : AppCompatActivity() {
                         answer.key = intent.getStringExtra("quesKey")!!
                         Log.i(TAG, "Edited Question Added: $answer")
 
-                        databaseReference.child(answer.key).setValue(answer)
+                        databaseReference.child(answer.key!!).setValue(answer)
                                 .addOnCompleteListener {
                                     progressBar!!.visibility = View.GONE
                                     Toast.makeText(this, "Question Edited", Toast.LENGTH_LONG).show()
@@ -81,7 +80,7 @@ class AddQuestion : AppCompatActivity() {
                     answer?.let {
                         //  Store the question in current user's uid node under Questions Node
                         Log.i(TAG, "New Question Added: $answer")
-                        databaseReference.child(answer.key).setValue(answer)
+                        databaseReference.child(answer.key!!).setValue(answer)
                                 .addOnCompleteListener {
                                     progressBar!!.visibility = View.GONE
                                     Toast.makeText(this, "Question added", Toast.LENGTH_LONG).show()

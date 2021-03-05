@@ -3,6 +3,7 @@ package com.example.makepaper
 import android.content.Context
 import android.net.ConnectivityManager
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,6 +25,8 @@ class HomeFragment : Fragment() {
     private var progressBarQuestion: ProgressBar? = null
     var paperList = ArrayList<Papers>()
     var questionList = ArrayList<Questions>()
+    lateinit var paperAdapter: PaperAdapter
+    lateinit var questionAdapter: QuestionAdapter
 
     companion object {
         lateinit var auth: FirebaseAuth
@@ -77,13 +80,22 @@ class HomeFragment : Fragment() {
                 val data: Map<String, Object> = snapshot.value as Map<String, Object>
                 paperList.add(getPaperObj(data))
                 paperList.reverse()
-                val adapter = PaperAdapter(view.context, paperList)
-                view.rv_papers.adapter = adapter
+                paperAdapter = PaperAdapter(view.context, paperList)
+                view.rv_papers.adapter = paperAdapter
                 progressBarPaper!!.visibility = View.GONE
             }
 
             override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
+                paperList.forEach {
+                    if(it.key == snapshot.key){
+                        it.name = snapshot.child("name").value as String
+                        it.marks = snapshot.child("marks").value as String
+                        Log.i(TAG, "Paper as ${it.key} Updated")
+                    }
+                }
 
+                paperAdapter = PaperAdapter(view.context, paperList)
+                view.rv_papers.adapter = paperAdapter
             }
 
             override fun onChildRemoved(snapshot: DataSnapshot) {
@@ -127,7 +139,17 @@ class HomeFragment : Fragment() {
             }
 
             override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
+                questionList.forEach {
+                    if(it.key == snapshot.key){
+                        it.question = snapshot.child("question").value as String
+                        it.marks = snapshot.child("marks").value as String
+                        it.category = snapshot.child("category").value as List<String>
+                        Log.i(TAG, "Question as ${it.key} Updated")
+                    }
+                }
 
+                questionAdapter = QuestionAdapter(view.context, questionList)
+                view.rv_questions.adapter = questionAdapter
             }
 
             override fun onChildRemoved(snapshot: DataSnapshot) {
@@ -167,14 +189,15 @@ class HomeFragment : Fragment() {
     }
 
     private fun getPaperObj(data: Map<String, Object>): Papers {
+        val key = data["key"] as String?
         val name = data["name"] as String
         val marks = data["marks"] as String
 
-        return Papers(name, marks)
+        return Papers(key, name, marks)
     }
 
     private fun getQuestionObj(data: Map<String, Object>): Questions {
-        val key = data["key"] as String
+        val key = data["key"] as String?
         val question = data["question"] as String
         val marks = data["marks"] as String
         val category = data["category"] as List<String>

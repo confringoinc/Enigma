@@ -57,6 +57,7 @@ class PaperAdapter(val context: Context?, private val papers: MutableList<Papers
                                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                                     for (snapshot in dataSnapshot.children) {
                                         val intent = Intent(context, AddPaper::class.java)
+                                        intent.putExtra("paperKey", snapshot.key.toString())
                                         intent.putExtra("etName", snapshot.child("name").value.toString())
                                         intent.putExtra("etMarks", snapshot.child("marks").value.toString())
                                         itemView.context.startActivity(intent)
