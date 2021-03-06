@@ -25,6 +25,7 @@ class DataFragment : Fragment() {
     private var progressBar: ProgressBar? = null
     var questionList = ArrayList<Questions>()
 
+    private var totalQuestions = 0
     private val limit = 11
     private var isLoading = true
     private var lastKey:String? = null
@@ -73,7 +74,8 @@ class DataFragment : Fragment() {
                     view.rv_questions.visibility = View.GONE
                     view.tv_no_questions.visibility = View.VISIBLE
                 } else {
-                    Log.i(TAG, "DataSnapshot Exists")
+                    totalQuestions = dataSnapshot.childrenCount.toInt()
+                    Log.i(TAG, "DataSnapshot Exists with total Children: $totalQuestions")
                     progressBar!!.visibility = View.GONE
                     view.rv_questions.visibility = View.VISIBLE
                     view.tv_no_questions.visibility = View.GONE
@@ -92,6 +94,7 @@ class DataFragment : Fragment() {
                     adapter = QuestionAdapter(view.context, questionList)
                     view.rv_questions.adapter = adapter
                     dataCnt += 1
+
                 }else{
                     lastKey = data["key"] as String
                     Log.i(TAG, "Last Key Stored: $lastKey. Data Count = $dataCnt")
@@ -109,7 +112,7 @@ class DataFragment : Fragment() {
                     }
                 }
 
-                adapter = QuestionAdapter(view.context, questionList)
+                adapter.notifyDataSetChanged()
                 view.rv_questions.adapter = adapter
             }
 
@@ -137,13 +140,19 @@ class DataFragment : Fragment() {
                 if(isLoading){
                     //  Check if we reached bottom or not
                     if(( visibleItemCount + pastVisibleItem ) >= total){
-                        isLoading = false
-                        if(questionList.size == limit-1){
+
+                        if(questionList.size < totalQuestions){
+                            Log.i(TAG, "ListSize: ${questionList.size} || TotalQues = $totalQuestions")
+                            isLoading = false
+
                             view!!.onSwipeUpPB.visibility = View.VISIBLE
-                            Handler().postDelayed({
+                            getData()
+                            /*Handler().postDelayed({
                                 getData()
-                                isLoading = true
-                            }, 3000)
+                            }, 3000)*/
+
+                        }else{
+                            Toast.makeText(view.context, "Data Up-To-Date", Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
@@ -163,43 +172,55 @@ class DataFragment : Fragment() {
     }
 
     fun getData(){
-        databaseReference.orderByKey().startAt(lastKey).limitToFirst(limit).addValueEventListener(object: ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                Log.i(TAG, "Adding Data|| Total children: ${snapshot.childrenCount}")
-                var lastChild: DataSnapshot? = null
-                for(childObj in snapshot.children){
-                    lastChild = childObj
-                    if(dataCnt < limit-1){
-                        val question = childObj.child("question").value.toString()
-                        val marks = childObj.child("marks").value.toString()
-                        val category = childObj.child("category").value as List<String>
-                        val key = childObj.key
+        databaseReference.orderByKey().startAt(lastKey).limitToFirst(limit).addChildEventListener(object: ChildEventListener{
+            override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
+                    var lastChild: DataSnapshot? = null
 
-                        Log.i(TAG, "Child Added: $key")
+                    lastChild = snapshot
+                    if (dataCnt < limit - 1) {
+                        val question = snapshot.child("question").value.toString()
+                        val marks = snapshot.child("marks").value.toString()
+                        val category = snapshot.child("category").value as List<String>
+                        val key = snapshot.key
+
+                        Log.i(TAG, "OnscrollEvent-- Child Added: $key")
                         questionList.add(Questions(key!!, question, marks, category))
                         dataCnt += 1
-                    }else{
-                        lastKey = childObj.key
+                    } else {
+                        lastKey = snapshot.key
                         Log.i(TAG, "New LastKey: $lastKey")
                         dataCnt = 0
                     }
-                }
 
-                //  In Case if their are < 10 element then store last key of last child
-                if(snapshot.childrenCount.toInt() != limit) {
-                    lastKey = lastChild!!.key
-                    Log.i(TAG, "New LastKey: $lastKey")
-                    dataCnt = 0
-                }
-                // adapter = QuestionAdapter(view!!.context, questionList)
-                adapter.notifyDataSetChanged()
-                //  view!!.rv_questions.adapter = adapter
-                isLoading = false
-                view!!.onSwipeUpPB.visibility = View.GONE
+                    // adapter = QuestionAdapter(view!!.context, questionList)
+                    adapter.notifyDataSetChanged()
+                    //  view!!.rv_questions.adapter = adapter
+                    view!!.onSwipeUpPB.visibility = View.GONE
+
+                    isLoading = true
             }
 
+            override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
+                Log.i(TAG, "onScroll ChildChanged Called for $snapshot")
+                questionList.forEach {
+                    if(it.key == snapshot.key){
+                        it.question = snapshot.child("question").value as String
+                        it.marks = snapshot.child("marks").value as String
+                        it.category = snapshot.child("category").value as List<String>
+                        Log.i(TAG, "Question as ${it.key} Updated")
+                    }
+                }
+
+                adapter.notifyDataSetChanged()
+                view!!.rv_questions.adapter = adapter
+            }
+
+            override fun onChildRemoved(snapshot: DataSnapshot) {}
+
+            override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {}
+
             override fun onCancelled(error: DatabaseError) {
-                Log.i(TAG, "Value Event Listener Failed. Error: $error")
+                Toast.makeText(view!!.context, "Failed to load Data", Toast.LENGTH_LONG).show()
             }
 
         })
