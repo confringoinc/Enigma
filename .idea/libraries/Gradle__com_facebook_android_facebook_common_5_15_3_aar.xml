@@ -1,12 +1,12 @@
 <component name="libraryTable">
   <library name="Gradle: com.facebook.android:facebook-common:5.15.3@aar">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/f7606cf71b92454ccb06a0a753f570f5/jetified-facebook-common-5.15.3/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/f7606cf71b92454ccb06a0a753f570f5/jetified-facebook-common-5.15.3/res" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/f7606cf71b92454ccb06a0a753f570f5/jetified-facebook-common-5.15.3/AndroidManifest.xml" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/63c65ea15e176b016b30e7b63837de09/jetified-facebook-common-5.15.3/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/63c65ea15e176b016b30e7b63837de09/jetified-facebook-common-5.15.3/res" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/63c65ea15e176b016b30e7b63837de09/jetified-facebook-common-5.15.3/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/2d67cf0beb4ba866111ea5d2155f5212/jetified-facebook-common-5.15.3/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/2d67cf0beb4ba866111ea5d2155f5212/jetified-facebook-common-5.15.3/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/2d67cf0beb4ba866111ea5d2155f5212/jetified-facebook-common-5.15.3/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/a067c69d6e837d848d4d96e6c4e01fc7/jetified-facebook-common-5.15.3/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/a067c69d6e837d848d4d96e6c4e01fc7/jetified-facebook-common-5.15.3/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/a067c69d6e837d848d4d96e6c4e01fc7/jetified-facebook-common-5.15.3/res" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.facebook.android/facebook-common/5.15.3/3e4523910c1d563f6c1cd2aeea1248d0b2cd41fb/facebook-common-5.15.3-javadoc.jar!/" />

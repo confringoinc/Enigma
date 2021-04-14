@@ -83,6 +83,21 @@
         app:layout_constraintTop_toBottomOf="@id/et_name"
         android:autofillHints="@string/marks" />
 
+    <ListView
+        android:id="@+id/lv_added"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_submit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_marks" />
+
     <Button
         android:id="@+id/btn_submit"
         style="@style/Button"
@@ -90,16 +105,16 @@
         android:layout_height="55dp"
         android:layout_marginStart="40dp"
         android:layout_marginLeft="40dp"
-        android:layout_marginTop="40dp"
         android:layout_marginEnd="40dp"
         android:layout_marginRight="40dp"
+        android:layout_marginBottom="40dp"
         android:text="@string/generate"
         android:textAllCaps="false"
         android:textColor="@color/white"
         android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_marks" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ProgressBar
         android:id="@+id/progress_bar"
