@@ -2,9 +2,9 @@ package com.example.makepaper
 
 
 import android.content.Context
+import android.content.Intent
 import android.net.ConnectivityManager
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.Toast
@@ -49,7 +49,9 @@ class AddPaper : AppCompatActivity() {
                 progressBar!!.visibility = View.VISIBLE
                 val answer = validate() //  Validate components
 
-                if(intent.hasExtra("paperKey")){
+                startActivity(Intent(this, ViewPaper::class.java))
+                //  Commented this code that stores the paper to firebase
+                /*if(intent.hasExtra("paperKey")){
                     answer?.let{
                         answer.key = intent.getStringExtra("paperKey")!!
                         Log.i(TAG, "Edited Paper Added: $answer")
@@ -72,7 +74,7 @@ class AddPaper : AppCompatActivity() {
                                     resetComponents()
                                 }
                     }
-                }
+                }*/
             }
         }
     }
