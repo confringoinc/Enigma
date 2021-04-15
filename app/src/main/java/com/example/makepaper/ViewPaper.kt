@@ -8,6 +8,7 @@ import kotlinx.android.synthetic.main.activity_view_paper.*
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.jsoup.nodes.Element
+import java.io.File
 
 class ViewPaper : AppCompatActivity() {
 
@@ -20,10 +21,12 @@ class ViewPaper : AppCompatActivity() {
         myWebView.webViewClient = WebViewClient()
         makeChange()
 
-        myWebView.loadUrl("file:///android_asset/index.html")
     }
 
     private fun makeChange(){
+        val file = File("file:///android_asset/index.html")
+
+        Log.i(TAG, "File " + file.exists())
         val inpStream = assets.open("index.html")
         Log.i(TAG, "File: " + inpStream)
         val document = Jsoup.parse(inpStream, "UTF-8", "http://example.com/")
@@ -31,10 +34,14 @@ class ViewPaper : AppCompatActivity() {
 
         val heading = document.getElementById("heading")
         Log.i(TAG, "Heading: ${heading.text()} " )
-        val div = document.getElementById("sampleText")
-        div.text("This is sample text")
-        div.prependText("Hey")
-        div.appendText(" Their")
+        val para = document.getElementById("sampleText")
+        Log.i(TAG, "Para text: " + para.text())
+
+        //  We change that text
+        para.text("Hello world")
+        Log.i(TAG, "Para text: " + para.text())
+
+        myWebView.loadUrl("file:///android_asset/index.html")
     }
 
 }

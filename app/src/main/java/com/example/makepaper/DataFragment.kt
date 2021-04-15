@@ -6,10 +6,9 @@ import android.net.ConnectivityManager
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Button
+import android.widget.PopupMenu
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -17,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import kotlinx.android.synthetic.main.fragment_data.*
 import kotlinx.android.synthetic.main.fragment_data.view.*
 
 
@@ -34,11 +34,32 @@ class DataFragment : Fragment() {
     lateinit var databaseReference: DatabaseReference
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_data, container, false)
+
+        //  Creating a filter pop-up menu
+        view.filterImgBtn.setOnClickListener {
+            Log.i(TAG, "Using Popup Menu")
+            val popup = PopupMenu(view!!.context, filterImgBtn)
+            popup.menuInflater.inflate(R.menu.filter, popup.menu)
+
+            popup.setOnMenuItemClickListener { item ->
+                when(item.itemId){
+                    R.id.item1 -> {
+                        Toast.makeText(view.context, "Item 1", Toast.LENGTH_SHORT).show()
+                    }
+                    R.id.item2 -> {
+                        Toast.makeText(view.context, "Item 2", Toast.LENGTH_SHORT).show()
+                    }
+                    R.id.item3 -> {
+                        Toast.makeText(view.context, "Item 3", Toast.LENGTH_SHORT).show()
+                    }
+                }
+                true
+            }
+            popup.show()
+        }
 
         view.tv_no_questions.visibility = View.GONE
 
