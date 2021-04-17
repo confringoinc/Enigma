@@ -1,36 +1,40 @@
 package com.example.makepaper
 
 import android.content.Context
-import android.content.Intent
 import android.net.ConnectivityManager
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.CompoundButton
 import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
-import kotlinx.android.synthetic.main.activity_add_paper.*
+import kotlinx.android.synthetic.main.activity_paper_properties.*
 
-class AddPaper : AppCompatActivity() {
+class PaperProperties : AppCompatActivity() {
     private var totalQuestions = 0
     var questionList = ArrayList<Questions>()
     private var progressBar: ProgressBar? = null
-    val TAG = "AddPaper"
+    val TAG = "PeperProperties"
     lateinit var adapter: AddQuestionAdapter
     lateinit var databaseReference:DatabaseReference
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_add_paper)
+        setContentView(R.layout.activity_paper_properties)
 
-        val paperName: String = intent.getStringExtra("paperName").toString()
-        val paperMarks: String = intent.getStringExtra("paperMarks").toString()
-        val paperKey: String = intent.getStringExtra("paperKey").toString()
+        val paperName: String = intent.getStringExtra("name").toString()
+        val paperMarks: String = intent.getStringExtra("marks").toString()
+        val paperKey: String = intent.getStringExtra("key").toString()
         tv_add_paper.text = paperName
         tv_add_paper_marks.text = "Marks: " + paperMarks
+
         progressBar = findViewById(R.id.progress_bar)
         progressBar!!.visibility = View.GONE
 
@@ -38,11 +42,39 @@ class AddPaper : AppCompatActivity() {
             onBackPressed()
         }
 
+
+        et_institute.isEnabled = false
+        et_institute.isFocusable = false
+        et_paper_instruction.isEnabled = false
+        et_paper_instruction.isFocusable = false
+
+        sw_institute.setOnCheckedChangeListener { _: CompoundButton, b: Boolean ->
+            if(!b) {
+                et_institute.isEnabled = false
+                et_institute.isFocusable = false
+            }
+            else {
+                et_institute.isEnabled = true
+                et_institute.isFocusable = true
+            }
+        }
+
+        sw_instruction.setOnCheckedChangeListener { _: CompoundButton, b: Boolean ->
+            if(!b) {
+                et_paper_instruction.isEnabled = false
+                et_paper_instruction.isFocusable = false
+            }
+            else {
+                et_paper_instruction.isEnabled = false
+                et_paper_instruction.isFocusable = false
+            }
+        }
+
         val layoutManager = LinearLayoutManager(applicationContext)
         layoutManager.orientation = LinearLayoutManager.VERTICAL
         rv_added.layoutManager = layoutManager
 
-        databaseReference = FirebaseDatabase.getInstance().reference.child(FirebaseAuth.getInstance().currentUser?.uid!!).child("papers").child(paperKey!!).child("questions")
+        databaseReference = FirebaseDatabase.getInstance().reference.child(FirebaseAuth.getInstance().currentUser?.uid!!).child("papers").child(paperKey).child("questions")
 
         //  Adding a value event Listener to check if user has Question or not.
         databaseReference.addValueEventListener(object : ValueEventListener {
@@ -67,10 +99,10 @@ class AddPaper : AppCompatActivity() {
         databaseReference.addChildEventListener(object : ChildEventListener {
             override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
                 val data: Map<String, Object> = snapshot.value as Map<String, Object>
-                    questionList.add(getQuestionObj(data))
-                    questionList.reverse()
-                    adapter = AddQuestionAdapter(applicationContext, questionList)
-                    rv_added.adapter = adapter
+                questionList.add(getQuestionObj(data))
+                questionList.reverse()
+                adapter = AddQuestionAdapter(applicationContext, questionList)
+                rv_added.adapter = adapter
             }
 
             override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
@@ -99,22 +131,32 @@ class AddPaper : AppCompatActivity() {
 
         })
 
-        btn_submit.setOnClickListener {
+        btn_generate.setOnClickListener {
 
             if(!isNetworkAvailable()) {
                 Toast.makeText(
-                    baseContext, "Internet is not available",
-                    Toast.LENGTH_SHORT
+                        baseContext, "Internet is not available",
+                        Toast.LENGTH_SHORT
                 ).show()
             }
             else {
-                val intent = Intent(applicationContext, PaperProperties::class.java)
-                intent.putExtra("key", paperKey)
-                intent.putExtra("name", paperName)
-                intent.putExtra("marks", paperMarks)
-                startActivity(intent)
+                if(sw_institute.isEnabled && validateInstitute()) {
+                    generatePaper()
+                }
+                else if(sw_instruction.isEnabled && validateInstruction()) {
+                    generatePaper()
+                }
+                else {
+                    generatePaper()
+                }
             }
         }
+    }
+
+    private fun generatePaper() {
+
+        //Paper Generation logic here
+        TODO("Not yet implemented")
     }
 
     private fun isNetworkAvailable(): Boolean {
@@ -130,5 +172,31 @@ class AddPaper : AppCompatActivity() {
         val category = data["category"] as List<String>
 
         return Questions(key, question, marks, category)
+    }
+
+    private fun validateInstitute(): Boolean {
+        val instituteName = et_institute.text.toString()
+
+        if(instituteName.isEmpty()){
+            et_institute.error = "Please enter institute name"
+            et_institute.requestFocus()
+            progressBar!!.visibility = View.GONE
+            return false
+        }
+
+        return true
+    }
+
+    private fun validateInstruction(): Boolean {
+        val instruction = et_paper_instruction.text.toString()
+
+        if(instruction.isEmpty()){
+            et_paper_instruction.error = "Please enter instructions"
+            et_paper_instruction.requestFocus()
+            progressBar!!.visibility = View.GONE
+            return false
+        }
+
+        return true
     }
 }

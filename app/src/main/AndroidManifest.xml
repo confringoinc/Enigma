@@ -29,16 +29,20 @@
         </activity>
         <activity
             android:name=".RegisterActivity"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustResize"
+            android:theme="@style/Theme.MakePaper" />
         <activity
             android:name=".LoginActivity"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustResize"
+            android:theme="@style/Theme.MakePaper" />
         <activity
             android:name=".ForgotActivity"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustResize"
+            android:theme="@style/Theme.MakePaper" />
         <activity
             android:name=".ResetActivity"
-            android:windowSoftInputMode="adjustResize">
+            android:windowSoftInputMode="adjustResize"
+            android:theme="@style/Theme.MakePaper">
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
 
@@ -53,9 +57,16 @@
                     android:scheme="https" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" />
-        <activity android:name=".AddQuestion" />
-        <activity android:name=".AddPaper" />
+        <activity android:name=".MainActivity"
+            android:theme="@style/Theme.MakePaper" />
+        <activity android:name=".AddQuestion"
+            android:theme="@style/Theme.MakePaper" />
+        <activity android:name=".AddPaper"
+            android:theme="@style/Theme.MakePaper" />
+        <activity android:name=".EditPaperActivity"
+            android:theme="@style/Theme.MakePaper" />
+        <activity android:name=".PaperProperties"
+            android:theme="@style/Theme.MakePaper" />
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"

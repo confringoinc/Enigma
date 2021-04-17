@@ -20,14 +20,14 @@ import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.question_list.view.*
 
 
-class QuestionAdapter(val context: Context?, private var questions: MutableList<Questions>): RecyclerView.Adapter<QuestionAdapter.MyViewHolder>(){
+class AddQuestionAdapter(val context: Context?, private var questions: MutableList<Questions>): RecyclerView.Adapter<AddQuestionAdapter.MyViewHolder>(){
 
     var databaseReference = FirebaseDatabase.getInstance().reference.child(FirebaseAuth.getInstance().currentUser?.uid!!).child(
         "questions"
     )
     val TAG = "QuestionAdapter"
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val view = LayoutInflater.from(context).inflate(R.layout.question_list, parent, false)
+        val view = LayoutInflater.from(context).inflate(R.layout.selected_questions_list, parent, false)
         return MyViewHolder(view)
     }
 
@@ -157,58 +157,6 @@ class QuestionAdapter(val context: Context?, private var questions: MutableList<
                 }
                 popup.gravity = Gravity.END
                 popup.show()
-            }
-
-            var items = arrayOf("Cancel Selection")
-            val key = ArrayList<String>()
-
-            databaseReference = FirebaseDatabase.getInstance().reference.child(
-                FirebaseAuth.getInstance().currentUser?.uid!!
-            ).child("papers")
-
-            databaseReference.addChildEventListener(object : ChildEventListener {
-                override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
-                    val data: Map<String, Object> = snapshot.value as Map<String, Object>
-                    items += data["name"].toString()
-                    key.add(data["key"].toString())
-                }
-
-                override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
-                }
-
-                override fun onChildRemoved(snapshot: DataSnapshot) {
-                }
-
-                override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
-
-                }
-
-                override fun onCancelled(error: DatabaseError) {
-                }
-
-            })
-
-            itemView.ib_add.setOnClickListener {
-
-                val builder: android.app.AlertDialog.Builder = android.app.AlertDialog.Builder(context)
-                builder.setTitle("Select Question Paper")
-                builder.setItems(
-                    items
-                ) { dialog, que ->
-                    if (que > 0) {
-                        databaseReference.child(key[que-1]).child("questions").child(databaseReference.push().key!!).setValue(Questions(databaseReference.push().key, question.question, question.marks, question.category))
-                            .addOnCompleteListener {
-
-                                Toast.makeText(
-                                    context, "Question Added",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
-                    }
-
-                    dialog.cancel()
-                }
-                builder.create()?.show()
             }
         }
     }
