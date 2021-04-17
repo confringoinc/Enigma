@@ -38,70 +38,50 @@
         android:text="@string/papers"
         app:layout_constraintBottom_toBottomOf="@+id/btn_back"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/btn_back" />
+        app:layout_constraintTop_toTopOf="@+id/btn_back"
+        app:layout_constraintVertical_bias="0.56" />
 
-    <TextView
-        android:id="@+id/tv_add_paper_marks"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <EditText
+        android:id="@+id/et_name"
+        style="@style/EditText"
+        android:layout_width="0dp"
+        android:layout_height="55dp"
         android:layout_marginStart="40dp"
         android:layout_marginLeft="40dp"
+        android:layout_marginTop="40dp"
         android:layout_marginEnd="40dp"
         android:layout_marginRight="40dp"
-        android:textColor="@color/secondary_text"
+        android:autofillHints="@string/name"
+        android:ems="10"
+        android:hint="@string/name"
+        android:inputType="textCapWords"
+        android:paddingStart="25dp"
+        android:paddingEnd="25dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_add_paper" />
 
-    <TextView
-        android:id="@+id/tv_selected"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginRight="40dp"
-        android:gravity="center"
-        android:text="@string/selected_questions"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_add_paper_marks" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_added"
+    <EditText
+        android:id="@+id/et_marks"
+        style="@style/EditText"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="55dp"
         android:layout_marginStart="40dp"
         android:layout_marginLeft="40dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="40dp"
         android:layout_marginRight="40dp"
-        android:layout_marginBottom="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/btn_submit"
+        android:paddingStart="25dp"
+        android:paddingEnd="25dp"
+        android:hint="@string/marks"
+        android:ems="10"
+        android:inputType="numberDecimal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_selected" />
-
-    <TextView
-        android:id="@+id/tv_no_questions"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginRight="40dp"
-        android:gravity="center_horizontal"
-        android:text="@string/no_questions"
-        android:textAlignment="center"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/rv_added"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/rv_added"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@id/et_name"
+        android:autofillHints="@string/marks" />
 
     <Button
         android:id="@+id/btn_submit"
@@ -113,7 +93,7 @@
         android:layout_marginEnd="40dp"
         android:layout_marginRight="40dp"
         android:layout_marginBottom="40dp"
-        android:text="@string/next"
+        android:text="@string/add_paper"
         android:textAllCaps="false"
         android:textColor="@color/white"
         android:textStyle="bold"

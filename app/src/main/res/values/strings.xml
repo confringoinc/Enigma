@@ -46,7 +46,6 @@
     <string name="submit">Submit</string>
     <string name="marks">Marks</string>
     <string name="add_question">Add Question</string>
-    <string name="edit">Edit</string>
     <string name="delete">Delete</string>
     <string name="remembering">Remembering</string>
     <string name="understanding">Understanding</string>
@@ -67,4 +66,14 @@
     <string name="delete_account">Delete account</string>
     <string name="delete_account_msg">Are you sure?\nDeleting account will remove all your data</string>
     <string name="user_name">User</string>
+    <string name="edit">Edit</string>
+    <string name="selected_questions">Selected Questions</string>
+    <string name="next">Next</string>
+    <string name="add_paper">Add Paper</string>
+    <string name="add_institute_name">Add Institute Name</string>
+    <string name="institute_name">Institute Name</string>
+    <string name="add_instruction">Add Instruction</string>
+    <string name="add_instructions">Add Instructions</string>
+    <string name="drag">Drag</string>
+    <string name="add">Add</string>
 </resources>

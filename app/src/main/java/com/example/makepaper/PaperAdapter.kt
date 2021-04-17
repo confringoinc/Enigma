@@ -44,6 +44,14 @@ class PaperAdapter(val context: Context?, private val papers: MutableList<Papers
             val marksText = "Marks: " + paper.marks
             itemView.tv_marks.text = marksText
 
+            itemView.setOnClickListener {
+                val intent = Intent(context, AddPaper::class.java)
+                intent.putExtra("paperKey", paper.key)
+                intent.putExtra("paperName", paper.name)
+                intent.putExtra("paperMarks", paper.marks)
+                itemView.context.startActivity(intent)
+            }
+
             itemView.ib_options.setOnClickListener {
                 val popup = PopupMenu(itemView.context, itemView.ib_options)
                 popup.menuInflater.inflate(R.menu.option, popup.menu)
@@ -56,7 +64,7 @@ class PaperAdapter(val context: Context?, private val papers: MutableList<Papers
                             query.addListenerForSingleValueEvent(object : ValueEventListener {
                                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                                     for (snapshot in dataSnapshot.children) {
-                                        val intent = Intent(context, AddPaper::class.java)
+                                        val intent = Intent(context, EditPaperActivity::class.java)
                                         intent.putExtra("paperKey", snapshot.key.toString())
                                         intent.putExtra("etName", snapshot.child("name").value.toString())
                                         intent.putExtra("etMarks", snapshot.child("marks").value.toString())

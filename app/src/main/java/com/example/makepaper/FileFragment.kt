@@ -19,7 +19,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.fragment_file.view.*
 
-
 class FileFragment : Fragment() {
 
     private val TAG = "FileFragment"
@@ -150,9 +149,9 @@ class FileFragment : Fragment() {
             }
         })
 
-        val mAddP: Button? = view?.findViewById(R.id.btn_generate_question_paper)
+        val mAddP: Button? = view?.findViewById(R.id.fab_add_paper)
         mAddP?.setOnClickListener {
-            startActivity(Intent(view.context, AddPaper::class.java))
+            startActivity(Intent(view.context, EditPaperActivity::class.java))
         }
         return view
     }

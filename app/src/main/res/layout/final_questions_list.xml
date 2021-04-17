@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginBottom="7dp"
+    app:cardBackgroundColor="@color/transparent"
+    app:cardElevation="0dp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/tv_question"
+        android:fontFamily="@font/regular"
+        android:paddingTop="10dp"
+        android:paddingBottom="20dp"
+        android:paddingStart="25dp"
+        android:paddingEnd="55dp"
+        android:lineSpacingExtra="6dp"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:textAlignment="textStart"
+        android:enabled="false"
+        style="@style/EditTextStyle"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="start"
+        android:paddingRight="55dp"
+        android:paddingLeft="25dp" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom">
+
+        <TextView
+            android:id="@+id/tv_marks"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="bottom"
+            android:layout_marginStart="25dp"
+            android:fontFamily="@font/regular"
+            android:layout_marginLeft="25dp"
+            android:layout_marginEnd="25dp"
+            android:layout_marginRight="25dp"
+            android:paddingBottom="3dp"
+            android:text=""
+            android:textColor="@color/secondary_text" />
+
+        <TextView
+            android:id="@+id/tv_category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_marks"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="bottom"
+            android:layout_marginStart="25dp"
+            android:fontFamily="@font/regular"
+            android:layout_marginLeft="25dp"
+            android:layout_marginEnd="25dp"
+            android:layout_marginRight="25dp"
+            android:lineSpacingExtra="3dp"
+            android:paddingBottom="10dp"
+            android:text=""
+            android:textColor="@color/secondary_text"
+            android:textSize="12sp" />
+
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/ib_options"
+        style="@style/ImageView"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_gravity="end"
+        android:padding="12dp"
+        android:contentDescription="@string/drag"
+        android:src="@drawable/menu" />
+</androidx.cardview.widget.CardView>

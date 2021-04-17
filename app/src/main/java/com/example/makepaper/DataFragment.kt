@@ -4,9 +4,10 @@ import android.content.Context.CONNECTIVITY_SERVICE
 import android.content.Intent
 import android.net.ConnectivityManager
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Button
 import android.widget.PopupMenu
 import android.widget.ProgressBar
@@ -173,14 +174,14 @@ class DataFragment : Fragment() {
                             }, 3000)*/
 
                         }else{
-                            Toast.makeText(view.context, "Data Up-To-Date", Toast.LENGTH_SHORT).show()
+                            Log.i(TAG, "Data Up-To-Date")
                         }
                     }
                 }
             }
         })
 
-        val mAddQ: Button? = view?.findViewById(R.id.btn_add_question)
+        val mAddQ: Button? = view?.findViewById(R.id.fab_add_question)
         mAddQ?.setOnClickListener {
             startActivity(Intent(view.context, AddQuestion::class.java))
         }
