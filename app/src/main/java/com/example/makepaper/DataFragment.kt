@@ -12,6 +12,8 @@ import android.widget.Button
 import android.widget.PopupMenu
 import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -33,34 +35,12 @@ class DataFragment : Fragment() {
     private var dataCnt = 0
     lateinit var adapter: QuestionAdapter
     lateinit var databaseReference: DatabaseReference
+    var popup: PopupMenu? = null
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_data, container, false)
-
-        //  Creating a filter pop-up menu
-        view.filterImgBtn.setOnClickListener {
-            Log.i(TAG, "Using Popup Menu")
-            val popup = PopupMenu(view!!.context, filterImgBtn)
-            popup.menuInflater.inflate(R.menu.filter, popup.menu)
-
-            popup.setOnMenuItemClickListener { item ->
-                when(item.itemId){
-                    R.id.item1 -> {
-                        Toast.makeText(view.context, "Item 1", Toast.LENGTH_SHORT).show()
-                    }
-                    R.id.item2 -> {
-                        Toast.makeText(view.context, "Item 2", Toast.LENGTH_SHORT).show()
-                    }
-                    R.id.item3 -> {
-                        Toast.makeText(view.context, "Item 3", Toast.LENGTH_SHORT).show()
-                    }
-                }
-                true
-            }
-            popup.show()
-        }
 
         view.tv_no_questions.visibility = View.GONE
 

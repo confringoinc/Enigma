@@ -2,18 +2,24 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:id="@+id/item1"
-        android:icon="@drawable/ic_filter"
-        app:showAsAction="never"
-        android:title="Filter1"/>
+    <group
+        android:id="@+id/group1"
+        android:checkableBehavior="all"
+        >
 
-    <item
-        android:id="@+id/item2"
-        app:showAsAction="never"
-        android:title="Filter2"/>
+        <item android:id="@+id/item1"
+            app:showAsAction="never"
+            android:title="Filter1"/>
 
-    <item
-        android:id="@+id/item3"
-        app:showAsAction="never"
-        android:title="Filter3"/>
+        <item
+            android:id="@+id/item2"
+            app:showAsAction="never"
+            android:title="Filter2"/>
+
+        <item
+            android:id="@+id/item3"
+            app:showAsAction="never"
+            android:title="Filter3"/>
+
+    </group>
 </menu>

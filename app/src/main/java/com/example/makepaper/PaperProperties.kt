@@ -4,6 +4,7 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.os.Build
 import android.os.Bundle
+import android.os.Environment
 import android.util.Log
 import android.view.View
 import android.widget.CompoundButton
@@ -14,7 +15,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import com.itextpdf.text.*
+import com.itextpdf.text.pdf.PdfPCell
+import com.itextpdf.text.pdf.PdfPTable
+import com.itextpdf.text.pdf.PdfWriter
 import kotlinx.android.synthetic.main.activity_paper_properties.*
+import java.io.File
+import java.io.FileOutputStream
 
 class PaperProperties : AppCompatActivity() {
     private var totalQuestions = 0
@@ -42,7 +49,6 @@ class PaperProperties : AppCompatActivity() {
             onBackPressed()
         }
 
-
         et_institute.isEnabled = false
         et_institute.isFocusable = false
         et_paper_instruction.isEnabled = false
@@ -56,6 +62,8 @@ class PaperProperties : AppCompatActivity() {
             else {
                 et_institute.isEnabled = true
                 et_institute.isFocusable = true
+                et_institute.isFocusableInTouchMode = true
+                et_institute.isCursorVisible = true
             }
         }
 
@@ -65,8 +73,10 @@ class PaperProperties : AppCompatActivity() {
                 et_paper_instruction.isFocusable = false
             }
             else {
-                et_paper_instruction.isEnabled = false
-                et_paper_instruction.isFocusable = false
+                et_paper_instruction.isEnabled = true
+                et_paper_instruction.isFocusable = true
+                et_paper_instruction.isFocusableInTouchMode = true
+                et_paper_instruction.isCursorVisible = true
             }
         }
 
@@ -74,7 +84,8 @@ class PaperProperties : AppCompatActivity() {
         layoutManager.orientation = LinearLayoutManager.VERTICAL
         rv_added.layoutManager = layoutManager
 
-        databaseReference = FirebaseDatabase.getInstance().reference.child(FirebaseAuth.getInstance().currentUser?.uid!!).child("papers").child(paperKey).child("questions")
+        databaseReference = FirebaseDatabase.getInstance().reference.child(FirebaseAuth.getInstance().currentUser?.uid!!).child("papers")
+                            .child(paperKey).child("questions")
 
         //  Adding a value event Listener to check if user has Question or not.
         databaseReference.addValueEventListener(object : ValueEventListener {
@@ -92,7 +103,6 @@ class PaperProperties : AppCompatActivity() {
                     tv_no_questions.visibility = View.GONE
                 }
             }
-
             override fun onCancelled(databaseError: DatabaseError) {}
         })
 
@@ -154,9 +164,71 @@ class PaperProperties : AppCompatActivity() {
     }
 
     private fun generatePaper() {
+        var srNo = 1
+        val fileName:String = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).absolutePath + "/myPdf.pdf"
+        Log.i(TAG, "FilePath = " + fileName)
+        
+        val document = Document()
+        PdfWriter.getInstance(document, FileOutputStream(fileName))
+        document.open()
+        
+        val table = PdfPTable(3)
+        table.widthPercentage = 100f
 
-        //Paper Generation logic here
-        TODO("Not yet implemented")
+        //  First add Institute name
+        addHeader(table, et_institute.text.toString(), 100.0f)
+        addBlankRow(table)      //  Add blank row
+
+        //  Secondly add Instruction in it
+        addHeader(table, et_paper_instruction.text.toString(), 45f)
+        addBlankRow(table)      //  Add blank row
+
+        for(a_question in questionList) {
+            addRow(table, srNo.toString(), a_question)
+            srNo += 1
+        }
+
+        document.add(table)
+        document.close()
+        
+        Toast.makeText(baseContext, "Pdf Generated", Toast.LENGTH_LONG).show()
+    }
+
+    private fun addHeader(table: PdfPTable, header: String, size: Float){
+        table.addCell(addCell("", 0f, false))   //  First blank cell
+        table.addCell(addCell(header, size, true))   //  Second cell with header
+        table.addCell(addCell("", 0f, false))
+    }
+
+    //  This function add 3 cells with no content as a blank row
+    private fun addBlankRow(table:PdfPTable){
+        val blankRow = PdfPCell(Paragraph(" "))
+        blankRow.colspan = 3
+        blankRow.border = Rectangle.NO_BORDER
+        table.addCell(blankRow)
+    }
+
+    private fun addRow(table: PdfPTable, srNo:String, quesObj: Questions){
+        Log.i(TAG, "Adding ${srNo} | Question = ${quesObj}")
+        table.addCell(addCell(srNo, 30f, false))
+        table.addCell(addCell(quesObj.question!!, 30f, false))
+        table.addCell(addCell(quesObj.category.toString(), 30f, false))
+    }
+
+    private fun addCell(content: String, size:Float, bold:Boolean): PdfPCell{
+        val srNo = Paragraph(content)
+        var paraFont: Font? = null
+        if(bold){
+            paraFont = Font(Font.FontFamily.TIMES_ROMAN, size)
+        } else{
+            //  Adding bold
+            paraFont = Font(Font.FontFamily.TIMES_ROMAN, size, Font.BOLD)
+        }
+        srNo.font = paraFont
+        val cell1 = PdfPCell(srNo)
+        cell1.border = Rectangle.NO_BORDER
+        cell1.verticalAlignment = PdfPCell.ALIGN_CENTER
+        return cell1
     }
 
     private fun isNetworkAvailable(): Boolean {
@@ -188,6 +260,7 @@ class PaperProperties : AppCompatActivity() {
     }
 
     private fun validateInstruction(): Boolean {
+        et_paper_instruction.text
         val instruction = et_paper_instruction.text.toString()
 
         if(instruction.isEmpty()){
