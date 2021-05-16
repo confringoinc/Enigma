@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="120dp"
+    android:layout_height="150dp"
     app:cardUseCompatPadding="true"
     app:cardBackgroundColor="@color/transparent"
     app:cardElevation="0dp"
@@ -13,6 +13,13 @@
         style="@style/EditTextStyle"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        style="@style/ImageView"
+        android:src="@drawable/ic_pdf_file"
+        android:layout_gravity="center" />
 
     <TextView
         android:id="@+id/tv_paper"
@@ -24,20 +31,10 @@
         android:layout_marginLeft="15dp"
         android:layout_marginEnd="15dp"
         android:layout_marginRight="15dp"
+        android:paddingBottom="10dp"
         android:maxLines="2"
         android:ellipsize="end"
-        android:lineSpacingExtra="6dp"
-        android:paddingBottom="30dp" />
-
-    <TextView
-        android:id="@+id/tv_marks"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:layout_marginStart="15dp"
-        android:layout_marginLeft="15dp"
-        android:paddingBottom="10dp"
-        android:textColor="@color/secondary_text" />
+        android:lineSpacingExtra="6dp" />
 
     <ImageView
         android:id="@+id/ib_options"

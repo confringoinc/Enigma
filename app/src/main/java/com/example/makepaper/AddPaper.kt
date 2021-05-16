@@ -69,7 +69,7 @@ class AddPaper : AppCompatActivity() {
                 val data: Map<String, Object> = snapshot.value as Map<String, Object>
                     questionList.add(getQuestionObj(data))
                     questionList.reverse()
-                    adapter = AddQuestionAdapter(applicationContext, questionList)
+                    adapter = AddQuestionAdapter(this@AddPaper, questionList)
                     rv_added.adapter = adapter
             }
 

@@ -16,7 +16,6 @@
         android:theme="@style/Theme.MakePaper"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
-        <activity android:name=".ViewPaper" />
         <!-- SplashScreen being the first screen -->
         <activity
             android:name=".SplashScreen"
@@ -60,12 +59,16 @@
         <activity android:name=".MainActivity"
             android:theme="@style/Theme.MakePaper" />
         <activity android:name=".AddQuestion"
+            android:windowSoftInputMode="adjustResize"
             android:theme="@style/Theme.MakePaper" />
         <activity android:name=".AddPaper"
             android:theme="@style/Theme.MakePaper" />
         <activity android:name=".EditPaperActivity"
+            android:windowSoftInputMode="adjustResize"
             android:theme="@style/Theme.MakePaper" />
         <activity android:name=".PaperProperties"
+            android:theme="@style/Theme.MakePaper" />
+        <activity android:name=".AboutActivity"
             android:theme="@style/Theme.MakePaper" />
         <activity
             android:name="com.facebook.FacebookActivity"
