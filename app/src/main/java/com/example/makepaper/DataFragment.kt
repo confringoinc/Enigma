@@ -9,7 +9,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.PopupMenu
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -20,14 +19,13 @@ import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.fragment_data.*
 import kotlinx.android.synthetic.main.fragment_data.view.*
 
-
 class DataFragment : Fragment() {
     private val TAG = "DataFragment"
     private var progressBar: ProgressBar? = null
     var questionList = ArrayList<Questions>()
 
     private var totalQuestions = 0
-    private val limit = 11
+    //private val limit = 11
     private var isLoading = true
     private var lastKey:String? = null
     private var dataCnt = 0
@@ -38,29 +36,6 @@ class DataFragment : Fragment() {
             inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_data, container, false)
-
-        //  Creating a filter pop-up menu
-        view.filterImgBtn.setOnClickListener {
-            Log.i(TAG, "Using Popup Menu")
-            val popup = PopupMenu(view!!.context, filterImgBtn)
-            popup.menuInflater.inflate(R.menu.filter, popup.menu)
-
-            popup.setOnMenuItemClickListener { item ->
-                when(item.itemId){
-                    R.id.item1 -> {
-                        Toast.makeText(view.context, "Item 1", Toast.LENGTH_SHORT).show()
-                    }
-                    R.id.item2 -> {
-                        Toast.makeText(view.context, "Item 2", Toast.LENGTH_SHORT).show()
-                    }
-                    R.id.item3 -> {
-                        Toast.makeText(view.context, "Item 3", Toast.LENGTH_SHORT).show()
-                    }
-                }
-                true
-            }
-            popup.show()
-        }
 
         view.tv_no_questions.visibility = View.GONE
 
@@ -107,26 +82,18 @@ class DataFragment : Fragment() {
             override fun onCancelled(databaseError: DatabaseError) {}
         })
 
-        databaseReference.orderByKey().limitToFirst(limit).addChildEventListener(object : ChildEventListener {
+        databaseReference.orderByKey().addChildEventListener(object : ChildEventListener {
             override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
                 val data: Map<String, Object> = snapshot.value as Map<String, Object>
-                if (dataCnt < limit-1){
-                    questionList.add(getQuestionObj(data))
-                    // questionList.reverse()
-                    adapter = QuestionAdapter(view.context, questionList)
-                    view.rv_questions.adapter = adapter
-                    dataCnt += 1
-
-                }else{
-                    lastKey = data["key"] as String
-                    Log.i(TAG, "Last Key Stored: $lastKey. Data Count = $dataCnt")
-                    dataCnt = 0
-                }
+                questionList.add(getQuestionObj(data))
+                //questionList.reverse()
+                adapter = QuestionAdapter(this@DataFragment.context, questionList)
+                view.rv_questions.adapter = adapter
             }
 
             override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
                 questionList.forEach {
-                    if(it.key == snapshot.key){
+                    if (it.key == snapshot.key) {
                         it.question = snapshot.child("question").value as String
                         it.marks = snapshot.child("marks").value as String
                         it.category = snapshot.child("category").value as List<String>
@@ -151,33 +118,45 @@ class DataFragment : Fragment() {
         })
 
         //  Implement onScrollListener to handle Load More Functionality
-        view.rv_questions.addOnScrollListener(object: RecyclerView.OnScrollListener(){
+        view.rv_questions.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-
-                val visibleItemCount:Int = layoutManager.childCount
-                val pastVisibleItem:Int = layoutManager.findFirstVisibleItemPosition()
-                val total = adapter.itemCount
-
-                //  Check if is Loading
-                if(isLoading){
-                    //  Check if we reached bottom or not
-                    if(( visibleItemCount + pastVisibleItem ) >= total){
-
-                        if(questionList.size < totalQuestions){
-                            Log.i(TAG, "ListSize: ${questionList.size} || TotalQues = $totalQuestions")
-                            isLoading = false
-
-                            view!!.onSwipeUpPB.visibility = View.VISIBLE
-                            getData()
-                            /*Handler().postDelayed({
-                                getData()
-                            }, 3000)*/
-
-                        }else{
-                            Log.i(TAG, "Data Up-To-Date")
-                        }
+                super.onScrolled(recyclerView, dx, dy)
+                if (dy > 0) {
+                    // Scroll Down
+                    if (fab_add_question.isShown) {
+                        fab_add_question.hide()
+                    }
+                } else if (dy < 0) {
+                    // Scroll Up
+                    if (!fab_add_question.isShown) {
+                        fab_add_question.show()
                     }
                 }
+//
+//                val visibleItemCount: Int = layoutManager.childCount
+//                val pastVisibleItem: Int = layoutManager.findFirstVisibleItemPosition()
+//                val total = adapter.itemCount
+//
+//                //  Check if is Loading
+//                if (isLoading) {
+//                    //  Check if we reached bottom or not
+//                    if ((visibleItemCount + pastVisibleItem) >= total) {
+//
+//                        if (questionList.size < totalQuestions) {
+//                            Log.i(TAG, "ListSize: ${questionList.size} || TotalQues = $totalQuestions")
+//                            isLoading = false
+//
+//                            view!!.onSwipeUpPB.visibility = View.VISIBLE
+//                            getData()
+//                            /*Handler().postDelayed({
+//                                getData()
+//                            }, 3000)*/
+//
+//                        } else {
+//                            Log.i(TAG, "Data Up-To-Date")
+//                        }
+//                    }
+//                }
             }
         })
 
@@ -193,60 +172,60 @@ class DataFragment : Fragment() {
         fun newInstance(): DataFragment = DataFragment()
     }
 
-    fun getData(){
-        databaseReference.orderByKey().startAt(lastKey).limitToFirst(limit).addChildEventListener(object: ChildEventListener{
-            override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
-                    var lastChild: DataSnapshot? = null
-
-                    lastChild = snapshot
-                    if (dataCnt < limit - 1) {
-                        val question = snapshot.child("question").value.toString()
-                        val marks = snapshot.child("marks").value.toString()
-                        val category = snapshot.child("category").value as List<String>
-                        val key = snapshot.key
-
-                        Log.i(TAG, "OnscrollEvent-- Child Added: $key")
-                        questionList.add(Questions(key!!, question, marks, category))
-                        dataCnt += 1
-                    } else {
-                        lastKey = snapshot.key
-                        Log.i(TAG, "New LastKey: $lastKey")
-                        dataCnt = 0
-                    }
-
-                    // adapter = QuestionAdapter(view!!.context, questionList)
-                    adapter.notifyDataSetChanged()
-                    //  view!!.rv_questions.adapter = adapter
-                    view!!.onSwipeUpPB.visibility = View.GONE
-
-                    isLoading = true
-            }
-
-            override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
-                Log.i(TAG, "onScroll ChildChanged Called for $snapshot")
-                questionList.forEach {
-                    if(it.key == snapshot.key){
-                        it.question = snapshot.child("question").value as String
-                        it.marks = snapshot.child("marks").value as String
-                        it.category = snapshot.child("category").value as List<String>
-                        Log.i(TAG, "Question as ${it.key} Updated")
-                    }
-                }
-
-                adapter.notifyDataSetChanged()
-                view!!.rv_questions.adapter = adapter
-            }
-
-            override fun onChildRemoved(snapshot: DataSnapshot) {}
-
-            override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {}
-
-            override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(view!!.context, "Failed to load Data", Toast.LENGTH_LONG).show()
-            }
-
-        })
-    }
+//    fun getData(){
+//        databaseReference.orderByKey().startAt(lastKey).limitToFirst(limit).addChildEventListener(object : ChildEventListener {
+//            override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
+//                var lastChild: DataSnapshot? = null
+//
+//                lastChild = snapshot
+//                if (dataCnt < limit - 1) {
+//                    val question = snapshot.child("question").value.toString()
+//                    val marks = snapshot.child("marks").value.toString()
+//                    val category = snapshot.child("category").value as List<String>
+//                    val key = snapshot.key
+//
+//                    Log.i(TAG, "OnscrollEvent-- Child Added: $key")
+//                    questionList.add(Questions(key!!, question, marks, category))
+//                    dataCnt += 1
+//                } else {
+//                    lastKey = snapshot.key
+//                    Log.i(TAG, "New LastKey: $lastKey")
+//                    dataCnt = 0
+//                }
+//
+//                // adapter = QuestionAdapter(view!!.context, questionList)
+//                adapter.notifyDataSetChanged()
+//                //  view!!.rv_questions.adapter = adapter
+//                view!!.onSwipeUpPB.visibility = View.GONE
+//
+//                isLoading = true
+//            }
+//
+//            override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
+//                Log.i(TAG, "onScroll ChildChanged Called for $snapshot")
+//                questionList.forEach {
+//                    if (it.key == snapshot.key) {
+//                        it.question = snapshot.child("question").value as String
+//                        it.marks = snapshot.child("marks").value as String
+//                        it.category = snapshot.child("category").value as List<String>
+//                        Log.i(TAG, "Question as ${it.key} Updated")
+//                    }
+//                }
+//
+//                adapter.notifyDataSetChanged()
+//                view!!.rv_questions.adapter = adapter
+//            }
+//
+//            override fun onChildRemoved(snapshot: DataSnapshot) {}
+//
+//            override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {}
+//
+//            override fun onCancelled(error: DatabaseError) {
+//                Toast.makeText(view!!.context, "Failed to load Data", Toast.LENGTH_LONG).show()
+//            }
+//
+//        })
+//    }
 
     private fun isNetworkAvailable(): Boolean {
         val connectivityManager = activity?.getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager

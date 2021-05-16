@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -17,6 +16,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import kotlinx.android.synthetic.main.fragment_file.*
 import kotlinx.android.synthetic.main.fragment_file.view.*
 
 class FileFragment : Fragment() {
@@ -26,7 +26,7 @@ class FileFragment : Fragment() {
     var paperList = ArrayList<Papers>()
     lateinit var adapter: PaperAdapter
     private lateinit var databaseReference: DatabaseReference
-    private val limit = 11
+    //private val limit = 11
     private var isLoading = true
     private var lastKey:String? = null
     private var dataCnt = 0
@@ -66,20 +66,13 @@ class FileFragment : Fragment() {
             FirebaseAuth.getInstance().currentUser?.uid!!
         ).child("papers")
 
-        databaseReference.orderByKey().limitToFirst(limit).addChildEventListener(object : ChildEventListener {
+        databaseReference.orderByKey().addChildEventListener(object : ChildEventListener {
             override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
                 val data: Map<String, Object> = snapshot.value as Map<String, Object>
-                if (dataCnt < limit-1){
-                    paperList.add(getPaperObj(data))
-                    // questionList.reverse()
-                    adapter = PaperAdapter(view.context, paperList)
-                    view.rv_papers.adapter = adapter
-                    dataCnt += 1
-                }else{
-                    lastKey = data["key"] as String
-                    Log.i(TAG, "Last Key Stored: $lastKey. Data Count = $dataCnt")
-                    dataCnt = 0
-                }
+                paperList.add(getPaperObj(data))
+                //paperList.reverse()
+                adapter = PaperAdapter(this@FileFragment.context, paperList)
+                view.rv_papers.adapter = adapter
             }
 
             override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
@@ -127,25 +120,37 @@ class FileFragment : Fragment() {
 
         view.rv_papers.addOnScrollListener(object: RecyclerView.OnScrollListener(){
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-
-                val visibleItemCount:Int = layoutManager.childCount
-                val pastVisibleItem:Int = layoutManager.findFirstVisibleItemPosition()
-                val total = adapter.itemCount
-
-                //  Check if is Loading
-                if(isLoading){
-                    //  Check if we reached bottom or not
-                    if(( visibleItemCount + pastVisibleItem ) >= total){
-                        isLoading = false
-                        if(paperList.size == limit-1){
-                            view!!.onSwipeUpPB.visibility = View.VISIBLE
-                            Handler().postDelayed({
-                                getData()
-                                isLoading = true
-                            }, 3000)
-                        }
+                super.onScrolled(recyclerView, dx, dy)
+                if (dy > 0) {
+                    // Scroll Down
+                    if (fab_add_paper.isShown) {
+                        fab_add_paper.hide()
+                    }
+                } else if (dy < 0) {
+                    // Scroll Up
+                    if (!fab_add_paper.isShown) {
+                        fab_add_paper.show()
                     }
                 }
+
+//                val visibleItemCount:Int = layoutManager.childCount
+//                val pastVisibleItem:Int = layoutManager.findFirstVisibleItemPosition()
+//                val total = adapter.itemCount
+//
+//                //  Check if is Loading
+//                if(isLoading){
+//                    //  Check if we reached bottom or not
+//                    if(( visibleItemCount + pastVisibleItem ) >= total){
+//                        isLoading = false
+//                        if(paperList.size == limit-1){
+//                            view!!.onSwipeUpPB.visibility = View.VISIBLE
+//                            Handler().postDelayed({
+//                                getData()
+//                                isLoading = true
+//                            }, 3000)
+//                        }
+//                    }
+//                }
             }
         })
 
@@ -153,6 +158,7 @@ class FileFragment : Fragment() {
         mAddP?.setOnClickListener {
             startActivity(Intent(view.context, EditPaperActivity::class.java))
         }
+
         return view
     }
 
@@ -162,47 +168,47 @@ class FileFragment : Fragment() {
         return activeNetworkInfo != null && activeNetworkInfo.isConnected
     }
 
-    fun getData(){
-        databaseReference.orderByKey().startAt(lastKey).limitToFirst(limit).addValueEventListener(object: ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                Log.i(TAG, "Adding Data|| Total children: ${snapshot.childrenCount}")
-                var lastChild: DataSnapshot? = null
-                for(childObj in snapshot.children){
-                    lastChild = childObj
-                    if(dataCnt < limit-1){
-                        val name = childObj.child("name").value.toString()
-                        val marks = childObj.child("marks").value.toString()
-                        val key = childObj.key
-
-                        Log.i(TAG, "Child Added: $key")
-                        paperList.add(Papers(key!!, name, marks))
-                        dataCnt += 1
-                    }else{
-                        lastKey = childObj.key
-                        Log.i(TAG, "New LastKey: $lastKey")
-                        dataCnt = 0
-                    }
-                }
-
-                //  In Case if their are < 10 element then store last key of last child
-                if(snapshot.childrenCount.toInt() != limit) {
-                    lastKey = lastChild!!.key
-                    Log.i(TAG, "New LastKey: $lastKey")
-                    dataCnt = 0
-                }
-                // adapter = QuestionAdapter(view!!.context, questionList)
-                adapter.notifyDataSetChanged()
-                //  view!!.rv_questions.adapter = adapter
-                isLoading = false
-                view!!.onSwipeUpPB.visibility = View.GONE
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                Log.i(TAG, "Value Event Listener Failed. Error: $error")
-            }
-
-        })
-    }
+//    fun getData(){
+//        databaseReference.orderByKey().startAt(lastKey).limitToFirst(limit).addValueEventListener(object: ValueEventListener {
+//            override fun onDataChange(snapshot: DataSnapshot) {
+//                Log.i(TAG, "Adding Data|| Total children: ${snapshot.childrenCount}")
+//                var lastChild: DataSnapshot? = null
+//                for(childObj in snapshot.children){
+//                    lastChild = childObj
+//                    if(dataCnt < limit-1){
+//                        val name = childObj.child("name").value.toString()
+//                        val marks = childObj.child("marks").value.toString()
+//                        val key = childObj.key
+//
+//                        Log.i(TAG, "Child Added: $key")
+//                        paperList.add(Papers(key!!, name, marks))
+//                        dataCnt += 1
+//                    }else{
+//                        lastKey = childObj.key
+//                        Log.i(TAG, "New LastKey: $lastKey")
+//                        dataCnt = 0
+//                    }
+//                }
+//
+//                //  In Case if their are < 10 element then store last key of last child
+//                if(snapshot.childrenCount.toInt() != limit) {
+//                    lastKey = lastChild!!.key
+//                    Log.i(TAG, "New LastKey: $lastKey")
+//                    dataCnt = 0
+//                }
+//                // adapter = QuestionAdapter(view!!.context, questionList)
+//                adapter.notifyDataSetChanged()
+//                //  view!!.rv_questions.adapter = adapter
+//                isLoading = false
+//                view!!.onSwipeUpPB.visibility = View.GONE
+//            }
+//
+//            override fun onCancelled(error: DatabaseError) {
+//                Log.i(TAG, "Value Event Listener Failed. Error: $error")
+//            }
+//
+//        })
+//    }
 
     private fun getPaperObj(data: Map<String, Object>): Papers {
         val key = data["key"] as String?

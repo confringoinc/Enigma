@@ -22,6 +22,7 @@ class UserFragment : Fragment() {
         fun newInstance(): UserFragment = UserFragment()
     }
 
+    @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_user, container, false)
 
@@ -37,6 +38,11 @@ class UserFragment : Fragment() {
 
         val logout: TextView? = view?.findViewById(R.id.tv_user_settings_logout)
         logout?.setOnClickListener { logout() }
+
+        val info: TextView? = view?.findViewById(R.id.tv_user_settings_info)
+        info?.setOnClickListener {
+            startActivity(Intent(context, AboutActivity::class.java))
+        }
 
         val delete: TextView? = view?.findViewById(R.id.tv_user_settings_delete)
         delete?.setOnClickListener { deleteAccount() }
