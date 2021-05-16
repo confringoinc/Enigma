@@ -1,17 +1,20 @@
 package com.example.makepaper
 
+import android.Manifest
 import android.content.Context
+import android.content.pm.PackageManager
 import android.net.ConnectivityManager
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.util.Log
 import android.view.View
-import android.widget.CompoundButton
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
@@ -22,6 +25,10 @@ import com.itextpdf.text.pdf.PdfWriter
 import kotlinx.android.synthetic.main.activity_paper_properties.*
 import java.io.File
 import java.io.FileOutputStream
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
+
 
 class PaperProperties : AppCompatActivity() {
     private var totalQuestions = 0
@@ -30,6 +37,7 @@ class PaperProperties : AppCompatActivity() {
     val TAG = "PeperProperties"
     lateinit var adapter: AddQuestionAdapter
     lateinit var databaseReference:DatabaseReference
+    private val STORAGE_PERMISSION_CODE = 101
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,43 +57,11 @@ class PaperProperties : AppCompatActivity() {
             onBackPressed()
         }
 
-        et_institute.isEnabled = false
-        et_institute.isFocusable = false
-        et_paper_instruction.isEnabled = false
-        et_paper_instruction.isFocusable = false
-
-        sw_institute.setOnCheckedChangeListener { _: CompoundButton, b: Boolean ->
-            if(!b) {
-                et_institute.isEnabled = false
-                et_institute.isFocusable = false
-            }
-            else {
-                et_institute.isEnabled = true
-                et_institute.isFocusable = true
-                et_institute.isFocusableInTouchMode = true
-                et_institute.isCursorVisible = true
-            }
-        }
-
-        sw_instruction.setOnCheckedChangeListener { _: CompoundButton, b: Boolean ->
-            if(!b) {
-                et_paper_instruction.isEnabled = false
-                et_paper_instruction.isFocusable = false
-            }
-            else {
-                et_paper_instruction.isEnabled = true
-                et_paper_instruction.isFocusable = true
-                et_paper_instruction.isFocusableInTouchMode = true
-                et_paper_instruction.isCursorVisible = true
-            }
-        }
-
         val layoutManager = LinearLayoutManager(applicationContext)
         layoutManager.orientation = LinearLayoutManager.VERTICAL
         rv_added.layoutManager = layoutManager
 
-        databaseReference = FirebaseDatabase.getInstance().reference.child(FirebaseAuth.getInstance().currentUser?.uid!!).child("papers")
-                            .child(paperKey).child("questions")
+        databaseReference = FirebaseDatabase.getInstance().reference.child(FirebaseAuth.getInstance().currentUser?.uid!!).child("papers").child(paperKey).child("questions")
 
         //  Adding a value event Listener to check if user has Question or not.
         databaseReference.addValueEventListener(object : ValueEventListener {
@@ -103,6 +79,7 @@ class PaperProperties : AppCompatActivity() {
                     tv_no_questions.visibility = View.GONE
                 }
             }
+
             override fun onCancelled(databaseError: DatabaseError) {}
         })
 
@@ -111,7 +88,7 @@ class PaperProperties : AppCompatActivity() {
                 val data: Map<String, Object> = snapshot.value as Map<String, Object>
                 questionList.add(getQuestionObj(data))
                 questionList.reverse()
-                adapter = AddQuestionAdapter(applicationContext, questionList)
+                adapter = AddQuestionAdapter(this@PaperProperties, questionList)
                 rv_added.adapter = adapter
             }
 
@@ -150,53 +127,88 @@ class PaperProperties : AppCompatActivity() {
                 ).show()
             }
             else {
-                if(sw_institute.isEnabled && validateInstitute()) {
-                    generatePaper()
-                }
-                else if(sw_instruction.isEnabled && validateInstruction()) {
-                    generatePaper()
-                }
-                else {
-                    generatePaper()
-                }
+                generatePaper(paperName, paperMarks)
             }
         }
     }
 
-    private fun generatePaper() {
+    @RequiresApi(Build.VERSION_CODES.KITKAT)
+    private fun generatePaper(paperName: String, paperMarks: String) {
+        checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, STORAGE_PERMISSION_CODE)
         var srNo = 1
-        val fileName:String = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).absolutePath + "/myPdf.pdf"
-        Log.i(TAG, "FilePath = " + fileName)
-        
+        val folder = File(applicationContext.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS), "/Question Paper Maker")
+        if (!folder.exists()) {
+            folder.mkdirs()
+        }
+
+        val df = SimpleDateFormat("yyyyMMddkmmss", Locale.getDefault())
+        val formattedDate: String = df.format(Calendar.getInstance().time)
+        val fileName = File(folder, "$paperName $formattedDate.pdf")
+
         val document = Document()
         PdfWriter.getInstance(document, FileOutputStream(fileName))
         document.open()
-        
+
+        document.pageSize = PageSize.A4
+        document.addCreationDate()
+
         val table = PdfPTable(3)
         table.widthPercentage = 100f
 
         //  First add Institute name
-        addHeader(table, et_institute.text.toString(), 100.0f)
+        addHeader(table, et_institute.text.toString(), 16.0f, true, Element.ALIGN_CENTER)
+        addBlankRow(table)      //  Add blank row
+
+        table.addCell(addCell("", 0f, false))   //  First blank cell
+        table.addCell(addCell(paperName, 12f, true, Element.ALIGN_CENTER))   //  Second cell with header
+        table.addCell(addCell("[$paperMarks]", 12f, false))
         addBlankRow(table)      //  Add blank row
 
         //  Secondly add Instruction in it
-        addHeader(table, et_paper_instruction.text.toString(), 45f)
-        addBlankRow(table)      //  Add blank row
+        if(et_paper_instruction.text.toString().isNotEmpty()) {
+            addHeader(table, "Instructions:", 12f, true)
+            for (ins in et_paper_instruction.text.toString().split("\n")) {
+                addInstructions(table, ins, 12f, false)
+            }
+            addBlankRow(table)
+        }
 
         for(a_question in questionList) {
             addRow(table, srNo.toString(), a_question)
             srNo += 1
         }
 
+        val columnWidths = floatArrayOf(3f, 100f, 7f)
+        table.setWidths(columnWidths)
         document.add(table)
         document.close()
-        
-        Toast.makeText(baseContext, "Pdf Generated", Toast.LENGTH_LONG).show()
+
+        Toast.makeText(baseContext, "PDF Generated", Toast.LENGTH_LONG).show()
+//        val file = File(applicationContext.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS), "Question Paper Maker")
+//        val filepath = File(file, "$paperName $formattedDate.pdf")
+//        val target = Intent(Intent.ACTION_VIEW)
+//        target.setDataAndType(Uri.fromFile(filepath), "application/pdf")
+//        target.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+//        val intent = Intent.createChooser(target, "Open File")
+//        try {
+//            applicationContext.startActivity(intent)
+//        } catch (e: ActivityNotFoundException) {
+//            Toast.makeText(
+//                applicationContext, "Install PDF reader to open PDF file",
+//                Toast.LENGTH_SHORT
+//            ).show()
+//        }
     }
 
-    private fun addHeader(table: PdfPTable, header: String, size: Float){
+    private fun addHeader(table: PdfPTable, header: String, size: Float, bold: Boolean = false, align: Int = Element.ALIGN_LEFT){
         table.addCell(addCell("", 0f, false))   //  First blank cell
-        table.addCell(addCell(header, size, true))   //  Second cell with header
+        table.addCell(addCell(header, size, bold, align))   //  Second cell with header
+        table.addCell(addCell("", 0f, false))
+    }
+
+    private fun addInstructions(table: PdfPTable, header: String, size: Float, bold: Boolean = false, align: Int = Element.ALIGN_LEFT) {
+        table.addCell(addCell("\u2022", 12f, true))   //  First blank cell
+        table.addCell(addCell(header, size, bold, align))   //  Second cell with header
         table.addCell(addCell("", 0f, false))
     }
 
@@ -210,24 +222,24 @@ class PaperProperties : AppCompatActivity() {
 
     private fun addRow(table: PdfPTable, srNo:String, quesObj: Questions){
         Log.i(TAG, "Adding ${srNo} | Question = ${quesObj}")
-        table.addCell(addCell(srNo, 30f, false))
-        table.addCell(addCell(quesObj.question!!, 30f, false))
-        table.addCell(addCell(quesObj.category.toString(), 30f, false))
+        table.addCell(addCell("$srNo. ", 12f, false))
+        table.addCell(addCell(quesObj.question!! + "\n" + quesObj.category.toString(), 12f, false))
+        table.addCell(addCell("[" + quesObj.marks!! + "]", 12f, false))
+        addBlankRow(table)
     }
 
-    private fun addCell(content: String, size:Float, bold:Boolean): PdfPCell{
-        val srNo = Paragraph(content)
+    private fun addCell(content: String, size:Float, bold:Boolean, align: Int = Element.ALIGN_LEFT): PdfPCell{
         var paraFont: Font? = null
-        if(bold){
-            paraFont = Font(Font.FontFamily.TIMES_ROMAN, size)
+        paraFont = if(bold){
+            Font(Font.FontFamily.TIMES_ROMAN, size, Font.BOLD)
         } else{
-            //  Adding bold
-            paraFont = Font(Font.FontFamily.TIMES_ROMAN, size, Font.BOLD)
+            Font(Font.FontFamily.TIMES_ROMAN, size)
         }
-        srNo.font = paraFont
+        val srNo = Paragraph(content, paraFont)
         val cell1 = PdfPCell(srNo)
         cell1.border = Rectangle.NO_BORDER
-        cell1.verticalAlignment = PdfPCell.ALIGN_CENTER
+        cell1.verticalAlignment = Element.ALIGN_CENTER
+        cell1.horizontalAlignment = align
         return cell1
     }
 
@@ -246,30 +258,17 @@ class PaperProperties : AppCompatActivity() {
         return Questions(key, question, marks, category)
     }
 
-    private fun validateInstitute(): Boolean {
-        val instituteName = et_institute.text.toString()
-
-        if(instituteName.isEmpty()){
-            et_institute.error = "Please enter institute name"
-            et_institute.requestFocus()
-            progressBar!!.visibility = View.GONE
-            return false
+    private fun checkPermission(permission: String, requestCode: Int) {
+        // Checking if permission is not granted
+        if (ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_DENIED) {
+            ActivityCompat.requestPermissions(this, arrayOf(permission), requestCode)
         }
-
-        return true
     }
 
-    private fun validateInstruction(): Boolean {
-        et_paper_instruction.text
-        val instruction = et_paper_instruction.text.toString()
-
-        if(instruction.isEmpty()){
-            et_paper_instruction.error = "Please enter instructions"
-            et_paper_instruction.requestFocus()
-            progressBar!!.visibility = View.GONE
-            return false
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (grantResults.isNotEmpty() && grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText(this, "Storage Permission Denied", Toast.LENGTH_SHORT).show()
         }
-
-        return true
     }
 }
