@@ -1,7 +1,5 @@
 package com.example.makepaper
 
-import android.app.Activity
-import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -16,7 +14,7 @@ import android.view.ViewGroup
 import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.core.app.ActivityCompat.startActivityForResult
+import androidx.core.content.FileProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
@@ -58,18 +56,9 @@ class PaperPdfAdapter(val context: Context?, private val papers: ArrayList<Paper
                     itemView.context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS),
                     "/Question Paper Maker/" + paper.name
                 )
-                val path = Uri.fromFile(file)
-                val pdfOpenintent = Intent(Intent.ACTION_VIEW)
-                pdfOpenintent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                pdfOpenintent.setDataAndType(path, "application/pdf")
-                Intent.createChooser(pdfOpenintent, "Open with")
-                try {
-                    itemView.context.startActivity(pdfOpenintent)
-                } catch (e: ActivityNotFoundException) {
-                    Toast.makeText(
-                        context, "Install PDF reader to open PDF file",
-                        Toast.LENGTH_SHORT
-                    ).show()
+
+                if(file.exists()) {
+                    openPdf(file, itemView.context)
                 }
             }
 
@@ -102,13 +91,41 @@ class PaperPdfAdapter(val context: Context?, private val papers: ArrayList<Paper
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.KITKAT)
-    fun openFile(pickerInitialUri: Uri) {
-        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
-            addCategory(Intent.CATEGORY_OPENABLE)
-            type = "application/pdf"
+    // Try to open PDF and return false if it is not possible.
+    fun openPdf(file: File, context: Context): Boolean {
+        val uri = getUriFromFile(file, context)
+        if (uri == null) {
+            return false
+        } else {
+            val intent = Intent(Intent.ACTION_VIEW).apply {
+                setDataAndType(uri, "application/pdf")
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            }
+            // Validate that the device can open your File.
+            val activityInfo = intent.resolveActivityInfo(context.packageManager, intent.flags)
+            return if (activityInfo?.exported == true) {
+                context.startActivity(Intent.createChooser(intent, "Open PDF"))
+                true
+            } else {
+                false
+            }
         }
-
-        startActivityForResult(context as Activity, intent, PICK_PDF_FILE, null)
     }
+
+    // Get URI from file.
+    private fun getUriFromFile(file: File, context: Context): Uri? =
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            Uri.fromFile(file)
+        } else {
+            try {
+                FileProvider.getUriForFile(context, context.packageName, file)
+            } catch (e: Exception) {
+                if (e.message?.contains("ProviderInfo.loadXmlMetaData") == true) {
+                    throw Error("FileProvider doesn't exist or has no permissions")
+                } else {
+                    throw e
+                }
+            }
+        }
 }

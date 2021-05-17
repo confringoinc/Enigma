@@ -3,7 +3,9 @@ package com.example.makepaper
 import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
+import android.os.Build
 import android.os.Bundle
+import android.os.Environment
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -11,13 +13,18 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.fragment_file.*
 import kotlinx.android.synthetic.main.fragment_file.view.*
+import kotlinx.android.synthetic.main.fragment_file.view.rv_papers
+import kotlinx.android.synthetic.main.fragment_file.view.tv_no_papers
+import java.io.File
 
 class FileFragment : Fragment() {
 
@@ -27,14 +34,17 @@ class FileFragment : Fragment() {
     lateinit var adapter: PaperAdapter
     private lateinit var databaseReference: DatabaseReference
     //private val limit = 11
-    private var isLoading = true
-    private var lastKey:String? = null
-    private var dataCnt = 0
+    //private var isLoading = true
+    //private var lastKey:String? = null
+    //private var dataCnt = 0
+    var pdfList = ArrayList<PaperPdfs>()
+    lateinit var paperPdfAdapter: PaperPdfAdapter
 
     companion object {
         fun newInstance(): FileFragment = FileFragment()
     }
 
+    @RequiresApi(Build.VERSION_CODES.KITKAT)
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -58,6 +68,33 @@ class FileFragment : Fragment() {
             view.tv_no_papers.visibility = View.VISIBLE
         }
 
+        view.rv_papers_pdf.layoutManager = object: LinearLayoutManager(view.context, HORIZONTAL, false) {
+            override fun checkLayoutParams(lp: RecyclerView.LayoutParams): Boolean {
+                lp.width = (width / 2.15).toInt()
+                return true
+            }
+        }
+
+        val directoryPdf = File(requireContext().getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS), "/Question Paper Maker")
+        if(directoryPdf.listFiles()?.isEmpty() == false) {
+            val newFile: Array<File> = directoryPdf.listFiles()!!
+            pdfList.clear()
+
+            for (i in newFile.indices) {
+                val path = "file://" + newFile[i].absolutePath
+                val filename = path.substring(path.lastIndexOf("/") + 1)
+                pdfList.add(PaperPdfs(path, filename))
+            }
+        }
+
+        paperPdfAdapter = PaperPdfAdapter(this@FileFragment.context, pdfList)
+        view.rv_papers_pdf.adapter = paperPdfAdapter
+
+        if (pdfList.isNullOrEmpty()) {
+            view.tv_top_papers_pdf.visibility = View.GONE
+            view.rv_papers_pdf.visibility = View.GONE
+        }
+
         val layoutManager = GridLayoutManager(view.context, 2)
         layoutManager.orientation = GridLayoutManager.VERTICAL
         view.rv_papers.layoutManager = layoutManager
@@ -66,7 +103,7 @@ class FileFragment : Fragment() {
             FirebaseAuth.getInstance().currentUser?.uid!!
         ).child("papers")
 
-        databaseReference.orderByKey().addChildEventListener(object : ChildEventListener {
+        databaseReference.addChildEventListener(object : ChildEventListener {
             override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
                 val data: Map<String, Object> = snapshot.value as Map<String, Object>
                 paperList.add(getPaperObj(data))

@@ -20,10 +20,10 @@ class AboutActivity : AppCompatActivity() {
             onBackPressed()
         }
 
-        tv_about_contact.setOnClickListener {
-            val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:+918866470217"))
-            startActivity(intent)
-        }
+//        tv_about_contact.setOnClickListener {
+//            val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:+918866470217"))
+//            startActivity(intent)
+//        }
 
         tv_about_mail.setOnClickListener {
             val to: String = "confringoinc@gmail.com"
