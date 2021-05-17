@@ -1,9 +1,9 @@
 <component name="libraryTable">
   <library name="Gradle: com.facebook.android:facebook-messenger:5.15.3@aar">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/9ed737fb5fcf8f691a1535b0478fd14d/jetified-facebook-messenger-5.15.3/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/9ed737fb5fcf8f691a1535b0478fd14d/jetified-facebook-messenger-5.15.3/res" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/9ed737fb5fcf8f691a1535b0478fd14d/jetified-facebook-messenger-5.15.3/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/ae8601ddefd214879322981df07d734f/jetified-facebook-messenger-5.15.3/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/ae8601ddefd214879322981df07d734f/jetified-facebook-messenger-5.15.3/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/ae8601ddefd214879322981df07d734f/jetified-facebook-messenger-5.15.3/jars/classes.jar!/" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.facebook.android/facebook-messenger/5.15.3/e7d8036b3ed741080d9144442b42542ac6aa756f/facebook-messenger-5.15.3-javadoc.jar!/" />
