@@ -2,8 +2,10 @@ package com.example.makepaper
 
 import android.Manifest
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.ConnectivityManager
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
@@ -15,6 +17,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
@@ -38,6 +41,7 @@ class PaperProperties : AppCompatActivity() {
     lateinit var adapter: AddQuestionAdapter
     lateinit var databaseReference:DatabaseReference
     private val STORAGE_PERMISSION_CODE = 101
+    private val REQUEST_PERMISSIONS = 1
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,7 +52,7 @@ class PaperProperties : AppCompatActivity() {
         val paperMarks: String = intent.getStringExtra("marks").toString()
         val paperKey: String = intent.getStringExtra("key").toString()
         tv_add_paper.text = paperName
-        tv_add_paper_marks.text = "Marks: " + paperMarks
+        tv_add_paper_marks.text = "Marks: $paperMarks"
 
         progressBar = findViewById(R.id.progress_bar)
         progressBar!!.visibility = View.GONE
@@ -183,21 +187,15 @@ class PaperProperties : AppCompatActivity() {
         document.add(table)
         document.close()
 
-        Toast.makeText(baseContext, "PDF Generated", Toast.LENGTH_LONG).show()
-//        val file = File(applicationContext.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS), "Question Paper Maker")
-//        val filepath = File(file, "$paperName $formattedDate.pdf")
-//        val target = Intent(Intent.ACTION_VIEW)
-//        target.setDataAndType(Uri.fromFile(filepath), "application/pdf")
-//        target.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-//        val intent = Intent.createChooser(target, "Open File")
-//        try {
-//            applicationContext.startActivity(intent)
-//        } catch (e: ActivityNotFoundException) {
-//            Toast.makeText(
-//                applicationContext, "Install PDF reader to open PDF file",
-//                Toast.LENGTH_SHORT
-//            ).show()
-//        }
+        Toast.makeText(this, "PDF Generated", Toast.LENGTH_LONG).show()
+        val file = File(
+            this.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS),
+            "/Question Paper Maker/$paperName $formattedDate.pdf"
+        )
+
+        if(file.exists()) {
+            openPdf(file, this)
+        }
     }
 
     private fun addHeader(table: PdfPTable, header: String, size: Float, bold: Boolean = false, align: Int = Element.ALIGN_LEFT){
@@ -271,4 +269,42 @@ class PaperProperties : AppCompatActivity() {
             Toast.makeText(this, "Storage Permission Denied", Toast.LENGTH_SHORT).show()
         }
     }
+
+    // Try to open PDF and return false if it is not possible.
+    private fun openPdf(file: File, context: Context): Boolean {
+        val uri = getUriFromFile(file, context)
+        if (uri == null) {
+            return false
+        } else {
+            val intent = Intent(Intent.ACTION_VIEW).apply {
+                setDataAndType(uri, "application/pdf")
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            }
+            // Validate that the device can open your File.
+            val activityInfo = intent.resolveActivityInfo(context.packageManager, intent.flags)
+            return if (activityInfo?.exported == true) {
+                context.startActivity(Intent.createChooser(intent, "Open PDF with"))
+                true
+            } else {
+                false
+            }
+        }
+    }
+
+    // Get URI from file.
+    private fun getUriFromFile(file: File, context: Context): Uri? =
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            Uri.fromFile(file)
+        } else {
+            try {
+                FileProvider.getUriForFile(context, context.packageName, file)
+            } catch (e: Exception) {
+                if (e.message?.contains("ProviderInfo.loadXmlMetaData") == true) {
+                    throw Error("FileProvider doesn't exist or has no permissions")
+                } else {
+                    throw e
+                }
+            }
+        }
 }

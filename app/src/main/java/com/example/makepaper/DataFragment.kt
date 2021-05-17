@@ -85,7 +85,7 @@ class DataFragment : Fragment() {
             override fun onCancelled(databaseError: DatabaseError) {}
         })
 
-        databaseReference.orderByKey().addChildEventListener(object : ChildEventListener {
+        databaseReference.addChildEventListener(object : ChildEventListener {
             override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
                 val data: Map<String, Object> = snapshot.value as Map<String, Object>
                 questionList.add(getQuestionObj(data))
