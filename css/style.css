@@ -30,7 +30,7 @@ body::-webkit-scrollbar-thumb {
 }
 
 body {
-  background-image: url("../images/homepage.jpg");
+  background-image: url("../images/homepage.svg");
   background-repeat: no-repeat;
 }
 
