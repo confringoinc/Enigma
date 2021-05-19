@@ -3,9 +3,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item
-        android:drawable="@drawable/user"
+        android:drawable="@drawable/ic_user_1"
         android:width="20dp"
-        android:height="20sp"
+        android:height="20dp"
         tools:targetApi="m" />
 
 </layer-list >

@@ -162,11 +162,11 @@ class QuestionAdapter(val context: Context?, private var questions: MutableList<
             var items = arrayOf("Cancel Selection")
             val key = ArrayList<String>()
 
-            databaseReference = FirebaseDatabase.getInstance().reference.child(
+            val databaseReferencePaper = FirebaseDatabase.getInstance().reference.child(
                 FirebaseAuth.getInstance().currentUser?.uid!!
             ).child("papers")
 
-            databaseReference.addChildEventListener(object : ChildEventListener {
+            databaseReferencePaper.addChildEventListener(object : ChildEventListener {
                 override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
                     val data: Map<String, Object> = snapshot.value as Map<String, Object>
                     items += data["name"].toString()
@@ -196,16 +196,45 @@ class QuestionAdapter(val context: Context?, private var questions: MutableList<
                     items
                 ) { dialog, que ->
                     if (que > 0) {
-                        databaseReference.child(key[que-1]).child("questions").child(databaseReference.push().key!!).setValue(Questions(databaseReference.push().key, question.question, question.marks, question.category))
-                            .addOnCompleteListener {
+                        val query: Query = databaseReferencePaper.child(key[que - 1]).child("questions").orderByChild("question").equalTo(question.question)
+                        query.addListenerForSingleValueEvent(object : ValueEventListener {
+                            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                                if (dataSnapshot.hasChildren()) {
+                                    Toast.makeText(
+                                        context,
+                                        "Question already exists in paper",
+                                        Toast.LENGTH_LONG
+                                    ).show()
+                                } else {
+                                    databaseReferencePaper.child(key[que - 1]).child("questions")
+                                        .child(databaseReferencePaper.push().key!!).setValue(
+                                            Questions(
+                                                databaseReferencePaper.push().key,
+                                                question.question,
+                                                question.marks,
+                                                question.category,
+                                                null
+                                            )
+                                        )
+                                        .addOnCompleteListener {
 
+                                            Toast.makeText(
+                                                context, "Question Added",
+                                                Toast.LENGTH_SHORT
+                                            ).show()
+                                        }
+                                }
+                            }
+
+                            override fun onCancelled(error: DatabaseError) {
                                 Toast.makeText(
-                                    context, "Question Added",
-                                    Toast.LENGTH_SHORT
+                                    context,
+                                    "Question already exists in paper but not changed",
+                                    Toast.LENGTH_LONG
                                 ).show()
                             }
+                        })
                     }
-
                     dialog.cancel()
                 }
                 builder.create()?.show()

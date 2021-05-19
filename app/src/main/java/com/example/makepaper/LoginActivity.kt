@@ -42,14 +42,14 @@ class LoginActivity : AppCompatActivity() {
         progressBar!!.visibility = View.GONE
 
         //password show hide
-        btn_show_pass.setBackgroundResource(R.drawable.eye_hide)
+        btn_show_pass.setBackgroundResource(R.drawable.ic_eye_hide)
         btn_show_pass.setOnClickListener {
             if (et_password.transformationMethod == null) {
                 et_password.transformationMethod = PasswordTransformationMethod()
-                btn_show_pass.setBackgroundResource(R.drawable.eye_hide)
+                btn_show_pass.setBackgroundResource(R.drawable.ic_eye_hide)
             } else {
                 et_password.transformationMethod = null
-                btn_show_pass.setBackgroundResource(R.drawable.eye_show)
+                btn_show_pass.setBackgroundResource(R.drawable.ic_eye_show)
             }
         }
 

@@ -35,7 +35,7 @@ class AboutActivity : AppCompatActivity() {
         }
 
         tv_about_site.setOnClickListener {
-            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://enigmaque.netlify.app/"))
+            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://confringoinc.github.io/Enigma/"))
             startActivity(browserIntent)
         }
     }

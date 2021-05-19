@@ -4,7 +4,6 @@ package com.example.makepaper
 import android.content.Context
 import android.net.ConnectivityManager
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.Toast
@@ -52,25 +51,52 @@ class EditPaperActivity : AppCompatActivity() {
                 if(intent.hasExtra("paperKey")){
                     answer?.let{
                         answer.key = intent.getStringExtra("paperKey")!!
-                        Log.i(TAG, "Edited Paper Added: $answer")
 
-                        databaseReference.child(answer.key!!).setValue(answer)
+                        databaseReference.child(answer.key!!).child("name").setValue(answer.name)
                                 .addOnCompleteListener {
-                                    progressBar!!.visibility = View.GONE
-                                    Toast.makeText(this, "Paper Edited", Toast.LENGTH_LONG).show()
-                                    resetComponents()
+                                    databaseReference.child(answer.key!!).child("marks").setValue(answer.marks)
+                                        .addOnCompleteListener {
+                                            progressBar!!.visibility = View.GONE
+                                            Toast.makeText(this, "Paper Edited", Toast.LENGTH_LONG).show()
+                                            resetComponents()
+                                            onBackPressed()
+                                        }
                                 }
                     }
-                } else{
+                } else {
                     answer?.let {
                         //  Store the question in current user's uid node under Questions Node
-                        Log.i(TAG, "New Paper Added: $answer")
-                        databaseReference.child(answer.key!!).setValue(answer)
-                                .addOnCompleteListener {
+
+                        val query: Query = databaseReference.orderByChild("name").equalTo(answer.name)
+                        query.addListenerForSingleValueEvent(object : ValueEventListener {
+                            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                                if(dataSnapshot.hasChildren()) {
                                     progressBar!!.visibility = View.GONE
-                                    Toast.makeText(this, "Paper added", Toast.LENGTH_LONG).show()
                                     resetComponents()
+                                    Toast.makeText(
+                                        applicationContext,
+                                        "Paper already exists",
+                                        Toast.LENGTH_LONG
+                                    ).show()
                                 }
+                                else {
+                                    databaseReference.child(answer.key!!).setValue(answer)
+                                        .addOnCompleteListener {
+                                            progressBar!!.visibility = View.GONE
+                                            Toast.makeText(applicationContext, "Paper added", Toast.LENGTH_LONG).show()
+                                            resetComponents()
+                                        }
+                                }
+                            }
+
+                            override fun onCancelled(error: DatabaseError) {
+                                Toast.makeText(
+                                    applicationContext,
+                                    "Paper already exists but not changed",
+                                    Toast.LENGTH_LONG
+                                ).show()
+                            }
+                        })
                     }
                 }
             }
@@ -93,25 +119,6 @@ class EditPaperActivity : AppCompatActivity() {
             et_marks.requestFocus()
             progressBar!!.visibility = View.GONE
             return null
-        }
-
-        if(intent.hasExtra("etName")) {
-            val query: Query = databaseReference.orderByChild("name").equalTo(intent.getStringExtra("etName"))
-
-            query.addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    for (snapshot in dataSnapshot.children) {
-                        snapshot.ref.removeValue()
-                    }
-                }
-
-                override fun onCancelled(databaseError: DatabaseError) {
-                    Toast.makeText(
-                            applicationContext, "Failed to edit",
-                            Toast.LENGTH_SHORT
-                    ).show()
-                }
-            })
         }
         val key = databaseReference.push().key
         return Papers(key!!, userPaper, marks)

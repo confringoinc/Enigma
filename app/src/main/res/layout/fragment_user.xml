@@ -5,6 +5,7 @@
     android:id="@+id/scrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingHorizontal="20dp"
     android:scrollbars="none"
     android:fillViewport="true"
     tools:context=".MainActivity">
@@ -19,13 +20,14 @@
 
         <ImageView
             android:id="@+id/iv_user"
+            style="@style/ImageViewLogo"
             android:layout_width="120dp"
             android:layout_height="120dp"
             android:layout_marginTop="40dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@mipmap/user_background"
+            android:src="@drawable/ic_user"
             android:contentDescription="@string/user" />
 
         <TextView
@@ -33,11 +35,7 @@
             style="@style/TextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
-            android:layout_marginLeft="40dp"
             android:layout_marginTop="10dp"
-            android:layout_marginEnd="40dp"
-            android:layout_marginRight="40dp"
             android:fontFamily="@font/bold"
             android:gravity="center_horizontal"
             android:text="@string/user_name"
@@ -51,15 +49,9 @@
             android:id="@+id/tv_user_email"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
-            android:layout_marginLeft="40dp"
-            android:layout_marginEnd="40dp"
-            android:layout_marginRight="40dp"
             android:fontFamily="@font/regular"
             android:gravity="center_horizontal"
-            android:text=""
             android:textColor="@color/secondary_text"
-            android:textAlignment="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_user_name" />
@@ -68,10 +60,6 @@
             android:id="@+id/tv_user_settings"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
-            android:layout_marginLeft="40dp"
-            android:layout_marginEnd="40dp"
-            android:layout_marginRight="40dp"
             android:layout_marginTop="60dp"
             android:fontFamily="@font/bold"
             android:text="@string/settings"
@@ -85,11 +73,7 @@
             style="@style/TextView"
             android:layout_width="0dp"
             android:layout_height="55dp"
-            android:layout_marginStart="40dp"
-            android:layout_marginLeft="40dp"
             android:layout_marginTop="20dp"
-            android:layout_marginEnd="40dp"
-            android:layout_marginRight="40dp"
             android:background="?attr/selectableItemBackground"
             android:clickable="true"
             android:focusable="true"
@@ -99,7 +83,6 @@
             android:text="@string/delete_account"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_user_settings" />
 
@@ -107,22 +90,19 @@
             android:layout_width="25dp"
             android:layout_height="25dp"
             style="@style/ImageView"
-            android:src="@drawable/trash"
+            android:src="@drawable/ic_trash"
             app:layout_constraintBottom_toBottomOf="@+id/tv_user_settings_delete"
             app:layout_constraintEnd_toEndOf="@+id/tv_user_settings_delete"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/tv_user_settings_delete"
-            app:layout_constraintTop_toTopOf="@+id/tv_user_settings_delete" />
+            app:layout_constraintTop_toTopOf="@+id/tv_user_settings_delete"
+            android:contentDescription="@string/delete_account" />
 
         <TextView
             android:id="@+id/tv_user_settings_info"
             style="@style/TextView"
             android:layout_width="0dp"
             android:layout_height="55dp"
-            android:layout_marginStart="40dp"
-            android:layout_marginLeft="40dp"
-            android:layout_marginEnd="40dp"
-            android:layout_marginRight="40dp"
             android:background="?attr/selectableItemBackground"
             android:clickable="true"
             android:focusable="true"
@@ -132,7 +112,6 @@
             android:text="@string/about"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_user_settings_delete" />
 
@@ -140,22 +119,19 @@
             android:layout_width="25dp"
             android:layout_height="25dp"
             style="@style/ImageView"
-            android:src="@drawable/log_out"
-            app:layout_constraintBottom_toBottomOf="@+id/tv_user_settings_logout"
-            app:layout_constraintEnd_toEndOf="@+id/tv_user_settings_logout"
+            android:src="@drawable/ic_info"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_user_settings_info"
+            app:layout_constraintEnd_toEndOf="@+id/tv_user_settings_info"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/tv_user_settings_logout"
-            app:layout_constraintTop_toTopOf="@+id/tv_user_settings_logout" />
+            app:layout_constraintStart_toStartOf="@+id/tv_user_settings_info"
+            app:layout_constraintTop_toTopOf="@+id/tv_user_settings_info"
+            android:contentDescription="@string/about" />
 
         <TextView
             android:id="@+id/tv_user_settings_logout"
             style="@style/TextView"
             android:layout_width="0dp"
             android:layout_height="55dp"
-            android:layout_marginStart="40dp"
-            android:layout_marginLeft="40dp"
-            android:layout_marginEnd="40dp"
-            android:layout_marginRight="40dp"
             android:background="?attr/selectableItemBackground"
             android:clickable="true"
             android:focusable="true"
@@ -165,7 +141,6 @@
             android:text="@string/log_out"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_user_settings_info" />
 
@@ -173,12 +148,13 @@
             android:layout_width="25dp"
             android:layout_height="25dp"
             style="@style/ImageView"
-            android:src="@drawable/info"
-            app:layout_constraintBottom_toBottomOf="@+id/tv_user_settings_info"
-            app:layout_constraintEnd_toEndOf="@+id/tv_user_settings_info"
+            android:src="@drawable/ic_log_out"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_user_settings_logout"
+            app:layout_constraintEnd_toEndOf="@+id/tv_user_settings_logout"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/tv_user_settings_info"
-            app:layout_constraintTop_toTopOf="@+id/tv_user_settings_info" />
+            app:layout_constraintStart_toStartOf="@+id/tv_user_settings_logout"
+            app:layout_constraintTop_toTopOf="@+id/tv_user_settings_logout"
+            android:contentDescription="@string/log_out" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

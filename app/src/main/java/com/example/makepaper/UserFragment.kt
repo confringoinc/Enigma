@@ -15,6 +15,10 @@ import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
 class UserFragment : Fragment() {
     companion object {
@@ -69,16 +73,34 @@ class UserFragment : Fragment() {
                         auth = FirebaseAuth.getInstance()
                         val user = auth.currentUser
 
-                        user!!.delete()
-                                .addOnCompleteListener { task ->
-                                    if (task.isSuccessful) {
-                                        Toast.makeText(
-                                                context, "Account deleted successfully",
-                                                Toast.LENGTH_SHORT
-                                        ).show()
-                                        logout()
-                                    }
+                        val databaseReference = FirebaseDatabase.getInstance().reference.child(FirebaseAuth.getInstance().currentUser?.uid!!)
+
+                        databaseReference.addListenerForSingleValueEvent(object :
+                            ValueEventListener {
+                            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                                for (snapshot in dataSnapshot.children) {
+                                    snapshot.ref.removeValue()
+                                    user!!.delete()
+                                        .addOnCompleteListener { task ->
+                                            if (task.isSuccessful) {
+                                                Toast.makeText(
+                                                    context, "Account deleted successfully",
+                                                    Toast.LENGTH_SHORT
+                                                ).show()
+                                                dismiss()
+                                                logout()
+                                            }
+                                        }
                                 }
+                            }
+
+                            override fun onCancelled(databaseError: DatabaseError) {
+                                Toast.makeText(
+                                    context, "Failed to delete",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        })
                     }
 
                     btnCancel.setOnClickListener {

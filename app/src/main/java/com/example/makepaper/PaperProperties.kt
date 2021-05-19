@@ -38,10 +38,9 @@ class PaperProperties : AppCompatActivity() {
     var questionList = ArrayList<Questions>()
     private var progressBar: ProgressBar? = null
     val TAG = "PeperProperties"
-    lateinit var adapter: AddQuestionAdapter
+    lateinit var adapter: LastQuestionAdapter
     lateinit var databaseReference:DatabaseReference
     private val STORAGE_PERMISSION_CODE = 101
-    private val REQUEST_PERMISSIONS = 1
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -90,9 +89,8 @@ class PaperProperties : AppCompatActivity() {
         databaseReference.addChildEventListener(object : ChildEventListener {
             override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
                 val data: Map<String, Object> = snapshot.value as Map<String, Object>
-                questionList.add(getQuestionObj(data))
-                questionList.reverse()
-                adapter = AddQuestionAdapter(this@PaperProperties, questionList)
+                questionList.add(getQuestionObj(data, paperKey))
+                adapter = LastQuestionAdapter(this@PaperProperties, questionList)
                 rv_added.adapter = adapter
             }
 
@@ -247,13 +245,13 @@ class PaperProperties : AppCompatActivity() {
         return activeNetworkInfo != null && activeNetworkInfo.isConnected
     }
 
-    private fun getQuestionObj(data: Map<String, Object>): Questions {
+    private fun getQuestionObj(data: Map<String, Object>, paperKey: String): Questions {
         val key = data["key"] as String?
         val question = data["question"] as String
         val marks = data["marks"] as String
         val category = data["category"] as List<String>
 
-        return Questions(key, question, marks, category)
+        return Questions(key, question, marks, category, paperKey)
     }
 
     private fun checkPermission(permission: String, requestCode: Int) {
