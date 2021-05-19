@@ -22,9 +22,9 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.fragment_file.*
 import kotlinx.android.synthetic.main.fragment_file.view.*
-import kotlinx.android.synthetic.main.fragment_file.view.rv_papers
-import kotlinx.android.synthetic.main.fragment_file.view.tv_no_papers
 import java.io.File
+import java.util.*
+import kotlin.collections.ArrayList
 
 class FileFragment : Fragment() {
 
@@ -87,6 +87,7 @@ class FileFragment : Fragment() {
             }
         }
 
+        pdfList.asReversed()
         paperPdfAdapter = PaperPdfAdapter(this@FileFragment.context, pdfList)
         view.rv_papers_pdf.adapter = paperPdfAdapter
 
@@ -107,8 +108,7 @@ class FileFragment : Fragment() {
             override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
                 val data: Map<String, Object> = snapshot.value as Map<String, Object>
                 paperList.add(getPaperObj(data))
-                //paperList.reverse()
-                adapter = PaperAdapter(this@FileFragment.context, paperList)
+                adapter = PaperAdapter(this@FileFragment.context, paperList.asReversed())
                 view.rv_papers.adapter = adapter
             }
 
@@ -136,7 +136,6 @@ class FileFragment : Fragment() {
             override fun onCancelled(error: DatabaseError) {
                 progressBar!!.visibility = View.GONE
             }
-
         })
 
         databaseReference.addValueEventListener(object : ValueEventListener {

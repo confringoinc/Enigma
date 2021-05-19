@@ -45,10 +45,10 @@ class PaperAdapter(val context: Context?, private val papers: MutableList<Papers
             itemView.tv_marks.text = marksText
 
             itemView.setOnClickListener {
-                val intent = Intent(context, AddPaper::class.java)
-                intent.putExtra("paperKey", paper.key)
-                intent.putExtra("paperName", paper.name)
-                intent.putExtra("paperMarks", paper.marks)
+                val intent = Intent(context, PaperProperties::class.java)
+                intent.putExtra("key", paper.key)
+                intent.putExtra("name", paper.name)
+                intent.putExtra("marks", paper.marks)
                 itemView.context.startActivity(intent)
             }
 

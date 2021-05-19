@@ -80,7 +80,7 @@
         android:layout_gravity="end"
         android:padding="12dp"
         android:contentDescription="@string/options"
-        android:src="@drawable/more_vertical" />
+        android:src="@drawable/ic_more_vertical" />
 
     <ImageButton
         android:id="@+id/ib_add"
@@ -94,6 +94,6 @@
         android:contentDescription="@string/add_question"
         android:padding="15dp"
         android:scaleType="fitCenter"
-        android:src="@drawable/plus"
+        android:src="@drawable/ic_plus"
         android:layout_marginEnd="5dp" />
 </androidx.cardview.widget.CardView>

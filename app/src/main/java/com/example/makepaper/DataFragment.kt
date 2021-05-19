@@ -62,7 +62,7 @@ class DataFragment : Fragment() {
 
         //  Getting Firebase Reference Object Instance
         databaseReference = FirebaseDatabase.getInstance().reference
-                .child(FirebaseAuth.getInstance().currentUser?.uid!!).child("questions")
+            .child(FirebaseAuth.getInstance().currentUser?.uid!!).child("questions")
 
         //  Adding a value event Listener to check if user has Question or not.
         databaseReference.addValueEventListener(object : ValueEventListener {
@@ -241,6 +241,6 @@ class DataFragment : Fragment() {
         val marks = data["marks"] as String
         val category = data["category"] as List<String>
 
-        return Questions(key, question, marks, category)
+        return Questions(key, question, marks, category, null)
     }
 }

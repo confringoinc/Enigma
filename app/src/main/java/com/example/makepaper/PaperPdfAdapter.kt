@@ -1,7 +1,9 @@
 package com.example.makepaper
 
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
@@ -12,8 +14,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
-import android.widget.Toast
+import android.widget.TextView
 import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
@@ -69,18 +72,32 @@ class PaperPdfAdapter(val context: Context?, private val papers: ArrayList<Paper
                 popup.setOnMenuItemClickListener { item ->
                     when(item.title) {
                         "Delete" -> {
-                            val dir = File(itemView.context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS),
-                                "Question Paper Maker")
-                            val file = File(dir, paper.name!!)
-                            file.delete()
-                            papers.removeAt(adapterPosition)
-                            notifyItemRemoved(adapterPosition)
+                            Dialog(context!!)
+                                .apply {
+                                    setCancelable(true)
+                                    setContentView(R.layout.dialog)
 
-                            Toast.makeText(
-                                context, "Question Paper Deleted",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                                    val btnDelete = findViewById<TextView>(R.id.btn_delete)
+                                    val btnCancel = findViewById<TextView>(R.id.btn_cancel)
+                                    val deleteText = findViewById<TextView>(R.id.delete_text)
+                                    deleteText.text = paper.name
 
+                                    btnDelete.setOnClickListener {
+                                        val dir = File(itemView.context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS),
+                                            "Question Paper Maker")
+                                        val file = File(dir, paper.name!!)
+                                        file.delete()
+                                        dismiss()
+                                        papers.removeAt(adapterPosition)
+                                        notifyItemRemoved(adapterPosition)
+                                    }
+
+                                    btnCancel.setOnClickListener {
+                                        dismiss()
+                                    }
+                                    window?.setBackgroundDrawable(ColorDrawable(ContextCompat.getColor(context, R.color.transparent)))
+                                    show()
+                                }
                         }
                     }
                     true

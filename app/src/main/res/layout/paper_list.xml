@@ -47,5 +47,5 @@
         android:layout_gravity="end"
         android:contentDescription="@string/options"
         android:padding="12dp"
-        android:src="@drawable/more_vertical" />
+        android:src="@drawable/ic_more_vertical" />
 </androidx.cardview.widget.CardView>

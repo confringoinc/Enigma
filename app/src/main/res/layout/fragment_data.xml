@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:paddingHorizontal="20dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
@@ -23,11 +24,7 @@
         android:id="@+id/rv_questions"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginLeft="40dp"
         android:layout_marginTop="20dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginRight="40dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -37,76 +34,25 @@
         android:id="@+id/tv_no_questions"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginRight="40dp"
         android:gravity="center_horizontal"
         android:text="@string/no_questions"
-        android:textAlignment="center"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/rv_questions"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/rv_questions"
-        app:layout_constraintVertical_bias="0.0" />
-
-<!--    <ScrollView-->
-<!--        android:id="@+id/ques_scrollView"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="0dp"-->
-<!--        android:layout_marginStart="40dp"-->
-<!--        android:layout_marginLeft="40dp"-->
-<!--        android:layout_marginTop="15dp"-->
-<!--        android:layout_marginEnd="40dp"-->
-<!--        android:layout_marginRight="40dp"-->
-<!--        android:scrollbars="none"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/tv_questions">-->
-
-<!--        <LinearLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:orientation="vertical">-->
-
-<!--            <androidx.recyclerview.widget.RecyclerView-->
-<!--                android:id="@+id/rv_questions"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="match_parent"-->
-<!--                app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                app:layout_constraintEnd_toEndOf="parent"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toBottomOf="@+id/ques_scrollView" />-->
-
-<!--            <ProgressBar-->
-<!--                android:id="@+id/onSwipeUpPB"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_gravity="center_horizontal|bottom"-->
-<!--                android:visibility="gone"-->
-<!--                app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                app:layout_constraintEnd_toEndOf="parent"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toBottomOf="@+id/rv_questions" />-->
-
-<!--        </LinearLayout>-->
-<!--    </ScrollView>-->
+        app:layout_constraintTop_toTopOf="@+id/rv_questions" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/fab_add_question"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp"
-        android:layout_marginRight="20dp"
         android:layout_marginBottom="20dp"
         android:backgroundTint="@color/primary"
         android:contentDescription="@string/fab"
         android:elevation="20dp"
         android:textStyle="bold"
         android:text="@string/add_question"
-        app:icon="@drawable/plus"
+        app:icon="@drawable/ic_plus"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         tools:targetApi="lollipop" />

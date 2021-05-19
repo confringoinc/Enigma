@@ -4,24 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingHorizontal="20dp"
     android:fillViewport="true"
     tools:context=".AddQuestion">
 
     <ImageView
         android:id="@+id/btn_back"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginLeft="20dp"
+        android:layout_width="27dp"
+        android:layout_height="27dp"
         android:layout_marginTop="15dp"
-        android:padding="8dp"
         style="@style/ImageView"
         android:background="?attr/selectableItemBackground"
         android:clickable="true"
         android:focusable="true"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/left_arrow"
+        android:src="@drawable/ic_left_arrow"
         tools:targetApi="lollipop"
         android:contentDescription="@string/back" />
 
@@ -29,32 +27,22 @@
         android:id="@+id/tv_about"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginRight="40dp"
         android:fontFamily="@font/bold"
         android:text="@string/about_cap"
         android:textColor="@color/secondary_text"
         app:layout_constraintBottom_toBottomOf="@+id/btn_back"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/btn_back"
-        app:layout_constraintVertical_bias="0.56" />
+        app:layout_constraintTop_toTopOf="@+id/btn_back" />
 
     <ImageView
         android:id="@+id/iv_logo"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginStart="40dp"
         android:layout_marginTop="40dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginBottom="40dp"
         android:contentDescription="@string/app_name"
-        android:src="@drawable/enigma_launcher"
+        android:src="@drawable/ic_enigma"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_about" />
 
@@ -63,11 +51,7 @@
         style="@style/TextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginLeft="40dp"
         android:layout_marginTop="20dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginRight="40dp"
         android:fontFamily="@font/bold"
         android:text="@string/app_name"
         android:textSize="20sp"
@@ -79,11 +63,7 @@
         android:id="@+id/splashScreenTV_author"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginLeft="40dp"
         android:layout_marginTop="5dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginRight="40dp"
         android:text="@string/app_name_author"
         android:textColor="@color/secondary_text"
         app:layout_constraintEnd_toEndOf="parent"
@@ -95,11 +75,7 @@
         style="@style/TextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginLeft="40dp"
         android:layout_marginTop="20dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginRight="40dp"
         android:text="@string/v_1_0_0"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -109,11 +85,7 @@
         android:id="@+id/tv_about_more"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginLeft="40dp"
         android:layout_marginTop="40dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginRight="40dp"
         android:fontFamily="@font/bold"
         android:text="@string/more_info"
         android:textColor="@color/secondary_text"
@@ -122,49 +94,23 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_version" />
 
-<!--    <TextView-->
-<!--        android:id="@+id/tv_about_contact"-->
-<!--        style="@style/TextView"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="55dp"-->
-<!--        android:layout_marginStart="40dp"-->
-<!--        android:layout_marginLeft="40dp"-->
-<!--        android:layout_marginTop="20dp"-->
-<!--        android:layout_marginEnd="40dp"-->
-<!--        android:layout_marginRight="40dp"-->
-<!--        android:background="?attr/selectableItemBackground"-->
-<!--        android:clickable="true"-->
-<!--        android:focusable="true"-->
-<!--        android:gravity="center_vertical"-->
-<!--        android:paddingStart="40dp"-->
-<!--        android:paddingLeft="40dp"-->
-<!--        android:text="+91 xxxx xxxxxx"-->
-<!--        android:textStyle="bold"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintHorizontal_bias="1.0"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/tv_about_more" />-->
-
-<!--    <ImageView-->
-<!--        android:layout_width="25dp"-->
-<!--        android:layout_height="25dp"-->
-<!--        style="@style/ImageView"-->
-<!--        android:src="@drawable/phone"-->
-<!--        app:layout_constraintBottom_toBottomOf="@+id/tv_about_contact"-->
-<!--        app:layout_constraintEnd_toEndOf="@+id/tv_about_contact"-->
-<!--        app:layout_constraintHorizontal_bias="0.0"-->
-<!--        app:layout_constraintStart_toStartOf="@+id/tv_about_contact"-->
-<!--        app:layout_constraintTop_toTopOf="@+id/tv_about_contact" />-->
+    <ImageView
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        style="@style/ImageView"
+        android:src="@drawable/ic_mail"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_about_mail"
+        app:layout_constraintEnd_toEndOf="@+id/tv_about_mail"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/tv_about_mail"
+        app:layout_constraintTop_toTopOf="@+id/tv_about_mail"
+        android:contentDescription="@string/confringoinc_gmail_com" />
 
     <TextView
         android:id="@+id/tv_about_mail"
         style="@style/TextView"
         android:layout_width="0dp"
         android:layout_height="55dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginRight="40dp"
         android:background="?attr/selectableItemBackground"
         android:clickable="true"
         android:focusable="true"
@@ -179,25 +125,22 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_about_more" />
 
     <ImageView
+        style="@style/ImageView"
         android:layout_width="25dp"
         android:layout_height="25dp"
-        style="@style/ImageView"
-        android:src="@drawable/at_sign"
+        android:src="@drawable/ic_at_sign"
         app:layout_constraintBottom_toBottomOf="@+id/tv_about_site"
         app:layout_constraintEnd_toEndOf="@+id/tv_about_site"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/tv_about_site"
-        app:layout_constraintTop_toTopOf="@+id/tv_about_site" />
+        app:layout_constraintTop_toTopOf="@+id/tv_about_site"
+        android:contentDescription="@string/confringoinc_github_io_enigma" />
 
     <TextView
         android:id="@+id/tv_about_site"
         style="@style/TextView"
         android:layout_width="0dp"
         android:layout_height="55dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginRight="40dp"
         android:background="?attr/selectableItemBackground"
         android:clickable="true"
         android:focusable="true"
@@ -210,16 +153,5 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_about_mail" />
-
-    <ImageView
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        style="@style/ImageView"
-        android:src="@drawable/mail"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_about_mail"
-        app:layout_constraintEnd_toEndOf="@+id/tv_about_mail"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/tv_about_mail"
-        app:layout_constraintTop_toTopOf="@+id/tv_about_mail" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

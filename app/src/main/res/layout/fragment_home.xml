@@ -1,33 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/scrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:scrollbars="none"
+    android:paddingHorizontal="20dp"
     android:fillViewport="true"
     tools:context=".MainActivity">
-
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
 
     <TextView
         android:id="@+id/tv_welcome"
         style="@style/TextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginLeft="40dp"
         android:layout_marginTop="40dp"
         android:fontFamily="@font/bold"
         android:textStyle="bold"
         android:text="@string/welcome"
         android:textSize="30sp"
         app:layout_constraintEnd_toStartOf="@+id/tv_name"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -36,11 +27,9 @@
         style="@style/TextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginLeft="5dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
         android:layout_marginTop="40dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginRight="40dp"
         android:fontFamily="@font/bold"
         android:textStyle="bold"
         android:text="@string/user_name"
@@ -53,10 +42,6 @@
         android:id="@+id/tv_home"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginRight="40dp"
         android:text="@string/welcome2"
         android:textColor="@color/secondary_text"
         app:layout_constraintEnd_toEndOf="parent"
@@ -67,15 +52,10 @@
         android:id="@+id/tv_top_papers_pdf"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginLeft="40dp"
         android:layout_marginTop="40dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginRight="40dp"
         android:fontFamily="@font/bold"
         android:text="@string/pdfs"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_home" />
 
@@ -83,11 +63,7 @@
         android:id="@+id/rv_papers_pdf"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginLeft="40dp"
         android:layout_marginTop="5dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginRight="40dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_top_papers_pdf" />
@@ -96,15 +72,10 @@
         android:id="@+id/tv_top_papers"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginLeft="40dp"
         android:layout_marginTop="40dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginRight="40dp"
         android:fontFamily="@font/bold"
         android:text="@string/top_papers"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rv_papers_pdf" />
 
@@ -112,11 +83,8 @@
         android:id="@+id/rv_papers"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginLeft="40dp"
         android:layout_marginTop="5dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginRight="40dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_top_papers" />
@@ -125,14 +93,10 @@
         android:id="@+id/tv_no_papers"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginRight="40dp"
         android:gravity="center_horizontal"
         android:text="@string/no_papers_found"
-        android:textAlignment="center"
         android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/rv_papers"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/rv_papers" />
@@ -150,66 +114,4 @@
         app:layout_constraintTop_toTopOf="@id/rv_papers"
         tools:targetApi="lollipop" />
 
-    <TextView
-        android:id="@+id/tv_top_questions"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginRight="40dp"
-        android:fontFamily="@font/bold"
-        android:text="@string/top_questions"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rv_papers" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_questions"
-        android:layout_width="match_parent"
-        android:layout_height="500dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginRight="40dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_top_questions"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <TextView
-        android:id="@+id/tv_no_questions"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginRight="40dp"
-        android:gravity="center_horizontal"
-        android:text="@string/no_questions"
-        android:textAlignment="center"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/rv_questions" />
-
-    <ProgressBar
-        android:id="@+id/progress_bar_question"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:indeterminate="true"
-        android:indeterminateTint="@color/primary"
-        android:indeterminateTintMode="src_atop"
-        app:layout_constraintBottom_toBottomOf="@id/rv_questions"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/rv_questions"
-        app:layout_constraintVertical_bias="0.5"
-        tools:targetApi="lollipop" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>

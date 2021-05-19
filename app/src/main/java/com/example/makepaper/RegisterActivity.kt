@@ -27,14 +27,14 @@ class RegisterActivity : AppCompatActivity() {
         progressBar!!.visibility = View.GONE
 
         //password show hide
-        btn_show_pass_reg.setBackgroundResource(R.drawable.eye_hide)
+        btn_show_pass_reg.setBackgroundResource(R.drawable.ic_eye_hide)
         btn_show_pass_reg.setOnClickListener {
             if (et_password_reg.transformationMethod == null) {
                 et_password_reg.transformationMethod = PasswordTransformationMethod()
-                btn_show_pass_reg.setBackgroundResource(R.drawable.eye_hide)
+                btn_show_pass_reg.setBackgroundResource(R.drawable.ic_eye_hide)
             } else {
                 et_password_reg.transformationMethod = null
-                btn_show_pass_reg.setBackgroundResource(R.drawable.eye_show)
+                btn_show_pass_reg.setBackgroundResource(R.drawable.ic_eye_show)
             }
         }
 

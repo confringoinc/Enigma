@@ -14,6 +14,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
@@ -27,12 +28,9 @@ class HomeFragment : Fragment() {
 
     private val TAG = "HomeFragment"
     private var progressBarPaper: ProgressBar? = null
-    private var progressBarQuestion: ProgressBar? = null
     var paperList = ArrayList<Papers>()
-    var questionList = ArrayList<Questions>()
     var pdfList = ArrayList<PaperPdfs>()
     lateinit var paperAdapter: PaperAdapter
-    lateinit var questionAdapter: QuestionAdapter
     lateinit var paperPdfAdapter: PaperPdfAdapter
 
     companion object {
@@ -53,11 +51,8 @@ class HomeFragment : Fragment() {
         }
 
         view.tv_no_papers.visibility = View.GONE
-        view.tv_no_questions.visibility = View.GONE
         progressBarPaper = view.progress_bar_paper
         progressBarPaper!!.visibility = View.VISIBLE
-        progressBarQuestion = view.progress_bar_question
-        progressBarQuestion!!.visibility = View.VISIBLE
 
         if(!isNetworkAvailable()) {
             Toast.makeText(
@@ -66,16 +61,7 @@ class HomeFragment : Fragment() {
             ).show()
 
             progressBarPaper!!.visibility = View.GONE
-            progressBarQuestion!!.visibility = View.GONE
             view.tv_no_papers.visibility = View.VISIBLE
-            view.tv_no_questions.visibility = View.VISIBLE
-        }
-
-        view.rv_papers.layoutManager = object: LinearLayoutManager(view.context, HORIZONTAL, false) {
-            override fun checkLayoutParams(lp: RecyclerView.LayoutParams): Boolean {
-                lp.width = (width / 2.15).toInt()
-                return true
-            }
         }
 
         view.rv_papers_pdf.layoutManager = object: LinearLayoutManager(view.context, HORIZONTAL, false) {
@@ -97,6 +83,7 @@ class HomeFragment : Fragment() {
             }
         }
 
+        pdfList.asReversed()
         paperPdfAdapter = PaperPdfAdapter(this@HomeFragment.context, pdfList)
         view.rv_papers_pdf.adapter = paperPdfAdapter
 
@@ -105,17 +92,18 @@ class HomeFragment : Fragment() {
             view.rv_papers_pdf.visibility = View.GONE
         }
 
-        view.rv_questions.layoutManager = object: LinearLayoutManager(view.context, VERTICAL, false) {}
+        val layoutManager = GridLayoutManager(view.context, 2)
+        layoutManager.orientation = GridLayoutManager.VERTICAL
+        view.rv_papers.layoutManager = layoutManager
 
         val databaseReferencePaper: DatabaseReference = FirebaseDatabase.getInstance().reference.child(FirebaseAuth.getInstance().currentUser?.uid!!).child("papers")
-        val queryPaper: Query = databaseReferencePaper.orderByKey().limitToLast(10)
+        val queryPaper: Query = databaseReferencePaper.limitToLast(10)
 
         queryPaper.addChildEventListener(object : ChildEventListener {
             override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
                 val data: Map<String, Object> = snapshot.value as Map<String, Object>
                 paperList.add(getPaperObj(data))
-                paperList.reverse()
-                paperAdapter = PaperAdapter(this@HomeFragment.context, paperList)
+                paperAdapter = PaperAdapter(this@HomeFragment.context, paperList.asReversed())
                 view.rv_papers.adapter = paperAdapter
                 progressBarPaper!!.visibility = View.GONE
             }
@@ -129,7 +117,7 @@ class HomeFragment : Fragment() {
                     }
                 }
 
-                paperAdapter = PaperAdapter(view.context, paperList)
+                paperAdapter = PaperAdapter(view.context, paperList.asReversed())
                 view.rv_papers.adapter = paperAdapter
             }
 
@@ -159,61 +147,6 @@ class HomeFragment : Fragment() {
 
             override fun onCancelled(databaseError: DatabaseError) {}
         })
-
-        val databaseReferenceQuestion: DatabaseReference = FirebaseDatabase.getInstance().reference.child(FirebaseAuth.getInstance().currentUser?.uid!!).child("questions")
-
-        val queryQuestion: Query = databaseReferenceQuestion.orderByKey().limitToLast(10)
-        queryQuestion.addChildEventListener(object : ChildEventListener {
-            override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
-                val data: Map<String, Object> = snapshot.value as Map<String, Object>
-                questionList.add(getQuestionObj(data))
-                questionList.reverse()
-                val adapter = QuestionAdapter(view.context, questionList)
-                view.rv_questions.adapter = adapter
-                progressBarQuestion!!.visibility = View.GONE
-            }
-
-            override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
-                questionList.forEach {
-                    if(it.key == snapshot.key){
-                        it.question = snapshot.child("question").value as String
-                        it.marks = snapshot.child("marks").value as String
-                        it.category = snapshot.child("category").value as List<String>
-                        Log.i(TAG, "Question as ${it.key} Updated")
-                    }
-                }
-
-                questionAdapter = QuestionAdapter(view.context, questionList)
-                view.rv_questions.adapter = questionAdapter
-            }
-
-            override fun onChildRemoved(snapshot: DataSnapshot) {
-
-            }
-
-            override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
-
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                progressBarQuestion!!.visibility = View.GONE
-            }
-
-        })
-
-        databaseReferenceQuestion.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                if (!dataSnapshot.exists()) {
-                    progressBarQuestion!!.visibility = View.GONE
-                    view.tv_no_questions.visibility = View.VISIBLE
-                } else {
-                    progressBarQuestion!!.visibility = View.GONE
-                    view.tv_no_questions.visibility = View.GONE
-                }
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {}
-        })
         return view
     }
 
@@ -231,12 +164,4 @@ class HomeFragment : Fragment() {
         return Papers(key, name, marks)
     }
 
-    private fun getQuestionObj(data: Map<String, Object>): Questions {
-        val key = data["key"] as String?
-        val question = data["question"] as String
-        val marks = data["marks"] as String
-        val category = data["category"] as List<String>
-
-        return Questions(key, question, marks, category)
-    }
 }

@@ -5,6 +5,7 @@
     android:id="@+id/scrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingHorizontal="20dp"
     android:scrollbars="none"
     android:fillViewport="true"
     tools:context=".ForgotActivity">
@@ -18,49 +19,42 @@
 
         <ImageView
             android:id="@+id/iv_logo"
+            style="@style/ImageViewLogo"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_marginStart="40dp"
             android:layout_marginTop="40dp"
-            android:layout_marginEnd="40dp"
-            android:layout_marginBottom="40dp"
-            android:src="@mipmap/enigma_launcher"
+            android:layout_marginBottom="10dp"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/ic_enigma"
             app:layout_constraintBottom_toTopOf="@+id/tv_forgot1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0"
-            android:contentDescription="@string/app_name" />
+            app:layout_constraintVertical_bias="0.0" />
 
         <TextView
             android:id="@+id/tv_forgot1"
             style="@style/TextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
-            android:layout_marginEnd="40dp"
             android:layout_marginBottom="2dp"
             android:fontFamily="@font/bold"
             android:text="@string/forgot1"
             android:textSize="30sp"
             app:layout_constraintBottom_toTopOf="@id/tv_forgot2"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/tv_forgot2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
-            android:layout_marginEnd="40dp"
             android:layout_marginBottom="40dp"
             android:text="@string/forgot2"
             android:textColor="@color/secondary_text"
             app:layout_constraintBottom_toTopOf="@+id/et_email"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent" />
 
         <EditText
@@ -68,8 +62,6 @@
             style="@style/EditText"
             android:layout_width="0dp"
             android:layout_height="55dp"
-            android:layout_marginStart="40dp"
-            android:layout_marginEnd="40dp"
             android:layout_marginBottom="40dp"
             android:ems="10"
             android:hint="@string/email"
@@ -79,7 +71,6 @@
             android:textSize="15sp"
             app:layout_constraintBottom_toTopOf="@+id/btn_send"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             android:autofillHints="@string/email"
             android:paddingRight="20dp"
@@ -90,24 +81,17 @@
             style="@style/Button"
             android:layout_width="0dp"
             android:layout_height="55dp"
-            android:layout_marginStart="40dp"
-            android:layout_marginEnd="40dp"
             android:layout_marginBottom="10dp"
             android:background="@drawable/button_primary"
             android:text="@string/send"
-            android:textAllCaps="false"
-            android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/tv_back"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/tv_back"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
-            android:layout_marginEnd="40dp"
             android:layout_marginBottom="20dp"
             android:gravity="center_horizontal"
             android:text="@string/back"
@@ -115,7 +99,6 @@
             android:textAlignment="center"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent" />
 
         <ProgressBar
