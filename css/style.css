@@ -88,33 +88,6 @@ h2 a {
   color: transparent;
 }
 
-.jobs:hover, .jobsTitle {
-  color: #0045FE;
-  -webkit-text-stroke: 1px #0045FE;
-}
-
-.healthcare:hover, .healthcareTitle {
-  color: #00D167;
-  -webkit-text-stroke: 1px #00D167;
-}
-
-.education:hover, .educationTitle {
-  color: #FF2323;
-  -webkit-text-stroke: 1px #FF2323;
-}
-
-.jobs:hover:before {
-  background-color: #DFEDFF;
-}
-
-.healthcare:hover:before {
-  background-color: #BFF4D9;
-}
-
-.education:hover:before {
-  background-color: #FFC8C8;
-}
-
 .colorPrimary {
   color: #0045FE;
 }
@@ -412,57 +385,23 @@ nav a, #navbarContainer a {
 }
 
 .row {
-  display: -ms-flexbox;
+  --gutter-x: 1.5rem;
+  --gutter-y: 0;
   display: flex;
-  -ms-flex-wrap: wrap;
   flex-wrap: wrap;
+  margin-top: calc(var(--gutter-y) * -1);
+  margin-right: calc(var(--gutter-x) / -2);
+  margin-left: calc(var(--gutter-x) / -2);
 }
 
-.gutterRow {
-  margin-left: 0;
-  margin-right: 0;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  overflow-x: scroll;
-}
-
-.gutterRow::-webkit-scrollbar {
-  display: none;
-}
-
-.gutter {
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
-}
-
-.gutter:first-of-type {
-  margin-left: -0.5rem;
-}
-
-.gutter:last-of-type {
-  margin-right: -0.5rem;
-}
-
-@media (min-width: 768px) {
+@media (min-width: 992px) {
   .coloumn-2 {
     -ms-flex: 0 0 50%;
     flex: 0 0 50%;
     max-width: 50%;
   }
-  
+
   .coloumn-3 {
-    -ms-flex: 0 0 31%;
-    flex: 0 0 31%;
-    max-width: 31%;
-  }
-  
-  .coloumn-3s {
-    -ms-flex: 0 0 32.398%;
-    flex: 0 0 32.398%;
-    max-width: 32.398%;
-  }
-  
-  .coloumn-3m {
     -ms-flex: 0 0 33.33333333%;
     flex: 0 0 33.33333333%;
     max-width: 33.33333333%;
@@ -472,71 +411,62 @@ nav a, #navbarContainer a {
     -ms-flex: 0 0 25%;
     flex: 0 0 25%;
     max-width: 25%;
-    text-align: center;
   }
 
   .hideD {
     display: none !important;
   }
 
-  #totalConfirmed::before, #totalActive::before, #totalRecovered::before, #totalDeceased::before {
-    content: '\A';
-    white-space: pre;
-  }
-
   .footerLinks {
     margin-left: 5rem;
   }
 
+  .formTextArea {
+    width: 80% !important;
+  }
+
+  .containerL {
+    max-width: 600px;
+  }
+
   .marginR {
-    margin-right: 2rem;
-  }
-
-  .gutterD {
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
-  }
-
-  .gutterD:first-of-type {
-    margin-left: -0.5rem;
-  }
-  
-  .gutterD:last-of-type {
-    margin-right: -0.5rem;
+    margin-right: 3rem;
   }
 }
 
-@media (max-width: 768px) {
-  .hideM {
-    display: none !important;
-  }
-
-  .coloumn-2, .coloumn-3m, .coloumn-4 {
+@media (max-width: 992px) {
+  .coloumn-2, .coloumn-3, .coloumn-4 {
     -ms-flex: 0 0 100%;
     flex: 0 0 100%;
     max-width: 100%;
   }
 
-  .coloumn-3 {
-    -ms-flex: 0 0 90%;
-    flex: 0 0 90%;
-    max-width: 90%;
-  }
-
-  .coloumn-4 {
-    text-align: left;
-  }
-
-  .marginT-M {
-    margin-top: 2rem;
+  .hideM {
+    display: none !important;
   }
 
   .footerLinks {
     margin-top: 3rem;
   }
 
-  .api {
-    text-align: center !important;
+  .formTextArea {
+    width: 80% !important;
+  }
+}
+
+@media (max-width: 576px) {
+  .coloumn-2, .coloumn-3, .coloumn-4 {
+    -ms-flex: 0 0 100%;
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+
+  .hideM {
+    display: none !important;
+  }
+
+  .footerLinks {
+    margin-top: 3rem;
   }
 
   .formTextArea {
@@ -561,8 +491,32 @@ nav a, #navbarContainer a {
   margin-top: 3rem;
 }
 
+.paddingT {
+  padding-top: 3rem;
+}
+
+.paddingB {
+  padding-bottom: 3rem;
+}
+
+.cardF {
+  padding: 2rem;
+  margin: 1.5rem;
+}
+
+@supports (-webkit-backdrop-filter: none) or (backdrop-filter: none) {
+  .cardF, .formTextArea {
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+  }
+}
+
 .marginT2 {
   margin-top: 6rem;
+}
+
+.marginT3 {
+  margin-top: 9rem;
 }
 
 .marginTs {
@@ -651,32 +605,9 @@ nav a, #navbarContainer a {
   border-radius: 25px;
 }
 
-#dailyConfirmed::before, #dailyActive::before, #dailyRecovered::before, #dailyDeceased::before {
-  content: '+';
-}
-
-.newsLink {
-  text-decoration: none;
-  color: #121212;
-}
-
-.newsLink:hover {
-  text-decoration: underline;
-  color: #0004FE;
-}
-
-.newsLink:hover .newsImage{
-  filter: blur(2px);
-  transition: all 0.2s;
-}
-
-.newsText {
-  max-height: 96px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 4;
-  -webkit-box-orient: vertical;
+.cardShadow {
+  box-shadow: 5px 5px 40px 0px #0000000F;
+  border-radius: 15px;
 }
 
 .footer {
@@ -733,12 +664,6 @@ hr {
   text-decoration: underline;
 }
 
-.api {
-  text-align: end;
-  font-size: 10px;
-  margin-right: 5px;
-}
-
 .toTop {
   position: fixed;
   bottom: 60px;
@@ -758,11 +683,12 @@ hr {
 
 .formTextArea {
   width: 80%;
-  border: 2px solid #ccc;
-  border-radius: 0;
+  border-radius: 10px;
   box-sizing: border-box;
   margin-top: 6px;
   margin-bottom: 10px;
+  border: #0004FE65 solid 3px;
+  height: 3rem;
 }
 
 .h100 {
@@ -800,38 +726,4 @@ input {
   vertical-align: middle;
   font-family: 'Poppins-Regular', sans-serif;
   font-size: larger;
-}
-
-.card {
-  transition: 0.3s;
-}
-
-.card:hover {
-  color: #fff;
-}
-
-.cardContainer {
-  padding: 2px 16px;
-}
-
-#jobs .card {
-  background-color: #DFEDFF;
-  border: 3px solid #0004FE;
-}
-
-#jobs .card:hover {
-  background-color: #0004FE;
-}
-
-#education .card {
-  background-color: #FFC8C8;
-  border: 3px solid #FF2323;
-}
-
-#education .card:hover {
-  background-color: #FF2323;
-}
-
-.centerText {
-  text-align: center;
 }
