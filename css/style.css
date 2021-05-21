@@ -49,7 +49,7 @@ textarea,
 button,
 select,
 a {
-  -webkit-tap-highlight-color: rgba(0,0,0,0);
+  -webkit-tap-highlight-color: #0004FE65;
 }
 
 h2 a:hover:before {
@@ -99,15 +99,28 @@ h2 a {
   margin-left: auto;
 }
 
+.navContainer {
+  margin-right: auto;
+  margin-left: auto;
+}
+
 @media (min-width: 576px) {
   .container {
     max-width: 540px;
+  }
+
+  .navContainer {
+    max-width: 570px;
   }
 }
 
 @media (min-width: 768px) {
   .container {
     max-width: 720px;
+  }
+
+  .navContainer {
+    max-width: 750px;
   }
 
   .navbarToggler {
@@ -129,11 +142,19 @@ h2 a {
   .container {
     max-width: 960px;
   }
+
+  .navContainer {
+    max-width: 990px;
+  }
 }
 
 @media (min-width: 1200px) {
   .container {
     max-width: 1140px;
+  }
+
+  .navContainer {
+    max-width: 1170px;
   }
 }
 
@@ -210,10 +231,10 @@ nav {
   background-color: #FFFFFF;
 }
 
-#navbarContainer .container {
+#navbarContainer .containerNav {
   padding-top: 5rem;
-  padding-right: 20px;
-  padding-left: 20px;
+  padding-left: 7px;
+  padding-right: 7px;
   display: flex;
   position: absolute;
   left: 0;
@@ -225,7 +246,7 @@ nav {
   z-index: 2;
 }
 
-#navbarContainer.open {
+#navbarContainer .open {
   display: block;
 }
 
@@ -248,9 +269,6 @@ nav {
 .navBrand {
   display: inline-block;
   text-decoration: none;
-  font-family: 'BebasNeue-Regular', Fallback, sans-serif;
-  font-weight: bold;
-  font-size: 2.5rem;
 }
 
 .navLink {
@@ -452,6 +470,10 @@ nav a, #navbarContainer a {
   .formTextArea {
     width: 80% !important;
   }
+
+  .marginT-M {
+    margin-top: 3rem;
+  }
 }
 
 @media (max-width: 576px) {
@@ -505,9 +527,9 @@ nav a, #navbarContainer a {
 }
 
 @supports (-webkit-backdrop-filter: none) or (backdrop-filter: none) {
-  .cardF, .formTextArea {
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
+  .cardF, .formTextArea, #map {
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
   }
 }
 
@@ -679,6 +701,10 @@ hr {
   width: 100% !important;
   position: relative;
   margin-top: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 }
 
 .formTextArea {
@@ -688,7 +714,8 @@ hr {
   margin-top: 6px;
   margin-bottom: 10px;
   border: #0004FE65 solid 3px;
-  height: 3rem;
+  background-color: transparent;
+  padding: 1rem;
 }
 
 .h100 {
