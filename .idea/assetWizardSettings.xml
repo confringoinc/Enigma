@@ -28,9 +28,7 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="assetSourceType" value="FILE" />
-                            <entry key="color" value="fffafa" />
-                            <entry key="outputName" value="ic_files" />
+                            <entry key="outputName" value="ic_filter" />
                             <entry key="sourceFile" value="C:\Users\patel\Downloads\files.svg" />
                           </map>
                         </option>
