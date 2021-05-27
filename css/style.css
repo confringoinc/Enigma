@@ -27,6 +27,7 @@ body::-webkit-scrollbar-track {
  
 body::-webkit-scrollbar-thumb {
   background-color: #0004FE;
+  cursor: grabbing;
 }
 
 body {
@@ -49,7 +50,7 @@ textarea,
 button,
 select,
 a {
-  -webkit-tap-highlight-color: #0004FE65;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
 h2 a:hover:before {
@@ -435,6 +436,13 @@ nav a, #navbarContainer a {
     display: none !important;
   }
 
+  .centerD {
+    display: flex;
+    flex-direction: column;
+    height: 85vh;
+    justify-content: center;
+  }
+
   .footerLinks {
     margin-left: 5rem;
   }
@@ -474,6 +482,10 @@ nav a, #navbarContainer a {
   .marginT-M {
     margin-top: 3rem;
   }
+
+  .flexM {
+    flex-flow: column-reverse;
+  }
 }
 
 @media (max-width: 576px) {
@@ -494,6 +506,10 @@ nav a, #navbarContainer a {
   .formTextArea {
     width: 100% !important;
   }
+
+  .flexM {
+    flex-flow: column-reverse;
+  }
 }
 
 .center {
@@ -507,6 +523,12 @@ nav a, #navbarContainer a {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.centerV {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .marginT {
@@ -526,8 +548,16 @@ nav a, #navbarContainer a {
   margin: 1.5rem;
 }
 
+.paddingA {
+  padding: 2rem;
+}
+
+.alignR {
+  text-align: end;
+}
+
 @supports (-webkit-backdrop-filter: none) or (backdrop-filter: none) {
-  .cardF, .formTextArea, #map {
+  .cardF, .formTextArea, #map, .cardShadow, .blur {
     -webkit-backdrop-filter: blur(5px);
     backdrop-filter: blur(5px);
   }
@@ -552,74 +582,6 @@ nav a, #navbarContainer a {
 
 .vertical-align-middle {
   vertical-align: middle;
-}
-
-.scrollDown {
-  font-size: 0.6em;
-  border: 2px solid #121212;
-  display: block;
-  position: absolute;
-  width: 1.7em;
-  height: 2.8em;
-  border-radius: 0.9em;
-  bottom: 0;
-  right: 20px;
-  text-decoration: none;
-  transition: border 0.2s ease-out;
-}
-
-.scrollDown:hover {border: 2px solid #777;}
-
-.scrollDown span {
-  display: block;
-  background: #0004FE;
-  width: 0.4em;
-  height: 0.4em;
-  margin: 0.7em auto 0;
-  border-radius: 0.5em;
-}
-
-.scrollDown span {
-  -webkit-animation-name: scroll;
-  animation-name: scroll;
-  -webkit-animation-duration: 1.5s;
-  animation-duration: 1.5s;
-  -webkit-animation-timing-function: cubic-bezier(0.65, -0.55, 0.25, 1.5);
-  animation-timing-function: cubic-bezier(0.65, -0.55, 0.25, 1.5);
-  -webkit-animation-iteration-count: infinite;
-  animation-iteration-count: infinite;
-  will-change: transform;
-}
-
-.scrollDown:hover span {
-  -webkit-animation-duration: 0.7s;
-  animation-duration: 0.7s;
-}
-
-@-webkit-keyframes scroll {
-  0%, 20% {
-    -webkit-transform: translateY(0) scaleY(1);
-  }
-  10% {
-    opacity: 1;
-  }
-  100% {
-    -webkit-transform: translateY(1.2em) scaleY(1.5);
-    opacity: 0.01;
-  }
-}
-
-@keyframes scroll {
-  0%, 20% {
-    transform: translateY(0) scaleY(1);
-  }
-  10% {
-    opacity: 1;
-  }
-  100% {
-    transform: translateY(1.2em) scaleY(1.5);
-    opacity: 0.01;
-  }
 }
 
 .imageShadow {
