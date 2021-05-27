@@ -5,17 +5,17 @@
     android:id="@+id/scrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingHorizontal="20dp"
-    android:scrollbars="none"
     android:fillViewport="true"
+    android:paddingHorizontal="30dp"
+    android:scrollbars="none"
     tools:context=".RegisterActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/coordinatorLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fitsSystemWindows="true"
-        android:fillViewport="true">
+        android:fillViewport="true"
+        android:fitsSystemWindows="true">
 
         <ImageView
             android:id="@+id/iv_logo"
@@ -24,14 +24,14 @@
             android:layout_height="50dp"
             android:layout_marginTop="40dp"
             android:layout_marginBottom="10dp"
+            android:contentDescription="@string/app_name"
             android:src="@drawable/ic_enigma"
             app:layout_constraintBottom_toTopOf="@+id/tv_login1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0"
-            android:contentDescription="@string/app_name" />
+            app:layout_constraintVertical_bias="0.0" />
 
         <TextView
             android:id="@+id/tv_login1"
@@ -63,18 +63,18 @@
             android:layout_width="0dp"
             android:layout_height="55dp"
             android:layout_marginBottom="10dp"
+            android:autofillHints="@string/name"
             android:ems="10"
             android:hint="@string/name"
             android:inputType="textCapWords"
             android:paddingStart="25dp"
+            android:paddingLeft="25dp"
             android:paddingEnd="20dp"
+            android:paddingRight="20dp"
             android:textSize="15sp"
             app:layout_constraintBottom_toTopOf="@+id/et_email_reg"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:autofillHints="@string/name"
-            android:paddingRight="20dp"
-            android:paddingLeft="25dp" />
+            app:layout_constraintStart_toStartOf="parent" />
 
         <EditText
             android:id="@+id/et_email_reg"
@@ -82,18 +82,18 @@
             android:layout_width="0dp"
             android:layout_height="55dp"
             android:layout_marginBottom="10dp"
+            android:autofillHints="@string/email"
             android:ems="10"
             android:hint="@string/email"
             android:inputType="textEmailAddress"
             android:paddingStart="25dp"
+            android:paddingLeft="25dp"
             android:paddingEnd="20dp"
+            android:paddingRight="20dp"
             android:textSize="15sp"
             app:layout_constraintBottom_toTopOf="@+id/et_password_reg"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:autofillHints="@string/email"
-            android:paddingRight="20dp"
-            android:paddingLeft="25dp" />
+            app:layout_constraintStart_toStartOf="parent" />
 
         <EditText
             android:id="@+id/et_password_reg"
@@ -101,18 +101,18 @@
             android:layout_width="0dp"
             android:layout_height="55dp"
             android:layout_marginBottom="40dp"
+            android:autofillHints="@string/password"
             android:ems="10"
             android:hint="@string/password"
             android:inputType="textPassword"
             android:paddingStart="25dp"
+            android:paddingLeft="25dp"
             android:paddingEnd="45dp"
+            android:paddingRight="45dp"
             android:textSize="15sp"
             app:layout_constraintBottom_toTopOf="@+id/tv_terms"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:autofillHints="@string/password"
-            android:paddingLeft="25dp"
-            android:paddingRight="45dp" />
+            app:layout_constraintStart_toStartOf="parent" />
 
         <ImageView
             android:id="@+id/btn_show_pass_reg"
@@ -136,14 +136,14 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="2dp"
+            android:gravity="center_horizontal"
             android:text="@string/terms"
-            android:textColor="@color/secondary_text"
             android:textAlignment="center"
+            android:textColor="@color/secondary_text"
             android:textSize="10sp"
             app:layout_constraintBottom_toTopOf="@id/btn_register"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:gravity="center_horizontal"
             tools:ignore="SmallSp" />
 
         <Button
@@ -191,8 +191,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:indeterminate="true"
-            android:indeterminateTintMode="src_atop"
             android:indeterminateTint="@color/primary"
+            android:indeterminateTintMode="src_atop"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

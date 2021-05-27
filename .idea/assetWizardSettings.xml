@@ -28,8 +28,9 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="outputName" value="ic_filter" />
-                            <entry key="sourceFile" value="C:\Users\patel\Downloads\files.svg" />
+                            <entry key="assetSourceType" value="FILE" />
+                            <entry key="outputName" value="ic_dot_active" />
+                            <entry key="sourceFile" value="C:\Users\patel\Downloads\dot (1).svg" />
                           </map>
                         </option>
                       </PersistentState>

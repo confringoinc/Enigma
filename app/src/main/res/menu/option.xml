@@ -2,13 +2,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/question_edit"
-        android:icon="@drawable/ic_edit"
         android:contentDescription="@string/edit"
+        android:icon="@drawable/ic_edit"
         android:title="@string/edit" />
 
     <item
         android:id="@+id/question_delete"
-        android:icon="@drawable/ic_trash"
         android:contentDescription="@string/delete"
+        android:icon="@drawable/ic_trash"
         android:title="@string/delete" />
 </menu>

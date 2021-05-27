@@ -5,17 +5,17 @@
     android:id="@+id/scrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingHorizontal="20dp"
-    android:scrollbars="none"
     android:fillViewport="true"
+    android:paddingHorizontal="30dp"
+    android:scrollbars="none"
     tools:context=".ResetActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/coordinatorLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fitsSystemWindows="true"
-        android:fillViewport="true">
+        android:fillViewport="true"
+        android:fitsSystemWindows="true">
 
         <ImageView
             android:id="@+id/iv_logo"
@@ -24,14 +24,14 @@
             android:layout_height="50dp"
             android:layout_marginTop="40dp"
             android:layout_marginBottom="10dp"
+            android:contentDescription="@string/app_name"
             android:src="@drawable/ic_enigma"
             app:layout_constraintBottom_toTopOf="@+id/tv_reset1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0"
-            android:contentDescription="@string/app_name" />
+            app:layout_constraintVertical_bias="0.0" />
 
         <TextView
             android:id="@+id/tv_reset1"
@@ -82,18 +82,18 @@
             android:layout_width="0dp"
             android:layout_height="55dp"
             android:layout_marginBottom="40dp"
+            android:autofillHints="@string/re_enter_password"
             android:ems="10"
             android:hint="@string/re_enter_password"
             android:inputType="textPassword"
             android:paddingStart="25dp"
+            android:paddingLeft="25dp"
             android:paddingEnd="20dp"
+            android:paddingRight="20dp"
             android:textSize="15sp"
             app:layout_constraintBottom_toTopOf="@+id/btn_reset"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:autofillHints="@string/re_enter_password"
-            android:paddingRight="20dp"
-            android:paddingLeft="25dp" />
+            app:layout_constraintStart_toStartOf="parent" />
 
         <Button
             android:id="@+id/btn_reset"
@@ -114,8 +114,8 @@
             android:layout_marginBottom="20dp"
             android:gravity="center_horizontal"
             android:text="@string/login"
-            android:textColor="@color/secondary_text"
             android:textAlignment="center"
+            android:textColor="@color/secondary_text"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -125,8 +125,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:indeterminate="true"
-            android:indeterminateTintMode="src_atop"
             android:indeterminateTint="@color/primary"
+            android:indeterminateTintMode="src_atop"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

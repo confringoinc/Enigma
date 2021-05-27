@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.makepaper">
+    package="com.confringoinc.enigma">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -22,26 +22,28 @@
             android:theme="@style/Theme.MakePaper">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".RegisterActivity"
-            android:windowSoftInputMode="adjustResize"
+            android:name=".OnBoardingActivity"
             android:theme="@style/Theme.MakePaper" />
+        <activity
+            android:name=".RegisterActivity"
+            android:theme="@style/Theme.MakePaper"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".LoginActivity"
-            android:windowSoftInputMode="adjustResize"
-            android:theme="@style/Theme.MakePaper" />
+            android:theme="@style/Theme.MakePaper"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".ForgotActivity"
-            android:windowSoftInputMode="adjustResize"
-            android:theme="@style/Theme.MakePaper" />
+            android:theme="@style/Theme.MakePaper"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".ResetActivity"
-            android:windowSoftInputMode="adjustResize"
-            android:theme="@style/Theme.MakePaper">
+            android:theme="@style/Theme.MakePaper"
+            android:windowSoftInputMode="adjustResize">
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
 
@@ -49,24 +51,29 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:host="makepaper.page.link"
+                    android:host="enigma.page.link"
                     android:scheme="http" />
                 <data
-                    android:host="makepaper.page.link"
+                    android:host="enigma.page.link"
                     android:scheme="https" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity"
+        <activity
+            android:name=".MainActivity"
             android:theme="@style/Theme.MakePaper" />
-        <activity android:name=".AddQuestion"
-            android:windowSoftInputMode="adjustResize"
+        <activity
+            android:name=".AddQuestionActivity"
+            android:theme="@style/Theme.MakePaper"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".AddPaperActivity"
+            android:theme="@style/Theme.MakePaper"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".PaperProperties"
             android:theme="@style/Theme.MakePaper" />
-        <activity android:name=".EditPaperActivity"
-            android:windowSoftInputMode="adjustResize"
-            android:theme="@style/Theme.MakePaper" />
-        <activity android:name=".PaperProperties"
-            android:theme="@style/Theme.MakePaper" />
-        <activity android:name=".AboutActivity"
+        <activity
+            android:name=".AboutActivity"
             android:theme="@style/Theme.MakePaper" />
         <activity
             android:name="com.facebook.FacebookActivity"
@@ -91,12 +98,12 @@
 
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="com.example.makepaper"
+            android:authorities="com.confringoinc.enigma"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/provider_paths"/>
+                android:resource="@xml/provider_paths" />
         </provider>
     </application>
 

@@ -5,17 +5,17 @@
     android:id="@+id/scrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingHorizontal="20dp"
-    android:scrollbars="none"
     android:fillViewport="true"
+    android:paddingHorizontal="30dp"
+    android:scrollbars="none"
     tools:context=".ForgotActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/coordinatorLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fitsSystemWindows="true"
-        android:fillViewport="true">
+        android:fillViewport="true"
+        android:fitsSystemWindows="true">
 
         <ImageView
             android:id="@+id/iv_logo"
@@ -63,18 +63,18 @@
             android:layout_width="0dp"
             android:layout_height="55dp"
             android:layout_marginBottom="40dp"
+            android:autofillHints="@string/email"
             android:ems="10"
             android:hint="@string/email"
             android:inputType="textEmailAddress"
             android:paddingStart="25dp"
+            android:paddingLeft="25dp"
             android:paddingEnd="20dp"
+            android:paddingRight="20dp"
             android:textSize="15sp"
             app:layout_constraintBottom_toTopOf="@+id/btn_send"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:autofillHints="@string/email"
-            android:paddingRight="20dp"
-            android:paddingLeft="25dp" />
+            app:layout_constraintStart_toStartOf="parent" />
 
         <Button
             android:id="@+id/btn_send"
@@ -95,8 +95,8 @@
             android:layout_marginBottom="20dp"
             android:gravity="center_horizontal"
             android:text="@string/back"
-            android:textColor="@color/secondary_text"
             android:textAlignment="center"
+            android:textColor="@color/secondary_text"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -106,8 +106,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:indeterminate="true"
-            android:indeterminateTintMode="src_atop"
             android:indeterminateTint="@color/primary"
+            android:indeterminateTintMode="src_atop"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
