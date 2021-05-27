@@ -5,9 +5,9 @@
     android:id="@+id/scrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingHorizontal="20dp"
-    android:scrollbars="none"
     android:fillViewport="true"
+    android:paddingHorizontal="30dp"
+    android:scrollbars="none"
     tools:context=".MainActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -24,11 +24,11 @@
             android:layout_width="120dp"
             android:layout_height="120dp"
             android:layout_marginTop="40dp"
+            android:contentDescription="@string/user"
+            android:src="@drawable/ic_user"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:src="@drawable/ic_user"
-            android:contentDescription="@string/user" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tv_user_name"
@@ -87,16 +87,16 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_user_settings" />
 
         <ImageView
+            style="@style/ImageView"
             android:layout_width="25dp"
             android:layout_height="25dp"
-            style="@style/ImageView"
+            android:contentDescription="@string/delete_account"
             android:src="@drawable/ic_trash"
             app:layout_constraintBottom_toBottomOf="@+id/tv_user_settings_delete"
             app:layout_constraintEnd_toEndOf="@+id/tv_user_settings_delete"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/tv_user_settings_delete"
-            app:layout_constraintTop_toTopOf="@+id/tv_user_settings_delete"
-            android:contentDescription="@string/delete_account" />
+            app:layout_constraintTop_toTopOf="@+id/tv_user_settings_delete" />
 
         <TextView
             android:id="@+id/tv_user_settings_info"
@@ -116,16 +116,16 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_user_settings_delete" />
 
         <ImageView
+            style="@style/ImageView"
             android:layout_width="25dp"
             android:layout_height="25dp"
-            style="@style/ImageView"
+            android:contentDescription="@string/about"
             android:src="@drawable/ic_info"
             app:layout_constraintBottom_toBottomOf="@+id/tv_user_settings_info"
             app:layout_constraintEnd_toEndOf="@+id/tv_user_settings_info"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/tv_user_settings_info"
-            app:layout_constraintTop_toTopOf="@+id/tv_user_settings_info"
-            android:contentDescription="@string/about" />
+            app:layout_constraintTop_toTopOf="@+id/tv_user_settings_info" />
 
         <TextView
             android:id="@+id/tv_user_settings_logout"
@@ -145,16 +145,16 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_user_settings_info" />
 
         <ImageView
+            style="@style/ImageView"
             android:layout_width="25dp"
             android:layout_height="25dp"
-            style="@style/ImageView"
+            android:contentDescription="@string/log_out"
             android:src="@drawable/ic_log_out"
             app:layout_constraintBottom_toBottomOf="@+id/tv_user_settings_logout"
             app:layout_constraintEnd_toEndOf="@+id/tv_user_settings_logout"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/tv_user_settings_logout"
-            app:layout_constraintTop_toTopOf="@+id/tv_user_settings_logout"
-            android:contentDescription="@string/log_out" />
+            app:layout_constraintTop_toTopOf="@+id/tv_user_settings_logout" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

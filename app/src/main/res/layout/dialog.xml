@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/EditText"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    style="@style/EditText"
-    android:paddingLeft="20dp"
-    android:paddingRight="20dp"
-    android:layout_marginEnd="5dp"
     android:layout_marginStart="5dp"
     android:layout_marginLeft="5dp"
-    tools:context=".MainActivity"
+    android:layout_marginEnd="5dp"
+    android:layout_marginRight="5dp"
     android:orientation="vertical"
-    android:layout_marginRight="5dp">
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
+    tools:context=".MainActivity">
 
     <ImageView
         android:id="@+id/iv_dialog"
@@ -68,8 +68,8 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_marginBottom="10dp"
-        android:textStyle="bold"
         android:background="@color/transparent"
         android:text="@string/cancel"
-        android:textAllCaps="false" />
+        android:textAllCaps="false"
+        android:textStyle="bold" />
 </RelativeLayout>

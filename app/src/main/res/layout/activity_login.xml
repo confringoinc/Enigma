@@ -5,9 +5,9 @@
     android:id="@+id/scrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingHorizontal="20dp"
-    android:scrollbars="none"
     android:fillViewport="true"
+    android:paddingHorizontal="30dp"
+    android:scrollbars="none"
     tools:context=".LoginActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -160,11 +160,11 @@
             android:contentDescription="@string/login"
             android:padding="17dp"
             android:scaleType="fitCenter"
+            android:src="@drawable/ic_google"
             app:layout_constraintBottom_toTopOf="@id/btn_login"
             app:layout_constraintEnd_toStartOf="@+id/ib_facebook"
             app:layout_constraintHorizontal_chainStyle="spread"
-            app:layout_constraintStart_toStartOf="parent"
-            android:src="@drawable/ic_google" />
+            app:layout_constraintStart_toStartOf="parent" />
 
         <ImageButton
             android:id="@+id/ib_facebook"
@@ -175,11 +175,11 @@
             android:contentDescription="@string/login"
             android:padding="15dp"
             android:scaleType="fitCenter"
+            android:src="@drawable/ic_facebook"
             app:layout_constraintBottom_toBottomOf="@+id/ib_google"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/ib_google"
-            app:layout_constraintTop_toTopOf="@+id/ib_google"
-            android:src="@drawable/ic_facebook" />
+            app:layout_constraintTop_toTopOf="@+id/ib_google" />
 
         <com.facebook.login.widget.LoginButton
             android:id="@+id/lb_facebook"

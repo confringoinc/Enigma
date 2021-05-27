@@ -4,11 +4,11 @@
 
     <item
         android:id="@+id/FilterMenu"
-        android:orderInCategory="100"
+        android:checkable="false"
         android:icon="@drawable/ic_filter"
-        app:showAsAction="always"
+        android:orderInCategory="100"
         android:title="filter"
-        android:checkable="false">
+        app:showAsAction="always">
 
         <menu>
 
@@ -16,18 +16,18 @@
 
                 <item
                     android:id="@+id/item1"
-                    android:title="Anything"
-                    android:checkable="true"/>
+                    android:checkable="true"
+                    android:title="Anything" />
 
                 <item
                     android:id="@+id/item2"
-                    android:title="Understanding"
-                    android:checkable="true"/>
+                    android:checkable="true"
+                    android:title="Understanding" />
 
                 <item
                     android:id="@+id/item3"
-                    android:title="Remembering"
-                    android:checkable="true" />
+                    android:checkable="true"
+                    android:title="Remembering" />
             </group>
         </menu>
 

@@ -4,32 +4,32 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingHorizontal="20dp"
     android:fillViewport="true"
+    android:paddingHorizontal="30dp"
     tools:context=".AddQuestion">
 
     <ImageView
         android:id="@+id/btn_back"
+        style="@style/ImageView"
         android:layout_width="27dp"
         android:layout_height="27dp"
-        android:layout_marginTop="15dp"
-        style="@style/ImageView"
+        android:layout_marginTop="20dp"
         android:background="?attr/selectableItemBackground"
         android:clickable="true"
+        android:contentDescription="@string/back"
         android:focusable="true"
+        android:src="@drawable/ic_left_arrow"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:src="@drawable/ic_left_arrow"
-        tools:targetApi="lollipop"
-        android:contentDescription="@string/back" />
+        tools:targetApi="lollipop" />
 
     <TextView
         android:id="@+id/tv_add_question"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/bold"
-        android:textColor="@color/secondary_text"
         android:text="@string/questions"
+        android:textColor="@color/secondary_text"
         app:layout_constraintBottom_toBottomOf="@+id/btn_back"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -41,19 +41,19 @@
         android:layout_width="0dp"
         android:layout_height="175dp"
         android:layout_marginTop="40dp"
+        android:autofillHints="@string/et_enter_your_question"
         android:ems="10"
         android:gravity="start"
         android:hint="@string/et_enter_your_question"
-        android:lineSpacingExtra="6dp"
         android:inputType="textMultiLine|textCapSentences"
+        android:lineSpacingExtra="6dp"
         android:paddingStart="25dp"
         android:paddingTop="20dp"
         android:paddingEnd="25dp"
         android:paddingBottom="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_add_question"
-        android:autofillHints="@string/et_enter_your_question" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_add_question" />
 
     <EditText
         android:id="@+id/et_marks_add"
@@ -61,15 +61,15 @@
         android:layout_width="0dp"
         android:layout_height="55dp"
         android:layout_marginTop="10dp"
+        android:autofillHints="@string/marks"
+        android:ems="10"
+        android:hint="@string/marks"
+        android:inputType="numberDecimal"
         android:paddingStart="25dp"
         android:paddingEnd="25dp"
-        android:hint="@string/marks"
-        android:ems="10"
-        android:inputType="numberDecimal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/et_question_add"
-        android:autofillHints="@string/marks" />
+        app:layout_constraintTop_toBottomOf="@id/et_question_add" />
 
     <TextView
         android:id="@+id/tv_question_type"
@@ -83,32 +83,67 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/et_marks_add" />
 
-    <CheckBox
-        android:id="@+id/cb_anything"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/anything"
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:stretchColumns="*"
+        app:layout_constraintBottom_toTopOf="@+id/btn_submit"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_question_type" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_question_type">
 
-    <CheckBox
-        android:id="@+id/cb_remembering"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/remembering"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cb_anything" />
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <CheckBox
-        android:id="@+id/cb_understanding"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/understanding"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cb_remembering" />
+            <CheckBox
+                android:id="@+id/cb_analyze"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/analyze" />
+
+            <CheckBox
+                android:id="@+id/cb_remembering"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/remembering" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <CheckBox
+                android:id="@+id/cb_understanding"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/understanding" />
+
+            <CheckBox
+                android:id="@+id/cb_apply"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/apply" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <CheckBox
+                android:id="@+id/cb_evaluate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/evaluate" />
+
+            <CheckBox
+                android:id="@+id/cb_create"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/create" />
+        </TableRow>
+    </TableLayout>
+
 
     <Button
         android:id="@+id/btn_submit"
@@ -128,8 +163,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:indeterminate="true"
-        android:indeterminateTintMode="src_atop"
         android:indeterminateTint="@color/primary"
+        android:indeterminateTintMode="src_atop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
